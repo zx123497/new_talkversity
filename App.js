@@ -1,25 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
+import React from 'react';
+import {  Provider as PaperProvider } from 'react-native-paper';
 import Home from './pages/Home/Home';
 import Train from './pages/Train/Train';
 import Member from './pages/Member/Member';
 import Setting from './pages/Setting/Setting';
 import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useTheme } from 'react-native-paper';
+import theme from './theme/theme'
+
 const Tab = createMaterialBottomTabNavigator();
 
- const App = () => {
+const App = () => {
+  const { colors } = useTheme();
   return (
+    
     <NavigationContainer>
       <Tab.Navigator
-      // shifting= {false}
        initialRouteName="首頁"
        inactiveColor="#D1D1D1"
-       activeColor="#79CAC3"
+       activeColor={colors.primary.main}
        barStyle={{ backgroundColor: '#F6F6F6' }}
       >
         <Tab.Screen name="首頁" component={Home} options={{
@@ -48,15 +50,16 @@ const Tab = createMaterialBottomTabNavigator();
         }}/>
       </Tab.Navigator>
     </NavigationContainer>
+    
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FA0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-export default App;
+const Main =()=>{
+  return (
+    <PaperProvider theme={theme}>
+      <App />
+    </PaperProvider>
+  );
+}
+
+export default Main;
