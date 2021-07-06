@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-// import Result from './pages/Temp/Temp.js'
- const App = () => {
+ const Member = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>HELLO WORLD</Text>
+      <Text style={styles.text}>Member</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -24,4 +23,4 @@ const styles = StyleSheet.create({
     fontSize:40,
   }
 });
-export default App;
+export default Member;

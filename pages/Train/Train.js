@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-// import Result from './pages/Temp/Temp.js'
- const App = () => {
+ const Train = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>HELLO WORLD</Text>
+      <Text style={styles.text}>Train</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -15,7 +14,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     color:'#FFF',
-    backgroundColor: '#FA0',
+    backgroundColor: '#DBEB4D',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -24,4 +23,4 @@ const styles = StyleSheet.create({
     fontSize:40,
   }
 });
-export default App;
+export default Train;
