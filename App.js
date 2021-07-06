@@ -20,9 +20,9 @@ const App = () => {
     <NavigationContainer>
       <Tab.Navigator
        initialRouteName="首頁"
-       inactiveColor="#D1D1D1"
+       inactiveColor={colors.text.secondary}
        activeColor={colors.primary.main}
-       barStyle={{ backgroundColor: '#F6F6F6' }}
+       barStyle={{ backgroundColor: colors.background.paper }}
       >
         <Tab.Screen name="首頁" component={Home} options={{
           tabBarLabel: '首頁',
