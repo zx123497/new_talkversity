@@ -19,7 +19,7 @@ const Tab = createMaterialBottomTabNavigator();
       // shifting= {false}
        initialRouteName="首頁"
        inactiveColor="#D1D1D1"
-       activeColor="#373737"
+       activeColor="#79CAC3"
        barStyle={{ backgroundColor: '#F6F6F6' }}
       >
         <Tab.Screen name="首頁" component={Home} options={{
