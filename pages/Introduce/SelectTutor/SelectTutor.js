@@ -10,12 +10,7 @@ import Swiper from 'react-native-swiper';
             <View style={styles(colors).textArea}>
                 <Text style={styles(colors).text}>選擇教練</Text>
             </View>  
-        
             <View style={styles(colors).selectArea}>
-                
-                
-                  
-                  
                   <Swiper  
                     showsButtons={true}
                     showsPagination={false}
@@ -37,7 +32,12 @@ import Swiper from 'react-native-swiper';
                 </Swiper>
                 
             </View> 
-            <Pressable title="HI" style={styles(colors).submit}>
+            <Pressable title="HI" style={({ pressed }) => [
+          {
+            backgroundColor: pressed
+              ? colors.primary.dark
+              : colors.primary.main
+          },styles(colors).submit]}>
             <Text style={styles(colors).submitText}>確認</Text>
             </Pressable>
         </View>
@@ -83,7 +83,7 @@ const styles = colors => StyleSheet.create({
     fontWeight:"900",
   },
   submit:{
-    backgroundColor:colors.primary.main,
+    
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
