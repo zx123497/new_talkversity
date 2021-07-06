@@ -2,14 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import SelectTutor from '../Introduce/SelectTutor/SelectTutor'
 
  const Home = () => {
     const {colors}=useTheme(); 
     return (
-        <View style={styles(colors).container}>
-        <Text style={styles(colors).text}>Home</Text>
-        <StatusBar style="auto" />
-        </View>
+        <SelectTutor/>
     );
 }
 
