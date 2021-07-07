@@ -1,19 +1,37 @@
 
-import React from 'react';
+import React,{useState} from 'react';
 import { Image, StyleSheet, Text, View ,Pressable } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
  const Home = ({navigation}) => {
     const {colors}=useTheme(); 
+    const [index,setIndex]=useState(0);
+    const [name,setName]=useState("Amy");
+
+    const handleIndexChange=(index)=>{
+      if(index===0){
+        setIndex(1);
+        setName("Tommy");
+      }
+      
+      else{
+        setIndex(0);
+        setName("Amy");
+      }
+      
+    }
+
     return (
         <View style={styles(colors).container}>
             <View style={styles(colors).textArea}>
-                <Text style={styles(colors).text}>選擇教練</Text>
+                <Text style={styles(colors).text}>{name}</Text>
             </View>  
             <View style={styles(colors).selectArea}>
                   <Swiper  
                     showsButtons={true}
+                    loop={false}
                     showsPagination={false}
+                    onMomentumScrollEnd={(event, state)=>handleIndexChange(state.index)}
                     nextButton={<Text style={styles(colors).buttonText}>›</Text>}
                     prevButton={<Text style={styles(colors).buttonText}>‹</Text>}
                   >
@@ -32,7 +50,7 @@ import Swiper from 'react-native-swiper';
                 </Swiper>
                 
             </View> 
-            <Pressable onPress={() => navigation.navigate('軟體介紹')} style={({ pressed }) => [
+            <Pressable onPress={() => navigation.navigate('軟體介紹',{index:index})} style={({ pressed }) => [
           {
             backgroundColor: pressed
               ? colors.primary.dark

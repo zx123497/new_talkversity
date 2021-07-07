@@ -5,7 +5,7 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
 
 
 
- const Introduce3 = ({navigation}) => {
+ const Introduce3 = ({navigation,route}) => {
 
     const {colors}=useTheme();
   return (
@@ -16,15 +16,18 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
       <View style={styles(colors).containerTutor}>
       <Image
         style={styles(colors).image}
-        source={require('../../images/tutor_report.png')}
+        source={route.params.index===0 ? require("../../images/tutor_report.png"):require("../../images/tutor_m_report.png")}
     />
       </View>
-      <Pressable onPress={() => navigation.navigate('軟體介紹')} style={({ pressed }) => [
+      <View style={styles(colors).submitArea}>
+      <Pressable onPress={() => navigation.navigate('軟體介紹',{index: route.params.index})} style={({ pressed }) => [
           {
             
           },styles(colors).submit]}>
             <Text style={styles(colors).submitText}>下一步</Text>
             </Pressable>
+      </View>
+      
     </View>
   );
 }
@@ -63,17 +66,21 @@ const styles =(colors)=> StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 100,
+    paddingHorizontal: 50,
     borderRadius: 4,
     elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3
+    
     
   },
   submitText:{
     color:"#FFF",
-    fontSize:16,
+    fontSize:20,
+  },
+  submitArea:{
+    alignItems:"flex-end",
+    alignSelf: 'stretch',
+    padding:10,
+    
   }
 });
 export default Introduce3;

@@ -5,30 +5,30 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
 
 
 
- const Introduce = ({navigation}) => {
+ const Introduce = ({navigation,route}) => {
 
     const {colors}=useTheme();
+
   return (
     <View style={styles(colors).container}>
       <Text style={styles(colors).text}>初次見面~ 我們是Talkversity</Text>
-      <View style={styles(colors).container}>
+      {/* <View style={styles(colors).container}>
       <Image
         style={styles(colors).image}
         source={require('../../images/logo.png')}
     />
-      </View>
+      </View> */}
       <View style={styles(colors).containerTutor}>
       <Image
         style={styles(colors).image}
-        source={require('../../images/tutor.png')}
+        source={route.params.index===1 ? require("../../images/tutor_m_logo.png"):require("../../images/tutor.png")}
     />
       </View>
-      <Pressable onPress={() => navigation.navigate('軟體介紹2')} style={({ pressed }) => [
-          {
-            
-          },styles(colors).submit]}>
+      <View style={styles(colors).submitArea}>
+      <Pressable onPress={() => navigation.navigate('軟體介紹2',{index: route.params.index})} style={styles(colors).submit}>
             <Text style={styles(colors).submitText}>下一步</Text>
-            </Pressable>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -44,7 +44,7 @@ const styles =(colors)=> StyleSheet.create({
     color:'#FFF',
     fontSize:25,
     fontWeight:"500",
-    margin:30,
+    margin:50,
   },
   image:{
     flex: 1,
@@ -57,7 +57,7 @@ const styles =(colors)=> StyleSheet.create({
     justifyContent: 'center',
   },
   containerTutor: {
-    flex: 6,
+    flex: 5,
 
     alignItems: 'center',
     justifyContent: 'center',
@@ -67,17 +67,21 @@ const styles =(colors)=> StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 100,
+    paddingHorizontal: 50,
     borderRadius: 4,
     elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3
+    
     
   },
   submitText:{
     color:"#FFF",
-    fontSize:16,
+    fontSize:20,
+  },
+  submitArea:{
+    alignItems:"flex-end",
+    alignSelf: 'stretch',
+    padding:10,
+    
   }
 });
 export default Introduce;
