@@ -3,7 +3,7 @@ import React from 'react';
 import { Image, StyleSheet, Text, View ,Pressable } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
- const Home = () => {
+ const Home = ({navigation}) => {
     const {colors}=useTheme(); 
     return (
         <View style={styles(colors).container}>
@@ -32,7 +32,7 @@ import Swiper from 'react-native-swiper';
                 </Swiper>
                 
             </View> 
-            <Pressable title="HI" style={({ pressed }) => [
+            <Pressable onPress={() => navigation.navigate('軟體介紹')} style={({ pressed }) => [
           {
             backgroundColor: pressed
               ? colors.primary.dark
