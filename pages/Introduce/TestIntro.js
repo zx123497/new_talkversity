@@ -3,7 +3,7 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
 import IntroListItem from '../../components/IntroListItem/IntroNewsItem';
-
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
  const TestIntro = ({navigation,route}) => {
 
@@ -21,13 +21,11 @@ import IntroListItem from '../../components/IntroListItem/IntroNewsItem';
       <View  style={styles(colors).introArea}>
         
         <Text style={styles(colors).introTitle}>接下來，我將會記錄您的說話習慣，作為訓練判斷的基準，我們將會記錄：</Text>
-        <View style={styles(colors).listArea}>
 
-        <IntroListItem title="表情" content="您的眉毛、眼睛等臉部活動特徵"/>
-        <IntroListItem title="語意" content="您的說話內容。"/>
-        <IntroListItem title="聲音" content="說話的頻率、起伏、快慢等特徵"/>
-    
-        
+        <View style={styles(colors).listArea}>
+          <IntroListItem title="表情" content="您的眉毛、眼睛等臉部活動特徵"  icon={<MaterialIcons name="face" size={35} style={styles(colors).resultButtonIcon} />}/>
+          <IntroListItem title="語意" content="您的說話內容。" icon={<MaterialIcons name="text-fields" size={35} style={styles(colors).resultButtonIcon} />}/>
+          <IntroListItem title="聲音" content="說話的頻率、起伏、快慢等特徵" icon={<MaterialIcons name="record-voice-over" size={35} style={styles(colors).resultButtonIcon} />}/>
         </View>
         
       </View>
@@ -112,23 +110,11 @@ const styles =(colors)=> StyleSheet.create({
       marginLeft:10,
       marginRight:10,
   },
-  listTitle:{
-    
-    fontSize:20,
-    fontWeight:"600",
-    color:colors.text.primary,
-    marginBottom:5
-  },
-  listContent:{
-    fontSize:16,
-    fontWeight:"600",
-    color:colors.text.secondary,
-  },
-  list:{
-    marginBottom:50
-  },
   listArea:{
       alignItems:"flex-start",
+  },
+  resultButtonIcon:{
+    color:colors.background.paper,
   }
       
   
