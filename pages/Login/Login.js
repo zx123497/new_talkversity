@@ -3,7 +3,6 @@ import { useTheme } from 'react-native-paper';
 import { Pressable, Image, StyleSheet, Text, View, Button } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';  
 import { AntDesign } from '@expo/vector-icons'; 
-import GoogleLogin from "react-google-login";
 
 const Member = ({ navigation }) => {
 

@@ -9,7 +9,7 @@ import Swiper from 'react-native-swiper';
     const [name,setName]=useState("Amy");
 
     const handleIndexChange=(index)=>{
-      if(index===1){
+      if(index===0){
         setIndex(1);
         setName("Tommy");
       }
@@ -80,7 +80,6 @@ const styles = colors => StyleSheet.create({
   },
   image:{
     flex: 1,
-    
     resizeMode: 'contain',
     
   },
