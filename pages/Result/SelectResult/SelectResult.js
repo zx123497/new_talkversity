@@ -135,7 +135,6 @@ const styles = colors => StyleSheet.create({
   resultButton:{
     width: '40%',
     height: '45%',
-    backgroundColor: colors.background.default,
     borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
