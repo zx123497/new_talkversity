@@ -1,26 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import FacialResult from '../Result/FacialResult';
+import TextResult from '../Result/TextResult';
+import VoiceResult from '../Result/VoiceResult';
+import SelectResult from '../Result/SelectResult/SelectResult'
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
  const Train = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Train</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="評分結果" component={SelectResult} />
+        <Stack.Screen name="表情分析" component={FacialResult} />
+        <Stack.Screen name="語意分析" component={TextResult} />
+        <Stack.Screen name="聲音分析" component={VoiceResult} />
+      </Stack.Navigator>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    color:'#FFF',
-    backgroundColor: '#DBEB4D',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text:{
-    color:'#FFF',
-    fontSize:40,
-  }
-});
+
+
 export default Train;

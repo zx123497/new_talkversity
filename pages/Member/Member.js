@@ -1,26 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Login from '../Login/Login';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
  const Member = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Member</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="登入" component={Login} />
+      </Stack.Navigator>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    color:'#FFF',
-    backgroundColor: '#FA0',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text:{
-    color:'#FFF',
-    fontSize:40,
-  }
-});
 export default Member;
