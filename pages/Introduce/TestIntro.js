@@ -67,7 +67,7 @@ const styles =(colors)=> StyleSheet.create({
   },
   containerTutor: {
     flex: 6,
-
+    paddingTop:25,
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
