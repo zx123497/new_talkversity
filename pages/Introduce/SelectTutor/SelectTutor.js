@@ -9,7 +9,7 @@ import Swiper from 'react-native-swiper';
     const [name,setName]=useState("Amy");
 
     const handleIndexChange=(index)=>{
-      if(index===0){
+      if(index===1){
         setIndex(1);
         setName("Tommy");
       }
