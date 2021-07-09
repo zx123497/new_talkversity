@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
-
+import IntroListItem from '../../components/IntroListItem/IntroNewsItem';
 
 
  const TestIntro = ({navigation,route}) => {
@@ -15,7 +15,7 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
       <View style={styles(colors).containerTutor}>
       <Image
         style={styles(colors).image}
-        source={route.params.index===0 ? require("../../images/tutor_orange.png"):require("../../images/tutor_orange.png")}
+        source={route.params.index===0 ? require("../../images/tutor_orange.png"):require("../../images/tutor_m_orange.png")}
     />
       </View>
       <View  style={styles(colors).introArea}>
@@ -23,18 +23,11 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
         <Text style={styles(colors).introTitle}>接下來，我將會記錄您的說話習慣，作為訓練判斷的基準，我們將會記錄：</Text>
         <View style={styles(colors).listArea}>
 
-        <View style={styles(colors).list}>
-        <Text style={styles(colors).listTitle}>表情</Text>
-        <Text style={styles(colors).listContent}>您的眉毛、眼睛等臉部活動特徵</Text>
-        </View>
-        <View style={styles(colors).list}>
-        <Text style={styles(colors).listTitle}>語意</Text>
-        <Text style={styles(colors).listContent}>您的說話內容。</Text>
-        </View>
-        <View style={styles(colors).list}>
-        <Text style={styles(colors).listTitle}>聲音</Text>
-        <Text style={styles(colors).listContent}>說話的頻率、起伏、快慢等特徵</Text>
-        </View>
+        <IntroListItem title="表情" content="您的眉毛、眼睛等臉部活動特徵"/>
+        <IntroListItem title="語意" content="您的說話內容。"/>
+        <IntroListItem title="聲音" content="說話的頻率、起伏、快慢等特徵"/>
+    
+        
         </View>
         
       </View>
