@@ -6,12 +6,13 @@ import Introduce3 from '../Introduce/Introduce3';
 import TestIntro from '../Introduce/TestIntro';
 import SelectTutor from '../Introduce/SelectTutor/SelectTutor'
 import { createStackNavigator } from '@react-navigation/stack';
-
+import Login from '../Login/Login';
 const Stack = createStackNavigator();
 
  const Home = () => {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="登入">
+        <Stack.Screen name="登入" component={Login} />
         <Stack.Screen name="選擇教練" component={SelectTutor} />
         <Stack.Screen name="軟體介紹" component={Introduce} />
         <Stack.Screen name="軟體介紹2" component={Introduce2} />
