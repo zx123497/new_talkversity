@@ -20,7 +20,7 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
     />
       </View>
       <View style={styles(colors).submitArea}>
-      <Pressable onPress={() => navigation.navigate('軟體介紹',{index: route.params.index})} style={({ pressed }) => [
+      <Pressable onPress={() => navigation.navigate('前測介紹',{index: route.params.index})} style={({ pressed }) => [
           {
             
           },styles(colors).submit]}>
@@ -68,7 +68,7 @@ const styles =(colors)=> StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 50,
     borderRadius: 4,
-    elevation: 3,
+    
     
     
   },
