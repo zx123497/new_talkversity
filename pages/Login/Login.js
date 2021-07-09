@@ -84,7 +84,6 @@ const Member = ({ navigation }) => {
     },
     buttonLogin:{
       width: '65%',
-      backgroundColor: colors.primary.main,
       borderRadius: 20,
       flexDirection: 'row',
       justifyContent: 'center',
