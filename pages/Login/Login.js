@@ -3,13 +3,28 @@ import { useTheme } from 'react-native-paper';
 import { Pressable, Image, StyleSheet, Text, View, Button } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';  
 import { AntDesign } from '@expo/vector-icons'; 
+import * as Google from "expo-google-app-auth";
+
 
 const Member = ({ navigation }) => {
+    const signInAsync = async () => {
+      console.log("LoginScreen.js 6 | loggin in");
+      try {
+        const { type, user } = await Google.logInAsync({
+          iosClientId: `969636168353-uuu3n6fu1t2j7q02fkdvvib4bindthbt.apps.googleusercontent.com`,
+          androidClientId: `969636168353-f18olkamqlbulmapg90e5fldpfotknpf.apps.googleusercontent.com`,
+        });
+
+        if (type === "success") {
+          console.log("LoginScreen.js 17 | success, navigating to profile");
+          navigation.navigate("選擇教練", { user });
+        }
+      } catch (error) {
+        console.log("LoginScreen.js 19 | error with login", error);
+      }
+    };
 
     const {colors}=useTheme();
-    const responseGoogle = (response) => {
-      console.log(response)
-    };
     return (
       <View style={styles.center,styles(colors).container}>
         <LinearGradient colors={[colors.primary.main, colors.background.paper]} style={styles(colors).background}>
@@ -25,7 +40,7 @@ const Member = ({ navigation }) => {
           <Text style={styles(colors).subTitle}>歡迎使用Talkversity</Text>
           <Text style={styles(colors).loginText}>請登入您的帳號</Text>
           <Pressable
-          onPress={() => navigation.navigate('選擇教練')}
+          onPress={signInAsync}
           style={({ pressed }) => [
             {
               backgroundColor: pressed
