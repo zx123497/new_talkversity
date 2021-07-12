@@ -4,20 +4,40 @@ import { Pressable, Image, StyleSheet, Text, View, Button } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';  
 import { AntDesign } from '@expo/vector-icons'; 
 import * as Google from "expo-google-app-auth";
-
+import axios from 'axios';
+import { Buffer } from 'buffer'
 
 const Member = ({ navigation }) => {
+    var username = 'mis_admin';
+    var password = 'ej03xu3m065;4cl4';
+    const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64')
+
     const signInAsync = async () => {
       console.log("LoginScreen.js 6 | loggin in");
       try {
-        const { type, user } = await Google.logInAsync({
+        const { type, user, accessToken } = await Google.logInAsync({
           iosClientId: `969636168353-uuu3n6fu1t2j7q02fkdvvib4bindthbt.apps.googleusercontent.com`,
           androidClientId: `969636168353-f18olkamqlbulmapg90e5fldpfotknpf.apps.googleusercontent.com`,
         });
-
+        
         if (type === "success") {
           console.log("LoginScreen.js 17 | success, navigating to profile");
-          navigation.navigate("選擇教練", { user });
+          
+          axios.post('https://talkversity.herokuapp.com/users/', 
+          {
+            "access_token": accessToken
+          },
+          { headers: {
+            'Authorization': `Basic ${token}`
+          } }
+          )
+          .then(function (response) {
+            console.log(response.data);
+            navigation.navigate("選擇教練");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         }
       } catch (error) {
         console.log("LoginScreen.js 19 | error with login", error);
