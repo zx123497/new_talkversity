@@ -39,12 +39,12 @@ const styles2 =(colors)=> StyleSheet.create({
   },
   textTitle:{
     color:colors.background.paper,
-    fontSize:20,
+    fontSize:25,
     fontWeight:"bold",
     marginBottom:10
   },
   textContent:{
-    color:colors.background.default,
+    color:colors.background.paper,
     fontSize:16,
     marginBottom:10
   },
@@ -97,7 +97,7 @@ const styles2 =(colors)=> StyleSheet.create({
     flex:1
 },
 infoArea:{
-    width:"50%",
+    width:"60%",
 },
 imageArea:{
     flex: 1,

@@ -36,7 +36,7 @@ import SelectCard from '../../../components/SelectCard/SelectCard'
                 <View style={styles(colors).infoCard}>
                     <View></View>
                     <View></View>
-                    
+
                 </View>
         </View>
     </View>
@@ -73,10 +73,7 @@ const styles =(colors)=> StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 100,
     borderRadius: 4,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3
+    
     
   },
   card:{
