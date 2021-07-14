@@ -34,9 +34,34 @@ import SelectCard from '../../../components/SelectCard/SelectCard'
             </Pressable>
             <Text style={styles(colors).text}>訓練紀錄</Text>
                 <View style={styles(colors).infoCard}>
-                    <View></View>
-                    <View></View>
-
+                    <View style={{flex:1,flexDirection:"row",justifyContent:"center"}}>
+                      <View style={{flex:2,alignItems:"center",justifyContent:"center"}}>
+                        <View>
+                        <Text style={{fontSize:20}}>上次訓練</Text>
+                        <Text style={{color:colors.text.secondary}}>June 6, 2021 08:00PM</Text>
+                        </View>
+                        
+                      </View>
+                      <View style={{flex:1,alignItems:"center",justifyContent:"center"}}>
+                      <Text  style={{color:colors.primary.main,fontSize:25,fontWeight:"bold"}}>A+</Text>
+                    </View>
+                    </View>
+                   
+                    <View style={{flex:1,flexDirection:"row",justifyContent:"center",alignItems:"center",marginBottom:5}}>
+                      <View style={{alignItems:"center",padding:10,borderRightColor:colors.background.default,borderRightWidth:1}}>
+                        <Text style={{color:colors.text.secondary}}>完成訓練</Text>
+                        <Text style={{color:colors.primary.main,fontSize:22}}>6</Text>
+                      </View>
+                      <View style={{alignItems:"center",padding:10,borderRightColor:colors.background.default,borderRightWidth:1}}>
+                        <Text style={{color:colors.text.secondary}}>平均總分</Text>
+                        <Text style={{color:colors.primary.main,fontSize:22}}>A</Text>
+                      </View>
+                      <View style={{alignItems:"center",padding:10}}>
+                        <Text style={{color:colors.text.secondary}}>完成題數</Text>
+                        <Text style={{color:colors.primary.main,fontSize:22}}>60</Text>
+                      </View>
+                    </View>
+                    <Pressable style={{flex:0.5,justifyContent:"center",alignItems:"center",backgroundColor:colors.primary.main,padding:2,width:"80%",borderRadius:20}}><Text style={{color:"#FFF"}}>查看所有訓練紀錄</Text></Pressable>
                 </View>
         </View>
     </View>
@@ -52,8 +77,8 @@ const styles =(colors)=> StyleSheet.create({
   },
   text:{
     color:colors.text.primary,
-    fontSize:25,
-    margin:10,
+    fontSize:20,
+    marginLeft:10,
   },
   wrapper:{
     flex:1,
@@ -103,6 +128,8 @@ infoCard:{
     alignSelf:"stretch",
     margin:10,
     borderRadius:20,
+    padding:15,
+    
 }
 });
 
