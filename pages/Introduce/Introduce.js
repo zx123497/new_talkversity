@@ -21,7 +21,7 @@ import { StyleSheet, Text, View ,Image,Pressable } from 'react-native';
       <View style={styles(colors).containerTutor}>
       <Image
         style={styles(colors).image}
-        source={route.params.index===1 ? require("../../images/tutor_m_logo.png"):require("../../images/tutor.png")}
+        source={route.params.index===1 ? require("../../images/tutor_m_logo.png"):require("../../images/tutor_3.gif")}
     />
       </View>
       <View style={styles(colors).submitArea}>
