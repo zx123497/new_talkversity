@@ -22,7 +22,7 @@ const Member = ({ navigation }) => {
         
         if (type === "success") {
           console.log("LoginScreen.js 17 | success, navigating to profile");
-          
+          navigation.navigate("選擇教練");
           axios.post('https://talkversity.herokuapp.com/users/', 
           {
             "access_token": accessToken
@@ -33,7 +33,6 @@ const Member = ({ navigation }) => {
           )
           .then(function (response) {
             console.log(response.data);
-            navigation.navigate("選擇教練");
           })
           .catch(function (error) {
             console.log(error);
