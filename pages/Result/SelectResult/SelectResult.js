@@ -1,67 +1,90 @@
 import React from 'react';
-import { ImageBackground, Image, StyleSheet, Text, View, Pressable} from 'react-native';
+import { Image, StyleSheet, Text, View, Pressable} from 'react-native';
 import { useTheme } from 'react-native-paper';
-import Swiper from 'react-native-swiper';
 import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-
+import ResultListItem from '../../../components/TrainResult/ResultListItem';
 
 const Train = ({navigation}) => {
   const {colors}=useTheme();
   return (
     <View style={styles.center,styles(colors).container}>
-      <View style={styles(colors).textArea}>
-        <Text style={styles(colors).text}>評分結果</Text>
-      </View>
       <View style={styles(colors).wrapper}>
-          <ImageBackground 
-            source={require('../../../images/tutor_train.png')}
-            resizeMode='contain'
-            style={styles(colors).type}
-          >
-            <Text style={styles(colors).typeText}>面試</Text>
-          </ImageBackground>
+        <Image 
+              source={require('../../../images/result_bg.png')}
+              resizeMode='stretch'
+              style={styles(colors).bgImage}
+        />
+        <Image 
+              source={require('../../../images/tutor_w_orange.png')}
+              resizeMode='contain'
+              style={styles(colors).tutor}
+        />
+        <Text style={styles(colors).title}>評分結果</Text>
       </View>
       <View style={styles(colors).selectResult}>
-        <View style={styles(colors).scoreContainer}>
-          <Text style={styles(colors).scoreText}>A+</Text>
-        </View>
         <Pressable
-          onPress={() => navigation.navigate('表情分析')}
+          onPress={() => navigation.navigate('選擇教練')}
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? colors.primary.main
+                ? colors.primary.light
                 : colors.background.default
-            },styles(colors).resultButton]}
-        >
-          <MaterialIcons name="face" size={75} style={styles(colors).resultButtonIcon} />
-          <Text style={styles(colors).resultButtonText}>表情</Text>
+            },
+            styles(colors).buttonSelect
+          ]}>
+          <Text style={styles(colors).selectText}>查看練習影片</Text>
+          <Text style={styles(colors).buttonNext}>›</Text>
         </Pressable>
+        <ResultListItem
+            onPress={() => navigation.navigate("聲音分析")}
+            title="聲音"
+            icon={
+              <MaterialIcons 
+                name="record-voice-over"
+                size={50}
+                style={styles(colors).resultIcon}
+              />
+            }
+        />
+        <ResultListItem
+            onPress={() => navigation.navigate("語意分析")}
+            title="語意"
+            icon={
+              <MaterialIcons 
+                name="text-fields"
+                size={50}
+                style={styles(colors).resultIcon}
+              />
+            }
+        />
+        <ResultListItem
+            onPress={() => navigation.navigate("表情分析")}
+            title="表情"
+            icon={
+              <MaterialIcons 
+                name="face"
+                size={50}
+                style={styles(colors).resultIcon}
+              />
+            }
+        />
+
         <Pressable
-          onPress={() => navigation.navigate('語意分析')}
+          onPress={() => navigation.navigate('選擇教練')}
           style={({ pressed }) => [
             {
               backgroundColor: pressed
-                ? colors.primary.main
-                : colors.background.default              
-            },styles(colors).resultButton]}
-        >
-          <MaterialIcons name="text-fields" size={75} style={styles(colors).resultButtonIcon} />
-          <Text style={styles(colors).resultButtonText}>語意</Text>
+                ? colors.primary.light
+                : colors.primary.main
+            },
+            styles(colors).buttonSelect
+          ]}>
+          <Text style={styles(colors).scoreText}>查看總分</Text>
+          <Text style={styles(colors).scoreNext}>›</Text>
         </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate('聲音分析')}
-          style={({ pressed }) => [
-            {
-              backgroundColor: pressed
-                ? colors.primary.main
-                : colors.background.default
-            },styles(colors).resultButton]}
-        >
-          <MaterialIcons name="record-voice-over" size={75} style={styles(colors).resultButtonIcon} />
-          <Text style={styles(colors).resultButtonText}>聲音</Text>
-        </Pressable>
+
       </View>
+
       <Pressable
         onPress={() => navigation.navigate('選擇教練')}
         style={({ pressed }) => [
@@ -85,87 +108,87 @@ const styles = colors => StyleSheet.create({
     backgroundColor: colors.background.paper,
     alignItems: 'center',
   },
-  textArea:{
-    width: '85%',
-    flex:0.05,
-    marginTop:30,
-    marginBottom: '4%',
-  },
-  text:{
-    paddingLeft: '3%',
-    color:colors.text.primary,
-    fontSize:30,
-    fontWeight:'900',
-  },
   wrapper:{
-    width: '85%',
-    backgroundColor: '#81BFBA',
-    borderRadius: 25,
-    flex:0.3,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  type:{
     width: '100%',
-    height: '100%',
+    height:'30%',
+    marginBottom: '6%',
   },
-  typeText:{
-    color: '#F1F5F4',
-    fontSize: 35,
-    paddingLeft: '15%',
-    paddingTop: '15%',
+  bgImage:{
+    height: '100%',
+    width: '100%',
+  },
+  tutor:{
+    height: '80%',
+    width: '80%',
+    position: 'absolute',
+    bottom: '-2%',
+    left: '-15%',
+  },
+  title:{
+    color:colors.background.paper,
+    position: 'absolute',
+    fontSize: 40,
+    fontWeight: 'bold',
+    right: '10%',
+    top: '35%',
   },
   selectResult:{
     width: '85%',
-    flex:0.6,
-    marginBottom: 30,
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    paddingRight: '1%',
+    // borderWidth: 3,
+  },
+  buttonSelect:{
+    marginBottom: '5%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
-  },
-  scoreContainer:{
-    width: '40%',
-    height: '45%',
-    backgroundColor: colors.primary.main,
-    borderRadius: 25,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '5%',
+    width: '85%',
+    borderRadius: 15,
+    paddingLeft: '8%',
+    paddingRight: '8%',
   },
-  resultButton:{
-    width: '40%',
-    height: '45%',
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '5%',
+  selectText:{
+    color:colors.text.primary,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  resultButtonText:{
-    fontSize: 25,
-    color: colors.text.primary,
+  buttonNext:{
+    paddingBottom: '3%',
+    color: colors.text.secondary,
+    fontSize: 30,
+    fontWeight: '600',
   },
-  resultButtonIcon:{
+  resultIcon:{
     color: colors.primary.main,
-    marginBottom: '5%',
+    marginRight: '5%',
   },
   scoreText:{
-    fontSize: 65,
-    fontWeight: '900',
-    color: '#FFF',
+    color:colors.background.paper,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  buttonReturn:{
-    width: '85%',
-    paddingTop: 16,
-    paddingBottom: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-    flexDirection: 'row',
+  scoreNext:{
+    paddingBottom: '3%',
+    color: colors.background.paper,
+    fontSize: 30,
+    fontWeight: '600',
   },
   buttonText:{
     marginLeft: '3%',
     color:"#FFF",
     fontSize:25,
+    fontWeight: 'bold',
+  },
+  buttonReturn:{
+    width: '85%',
+    paddingTop: '2.5%',
+    paddingBottom: '2.5%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    flexDirection: 'row',
   },
 
 });
