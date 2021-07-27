@@ -12,11 +12,11 @@ const Stack = createStackNavigator();
 const Home = () => {
   return (
     <Stack.Navigator
-      initialRouteName="登入"
+      initialRouteName="選擇教練"
       headerMode="none"
       headerShown={false}
     >
-      <Stack.Screen name="登入" component={Login} />
+      {/* <Stack.Screen name="登入" component={Login} /> */}
       <Stack.Screen name="選擇教練" component={SelectTutor} />
       <Stack.Screen name="軟體介紹" component={Introduce} />
       <Stack.Screen name="軟體介紹2" component={Introduce2} />
