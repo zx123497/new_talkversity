@@ -135,20 +135,20 @@ const styles = (colors) =>
     },
     title: {
       textAlign: "center",
-      color: colors.text.primary,
+      color: colors.paragraph.primary,
       fontSize: 70,
       fontWeight: "bold",
     },
     subTitle: {
       textAlign: "center",
-      color: colors.text.primary,
+      color: colors.paragraph.primary,
       fontSize: 25,
       fontWeight: "bold",
       marginBottom: "15%",
     },
     loginText: {
       textAlign: "center",
-      color: colors.text.primary,
+      color: colors.paragraph.primary,
       fontSize: 20,
       fontWeight: "bold",
       marginBottom: "5%",
