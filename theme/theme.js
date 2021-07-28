@@ -7,7 +7,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     primary: { main: "#79CAC3", dark: "#6faab0", light: "#abd7d6" },
-    text: "#5d5d5d",
+    text: {primary:'#5d5d5d',secondary:'#9d9d9d'},
     paragraph: { primary: "#5d5d5d", secondary: "#9d9d9d" },
     orange: { main: "#e68614", light: "#efcea7" },
     red: { main: "#ed2816", light: "#fc9595" },
