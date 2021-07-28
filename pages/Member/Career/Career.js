@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,17 +8,61 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
-import { useTheme } from "react-native-paper";
+import { useTheme, Avatar } from "react-native-paper";
 
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Setting = () => {
   const { colors } = useTheme();
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(<View></View>);
   const [header, setHeader] = useState("");
   const bs = useRef();
   const fall = new Animated.Value(1);
+  const [firstMission, setFirstMission] = useState({});
+  const [secondMission, setSecondMission] = useState({});
+  const [thirdMission, setThirdMission] = useState({});
+  const [fourMission, setFourMission] = useState({});
+
+  useEffect(() => {
+    setFirstMission({
+      unlock: 1,
+      missions: [
+        { title: "總字數1000字", status: 1, current: 1000, total: 1000 },
+        { title: "文字達到A", status: 1, current: 1, total: 1 },
+        { title: "聲音達到A", status: 1, current: 1, total: 1 },
+        { title: "表情達到A", status: 1, current: 1, total: 1 },
+      ],
+    });
+    setSecondMission({
+      unlock: 1,
+      missions: [
+        { title: "總字數2000字", status: 0, current: 1000, total: 2000 },
+        { title: "文字達到A+", status: 1, current: 1, total: 1 },
+        { title: "聲音達到A+", status: 0, current: 0, total: 1 },
+        { title: "表情達到A+", status: 1, current: 1, total: 1 },
+      ],
+    });
+    setThirdMission({
+      unlock: 0,
+      missions: [
+        { title: "總字數5000字", status: 0, current: 1000, total: 5000 },
+        { title: "文字達到A++", status: 0, current: 0, total: 1 },
+        { title: "聲音達到A++", status: 0, current: 0, total: 1 },
+        { title: "表情達到A++", status: 1, current: 1, total: 1 },
+      ],
+    });
+    setFourMission({
+      unlock: 0,
+      missions: [
+        { title: "總字數10000字", status: 0, current: 1000, total: 10000 },
+        { title: "文字A++", status: 0, current: 1, total: 5 },
+        { title: "聲音A++", status: 0, current: 0, total: 5 },
+        { title: "表情A++", status: 0, current: 0, total: 5 },
+      ],
+    });
+  }, []);
 
   const renderInner = () => (
     <View
@@ -28,7 +72,9 @@ const Setting = () => {
         height: "100%",
       }}
     >
-      <Text>{content}</Text>
+      <View style={{ flex: 1, alignItems: "center", padding: 15 }}>
+        {content}
+      </View>
     </View>
   );
   const renderHeader = () => (
@@ -47,11 +93,77 @@ const Setting = () => {
       </Text>
     </View>
   );
+
+  const setInner = (grade) => {
+    setContent(<View></View>);
+    setContent(
+      grade.missions.map((row, index) => (
+        <View
+          key={index}
+          style={{
+            flexDirection: "row",
+            marginBottom: 15,
+            width: 300,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: colors.background.default,
+            borderRadius: 10,
+            borderBottomLeftRadius: 25,
+            borderTopLeftRadius: 25,
+          }}
+        >
+          <Avatar.Icon
+            icon={(color, size) => (
+              <Icon
+                name="check-bold"
+                color={`${
+                  row.status === 1 ? "white" : colors.paragraph.primary
+                }`}
+                size={30}
+              />
+            )}
+            style={{
+              backgroundColor:
+                row.status === 1
+                  ? colors.orange.light
+                  : colors.paragraph.secondary,
+            }}
+            size={50}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              flex: 1,
+            }}
+          >
+            <Text
+              style={{
+                fontWeight: "bold",
+                marginRight: 15,
+                marginLeft: 10,
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {row.title}
+            </Text>
+            <Text
+              style={{ color: colors.paragraph.secondary, flex: 1 }}
+            >{`${row.current} / ${row.total}`}</Text>
+          </View>
+        </View>
+      ))
+    );
+  };
+
   return (
     <View style={styles(colors).container}>
       <BottomSheet
         ref={bs}
-        snapPoints={[330, 0]}
+        snapPoints={[450, 0]}
         initialSnap={1}
         callbackNode={fall}
         enabledContentGestureInteraction={true}
@@ -147,13 +259,14 @@ const Setting = () => {
             alignItems: "flex-start",
             justifyContent: "flex-start",
             padding: 20,
+
             // backgroundColor: "red",
           }}
         >
           <TouchableOpacity
             onPress={() => {
               console.log("HI");
-              setContent("一年級任務");
+              setInner(firstMission);
               setHeader("一年級");
               bs.current.snapTo([0]);
             }}
@@ -171,7 +284,7 @@ const Setting = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setContent("二年級任務");
+              setInner(secondMission);
               setHeader("二年級");
               bs.current.snapTo([0]);
             }}
@@ -185,7 +298,7 @@ const Setting = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setContent("三年級任務");
+              setInner(thirdMission);
               setHeader("三年級");
               bs.current.snapTo([0]);
             }}
@@ -199,7 +312,7 @@ const Setting = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setContent("四年級任務");
+              setInner(fourMission);
               setHeader("四年級");
               bs.current.snapTo([0]);
             }}
