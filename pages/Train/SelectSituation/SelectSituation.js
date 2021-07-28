@@ -46,7 +46,7 @@ const Setting = (props) => {
             >
               <View>
                 <Text style={{ fontSize: 20 }}>上次訓練</Text>
-                <Text style={{ color: colors.text.secondary }}>
+                <Text style={{ color: colors.paragraph.secondary }}>
                   June 6, 2021 08:00PM
                 </Text>
               </View>
@@ -87,7 +87,7 @@ const Setting = (props) => {
                 borderRightWidth: 1,
               }}
             >
-              <Text style={{ color: colors.text.secondary }}>完成訓練</Text>
+              <Text style={{ color: colors.paragraph.secondary }}>完成訓練</Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 6
               </Text>
@@ -100,13 +100,13 @@ const Setting = (props) => {
                 borderRightWidth: 1,
               }}
             >
-              <Text style={{ color: colors.text.secondary }}>平均總分</Text>
+              <Text style={{ color: colors.paragraph.secondary }}>平均總分</Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 A
               </Text>
             </View>
             <View style={{ alignItems: "center", padding: 10 }}>
-              <Text style={{ color: colors.text.secondary }}>完成題數</Text>
+              <Text style={{ color: colors.paragraph.secondary }}>完成題數</Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 60
               </Text>
@@ -140,13 +140,13 @@ const styles = (colors) =>
       justifyContent: "center",
     },
     title: {
-      color: colors.text.primary,
+      color: colors.paragraph.primary,
       fontSize: 30,
       fontWeight: 'bold',
       marginLeft: '7%',
     },
     text: {
-      color: colors.text.primary,
+      color: colors.paragraph.primary,
       fontSize: 20,
       marginLeft: '7%',
     },

@@ -23,13 +23,13 @@ const styles =(colors)=> StyleSheet.create({
   listTitle:{
     fontSize:20,
     fontWeight:"600",
-    color:colors.text.primary,
+    color:colors.paragraph.primary,
     marginBottom:5
   },
   listContent:{
     fontSize:16,
     fontWeight:"600",
-    color:colors.text.secondary,
+    color:colors.paragraph.secondary,
   },
   list:{
     marginBottom:50

@@ -29,7 +29,7 @@ const styles =(colors)=> StyleSheet.create({
   },
   text:{
     paddingLeft: '3%',
-    color:colors.text.primary,
+    color:colors.paragraph.primary,
     fontSize:30,
     fontWeight:'900',
   },
