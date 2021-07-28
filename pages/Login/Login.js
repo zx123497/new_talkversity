@@ -18,7 +18,6 @@ const Member = ({ navigation }) => {
   );
 
   const signInAsync = async () => {
-    load();
     console.log("LoginScreen.js 6 | loggin in");
     try {
       const { type, user, accessToken } = await Google.logInAsync({
@@ -27,6 +26,7 @@ const Member = ({ navigation }) => {
       });
 
       if (type === "success") {
+        load();
         console.log("getting userData");
 
         axios
@@ -45,7 +45,12 @@ const Member = ({ navigation }) => {
             console.log(response.data);
             // navigation.navigate("選擇教練");
             console.log("signIn");
-            signIn(response.data.name, accessToken);
+            signIn(
+              response.data.name,
+              accessToken,
+              response.data.email,
+              response.data.picture
+            );
           })
           .catch(function (error) {
             console.log(error);

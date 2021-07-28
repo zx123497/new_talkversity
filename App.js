@@ -13,6 +13,8 @@ import theme from "./theme/theme";
 import LoginStack from "./pages/Login/Login";
 import { View, ActivityIndicator, Text } from "react-native";
 import { AuthContext } from "./components/context/context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Tab = createMaterialBottomTabNavigator();
 
 const App = () => {
@@ -63,15 +65,31 @@ const App = () => {
 
   const authContext = useMemo(
     () => ({
-      signIn: (userName, accessToken) => {
+      signIn: async (userName, accessToken, email, picture) => {
         // setUserToken(accessToken);
         // console.log(accessToken);
         // setIsLoading(false);
+        try {
+          await AsyncStorage.setItem("userToken", accessToken);
+          await AsyncStorage.setItem("userName", userName);
+          await AsyncStorage.setItem("email", email);
+          await AsyncStorage.setItem("picture", picture);
+        } catch (e) {
+          console.log(e);
+        }
         dispatch({ type: "LOGIN", id: userName, token: accessToken });
       },
-      signOut: () => {
+      signOut: async () => {
         // setUserToken(null);
         // setIsLoading(false);
+        try {
+          await AsyncStorage.removeItem("userToken");
+          await AsyncStorage.removeItem("userName");
+          await AsyncStorage.removeItem("email");
+          await AsyncStorage.removeItem("picture");
+        } catch (e) {
+          console.log(e);
+        }
         dispatch({ type: "LOGOUT" });
       },
       load: () => {
@@ -84,9 +102,15 @@ const App = () => {
   );
 
   useEffect(() => {
-    setTimeout(() => {
-      // dispatch({ type: "RETRIEVE_TOKEN", token: "test" });
-      dispatch({ type: "LOGOUT" });
+    setTimeout(async () => {
+      let userToken = null;
+      try {
+        userToken = await AsyncStorage.getItem("userToken");
+      } catch (e) {
+        console.log(e);
+      }
+      dispatch({ type: "RETRIEVE_TOKEN", token: userToken });
+      // dispatch({ type: "LOGOUT" });
     }, 1500);
   }, []);
   if (loginState.isLoading) {

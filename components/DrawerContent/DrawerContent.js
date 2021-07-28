@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../context/context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Avatar,
   Title,
@@ -19,6 +20,45 @@ const DrawerContent = (props) => {
   const { colors } = useTheme();
   const { signOut } = React.useContext(AuthContext);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPicture, setUserPicture] = useState("");
+  useEffect(() => {
+    setUserInfo();
+  }, []);
+  const setUserInfo = async () => {
+    try {
+      const name = await AsyncStorage.getItem("userName");
+      //   const email = await AsyncStorage.getItem("email");
+      //   const picture = await AsyncStorage.getItem("picture");
+      setUserName(name);
+      //   setUserEmail(email);
+      //   setUserPicture(picture);
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      // const name = await AsyncStorage.getItem("userName");
+      const email = await AsyncStorage.getItem("email");
+      //   const picture = await AsyncStorage.getItem("picture");
+      // setUserName(name);
+      setUserEmail(email);
+      //   setUserPicture(picture);
+    } catch (e) {
+      console.log(e);
+    }
+    try {
+      // const name = await AsyncStorage.getItem("userName");
+      //   const email = await AsyncStorage.getItem("email");
+      const picture = await AsyncStorage.getItem("picture");
+      // setUserName(name);
+      //   setUserEmail(email);
+      setUserPicture(picture);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const toggleTheme = () => {
     setIsDarkTheme(!isDarkTheme);
   };
@@ -29,12 +69,15 @@ const DrawerContent = (props) => {
           <View style={styles(colors).userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
-                source={require("../../images/avatar.jpg")}
+                // source={require("../../images/avatar.jpg")}
+                source={{ uri: userPicture ? userPicture : "123" }}
                 size={70}
               />
               <View style={{ marginLeft: 15, flexDirection: "column" }}>
-                <Title style={styles(colors).title}>貓貓小幸</Title>
-                <Caption style={styles(colors).caption}>cat@gmail.com</Caption>
+                <Title style={styles(colors).title}>{userName}</Title>
+                <Caption style={styles(colors).caption}>
+                  {userEmail.split("@")[0]}
+                </Caption>
               </View>
             </View>
 
