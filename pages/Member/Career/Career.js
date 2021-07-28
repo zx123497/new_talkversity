@@ -80,6 +80,66 @@ const Setting = () => {
             source={require("../../../images/road.png")}
           />
         </View>
+        <Image
+          style={styles(colors).image}
+          source={require("../../../images/planet.png")}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 10,
+            right: 0,
+            bottom: 0,
+            width: 70,
+            height: 70,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+        <Image
+          style={styles(colors).image}
+          source={require("../../../images/fairy1.png")}
+          style={{
+            position: "absolute",
+            top: 250,
+            left: 200,
+            right: 0,
+            bottom: 0,
+            width: 50,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+        <Image
+          style={styles(colors).image}
+          source={require("../../../images/fairy2.png")}
+          style={{
+            position: "absolute",
+            top: 380,
+            left: 10,
+            right: 0,
+            bottom: 0,
+            width: 70,
+            height: 70,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
+        <Image
+          style={styles(colors).image}
+          source={require("../../../images/fairy3.png")}
+          style={{
+            position: "absolute",
+            top: 480,
+            left: 180,
+            right: 0,
+            bottom: 0,
+            width: 100,
+            height: 90,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        />
         <View
           style={{
             width: 250,
@@ -97,12 +157,16 @@ const Setting = () => {
               setHeader("一年級");
               bs.current.snapTo([0]);
             }}
-            style={{ marginTop: 30, marginLeft: 100, marginBottom: 50 }}
+            style={{
+              marginTop: 25,
+              marginLeft: 100,
+              marginBottom: 40,
+            }}
           >
             <Image
               style={styles(colors).image}
               source={require("../../../images/ball1.png")}
-              style={{}}
+              style={{ width: 91.5, height: 100 }}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -111,11 +175,12 @@ const Setting = () => {
               setHeader("二年級");
               bs.current.snapTo([0]);
             }}
-            style={{ marginBottom: 50 }}
+            style={{ marginBottom: 30 }}
           >
             <Image
               style={styles(colors).image}
               source={require("../../../images/ball2.png")}
+              style={{ width: 92.5, height: 100 }}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -129,6 +194,7 @@ const Setting = () => {
             <Image
               style={styles(colors).image}
               source={require("../../../images/ball3.png")}
+              style={{ width: 92.5, height: 100 }}
             />
           </TouchableOpacity>
           <TouchableOpacity
@@ -142,6 +208,7 @@ const Setting = () => {
             <Image
               style={styles(colors).image}
               source={require("../../../images/ball4.png")}
+              style={{ width: 100, height: 120 }}
             />
           </TouchableOpacity>
         </View>
@@ -164,6 +231,9 @@ const styles = (colors) =>
     text: {
       color: colors.text.secondary,
       fontSize: 40,
+    },
+    image: {
+      resizeMode: "contain",
     },
   });
 export default Setting;

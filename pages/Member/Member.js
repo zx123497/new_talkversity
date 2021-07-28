@@ -7,89 +7,110 @@ import Grow from "./Grow/Grow";
 import Career from "./Career/Career";
 import Record from "./Record/Record";
 import { useRoute } from "@react-navigation/native";
-const Stack = createStackNavigator();
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import DrawerContent from "../../components/DrawerContent/DrawerContent";
 
-const Member = (props) => {
-  const route = useRoute();
-  const { colors } = useTheme();
-  return (
-    <SafeAreaView style={styles(colors).container}>
-      <View style={styles(colors).titlebar}>
-        <Text style={styles(colors).title}>個人專區</Text>
-        <View style={styles(colors).navbar}>
-          <Pressable onPress={() => props.navigation.navigate("成長分析")}>
-            <Text
-              style={
-                route.name === "成長分析"
-                  ? styles(colors).navActive
-                  : styles(colors).nav
-              }
-            >
-              成長分析
-            </Text>
-          </Pressable>
-          <Pressable onPress={() => props.navigation.navigate("生涯紀錄")}>
-            <Text
-              style={
-                route.name === "生涯紀錄"
-                  ? styles(colors).navActive
-                  : styles(colors).nav
-              }
-            >
-              生涯紀錄
-            </Text>
-          </Pressable>
-          <Pressable onPress={() => props.navigation.navigate("訓練紀錄")}>
-            <Text
-              style={
-                route.name === "訓練紀錄"
-                  ? styles(colors).navActive
-                  : styles(colors).nav
-              }
-            >
-              訓練紀錄
-            </Text>
-          </Pressable>
-        </View>
-      </View>
-    </SafeAreaView>
-  );
-};
+import Icon from "react-native-vector-icons/Ionicons";
+const GrowStack = createStackNavigator();
+const CareerStack = createStackNavigator();
+const RecordStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
-const MemberRouter = ({ navigation }) => {
+const GrowStackScreen = ({ navigation }) => (
+  <GrowStack.Navigator
+    headerShown={false}
+    headerMode="screen"
+    screenOptions={{
+      headerStyle: { backgroundColor: "white" },
+
+      headerTintColor: "#5d5d5d",
+      headerTitleStyle: { fontWeight: "bold" },
+      headerTitleAlign: "center",
+    }}
+  >
+    <GrowStack.Screen
+      name="成長紀錄"
+      component={Grow}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={25}
+            backgroundColor="white"
+            color="#5d5d5d"
+            onPress={() => {
+              navigation.openDrawer();
+            }}
+          />
+        ),
+      }}
+    />
+  </GrowStack.Navigator>
+);
+const CareerStackScreen = ({ navigation }) => (
+  <CareerStack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: "white" },
+      headerTintColor: "#5d5d5d",
+      headerTitleStyle: { fontWeight: "bold" },
+      headerTitleAlign: "center",
+    }}
+  >
+    <CareerStack.Screen
+      name="生涯成就"
+      component={Career}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={25}
+            backgroundColor="white"
+            color="#5d5d5d"
+            onPress={() => {
+              navigation.openDrawer();
+            }}
+          />
+        ),
+      }}
+    />
+  </CareerStack.Navigator>
+);
+const RecordStackScreen = ({ navigation }) => (
+  <RecordStack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: "white" },
+      headerTintColor: "#5d5d5d",
+      headerTitleStyle: { fontWeight: "bold" },
+      headerTitleAlign: "center",
+    }}
+  >
+    <RecordStack.Screen
+      name="訓練紀錄"
+      component={Record}
+      options={{
+        headerLeft: () => (
+          <Icon.Button
+            name="ios-menu"
+            size={25}
+            backgroundColor="white"
+            color="#5d5d5d"
+            onPress={() => {
+              navigation.openDrawer();
+            }}
+          />
+        ),
+      }}
+    />
+  </RecordStack.Navigator>
+);
+
+const MemberRouter = (props) => {
   return (
-    <Stack.Navigator initialRouteName="成長分析" headerMode="float">
-      <Stack.Screen
-        name="成長分析"
-        component={Grow}
-        options={({ navigation }) => ({
-          headerLeft: () => null,
-          headerTitleAlign: "center",
-          headerStatusBarHeight: 100,
-          headerTitle: (props) => <Member {...props} navigation={navigation} />,
-        })}
-      />
-      <Stack.Screen
-        name="生涯紀錄"
-        component={Career}
-        options={({ navigation }) => ({
-          headerLeft: () => null,
-          headerTitleAlign: "center",
-          headerStatusBarHeight: 100,
-          headerTitle: (props) => <Member {...props} navigation={navigation} />,
-        })}
-      />
-      <Stack.Screen
-        name="訓練紀錄"
-        component={Record}
-        options={({ navigation }) => ({
-          headerLeft: () => null,
-          headerTitleAlign: "center",
-          headerStatusBarHeight: 100,
-          headerTitle: (props) => <Member {...props} navigation={navigation} />,
-        })}
-      />
-    </Stack.Navigator>
+    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+      <Drawer.Screen name="成長紀錄" component={GrowStackScreen} />
+      <Drawer.Screen name="生涯成就" component={CareerStackScreen} />
+      <Drawer.Screen name="訓練紀錄" component={RecordStackScreen} />
+    </Drawer.Navigator>
   );
 };
 
