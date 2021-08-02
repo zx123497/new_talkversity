@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { useTheme } from "react-native-paper";
 import { Dimensions } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import {
   LineChart,
   // BarChart,
@@ -13,17 +14,18 @@ import {
 } from "react-native-chart-kit";
 const Setting = () => {
   const { colors } = useTheme();
+  const [type, setType] = useState("face");
   const screenWidth = Dimensions.get("window").width;
   const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    labels: ["8/1", "8/2", "8/3", "8/4", "8/5", "8/6"],
     datasets: [
       {
-        data: [20, 45, 28, 80, 99, 43],
+        data: [1, 4, 2, 3, 5, 4],
         color: (opacity = 1) => `rgba(121,202,195, ${opacity})`, // optional
-        strokeWidth: 2, // optional
+        strokeWidth: 0, // optional
       },
     ],
-    legend: ["成長分析"], // optional
+    // legend: ["成長分析"], // optional
   };
 
   const chartConfig = {
@@ -39,13 +41,163 @@ const Setting = () => {
 
   return (
     <View style={styles(colors).container}>
-      {/* <Text style={styles(colors).text}>Grow</Text> */}
-      <LineChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
-      />
+      <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={() => {
+            setType("face");
+          }}
+          style={[
+            {
+              alignItems: "center",
+              margin: 15,
+              borderColor: colors.primary.main,
+              borderWidth: 2,
+              paddingHorizontal: 13,
+              paddingVertical: 3,
+              backgroundColor: colors.background.paper,
+              borderRadius: 10,
+              elevation: 2,
+            },
+            type === "face" ? {} : { borderWidth: 0 },
+          ]}
+        >
+          <Icon
+            name="face"
+            size={50}
+            style={
+              type === "face"
+                ? { color: colors.primary.main }
+                : { color: colors.paragraph.secondary }
+            }
+          />
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>表情</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setType("text");
+          }}
+          style={[
+            {
+              alignItems: "center",
+              margin: 15,
+              borderColor: colors.primary.main,
+              borderWidth: 2,
+              paddingHorizontal: 13,
+              paddingVertical: 3,
+              backgroundColor: colors.background.paper,
+              borderRadius: 10,
+              elevation: 2,
+            },
+            type === "text" ? {} : { borderWidth: 0 },
+          ]}
+        >
+          <Icon
+            name="text-fields"
+            size={50}
+            style={
+              type === "text"
+                ? { color: colors.primary.main }
+                : { color: colors.paragraph.secondary }
+            }
+          />
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>文字</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setType("voice");
+          }}
+          style={[
+            {
+              alignItems: "center",
+              margin: 15,
+              borderColor: colors.primary.main,
+              borderWidth: 2,
+              paddingHorizontal: 13,
+              paddingVertical: 3,
+              backgroundColor: colors.background.paper,
+              borderRadius: 10,
+              elevation: 2,
+            },
+            type === "voice" ? {} : { borderWidth: 0 },
+          ]}
+        >
+          <Icon
+            name="record-voice-over"
+            size={50}
+            style={
+              type === "voice"
+                ? { color: colors.primary.main }
+                : { color: colors.paragraph.secondary }
+            }
+          />
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>語音</Text>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          backgroundColor: colors.background.paper,
+          alignItems: "center",
+          padding: 10,
+          flex: 1,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            color: colors.text,
+            marginBottom: 20,
+          }}
+        >
+          {type}の成長分析
+        </Text>
+        <LineChart
+          style={{ flex: 1 }}
+          data={data}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
+          formatYLabel={(value) => {
+            if (value == 1) return "E";
+            else if (value == 2) return "D";
+            else if (value == 3) return "C";
+            else if (value == 4) return "B";
+            else if (value == 5) return "A";
+          }}
+        />
+        <View
+          style={{
+            flex: 0.5,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: colors.background.default,
+            paddingHorizontal: 10,
+            borderRadius: 10,
+            elevation: 2,
+          }}
+        >
+          <View style={{ flex: 1.5 }}>
+            <Text
+              style={{
+                color: colors.text,
+                fontWeight: "bold",
+                fontSize: 18,
+                marginBottom: 10,
+              }}
+            >
+              成長建議
+            </Text>
+            <Text style={{ color: colors.paragraph.secondary, fontSize: 16 }}>
+              皺眉的情況有改善，不過眨眼的次數 還是需要加強。
+            </Text>
+          </View>
+          <Image
+            style={styles(colors).image}
+            source={require("../../../images/tutor_orange.png")}
+          />
+        </View>
+      </View>
     </View>
   );
 };
@@ -56,11 +208,15 @@ const styles = (colors) =>
       flex: 1,
       backgroundColor: colors.background.default,
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "flex-start",
     },
     text: {
       color: colors.text.secondary,
       fontSize: 40,
+    },
+    image: {
+      flex: 1,
+      resizeMode: "contain",
     },
   });
 export default Setting;
