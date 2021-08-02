@@ -27,7 +27,7 @@ const Setting = () => {
 
   useEffect(() => {
     setFirstMission({
-      unlock: 1,
+      unlock: true,
       missions: [
         { title: "總字數1000字", status: 1, current: 1000, total: 1000 },
         { title: "文字達到A", status: 1, current: 1, total: 1 },
@@ -36,7 +36,7 @@ const Setting = () => {
       ],
     });
     setSecondMission({
-      unlock: 1,
+      unlock: true,
       missions: [
         { title: "總字數2000字", status: 0, current: 1000, total: 2000 },
         { title: "文字達到A+", status: 1, current: 1, total: 1 },
@@ -45,7 +45,7 @@ const Setting = () => {
       ],
     });
     setThirdMission({
-      unlock: 0,
+      unlock: false,
       missions: [
         { title: "總字數5000字", status: 0, current: 1000, total: 5000 },
         { title: "文字達到A++", status: 0, current: 0, total: 1 },
@@ -54,7 +54,7 @@ const Setting = () => {
       ],
     });
     setFourMission({
-      unlock: 0,
+      unlock: false,
       missions: [
         { title: "總字數10000字", status: 0, current: 1000, total: 10000 },
         { title: "文字A++", status: 0, current: 1, total: 5 },
@@ -278,7 +278,11 @@ const Setting = () => {
           >
             <Image
               style={styles(colors).image}
-              source={require("../../../images/ball1.png")}
+              source={
+                firstMission.unlock
+                  ? require("../../../images/ball1.png")
+                  : require("../../../images/ball1_lock.png")
+              }
               style={{ width: 91.5, height: 100 }}
             />
           </TouchableOpacity>
@@ -292,7 +296,11 @@ const Setting = () => {
           >
             <Image
               style={styles(colors).image}
-              source={require("../../../images/ball2.png")}
+              source={
+                secondMission.unlock
+                  ? require("../../../images/ball2.png")
+                  : require("../../../images/ball2_lock.png")
+              }
               style={{ width: 92.5, height: 100 }}
             />
           </TouchableOpacity>
@@ -306,7 +314,11 @@ const Setting = () => {
           >
             <Image
               style={styles(colors).image}
-              source={require("../../../images/ball3.png")}
+              source={
+                thirdMission.unlock
+                  ? require("../../../images/ball3.png")
+                  : require("../../../images/ball3_lock.png")
+              }
               style={{ width: 92.5, height: 100 }}
             />
           </TouchableOpacity>
@@ -320,7 +332,11 @@ const Setting = () => {
           >
             <Image
               style={styles(colors).image}
-              source={require("../../../images/ball4.png")}
+              source={
+                fourMission.unlock
+                  ? require("../../../images/ball4.png")
+                  : require("../../../images/ball4_lock.png")
+              }
               style={{ width: 100, height: 120 }}
             />
           </TouchableOpacity>

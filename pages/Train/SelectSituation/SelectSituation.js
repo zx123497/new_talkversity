@@ -1,37 +1,55 @@
-import React from "react";
-import { Image, StyleSheet, Text, View, Pressable } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { useTheme } from "react-native-paper";
 import Swiper from "react-native-swiper";
 import SelectCard from "../../../components/SelectCard/SelectCard";
+import SituationService from "../../../services/SituationService";
+
 const Setting = (props) => {
   const { colors } = useTheme();
+  const [situations, setSituations] = useState([]);
+  useEffect(() => {
+    SituationService.getSituationList().then((res) => {
+      console.log(res);
+      let temp = [];
+      res.forEach((element) => {
+        temp.push({ title: element.content, id: element.id });
+      });
+      setSituations(temp);
+    });
+  }, []);
+
   return (
     <View style={styles(colors).container}>
-      
       <View style={styles(colors).selectArea}>
         <Text style={styles(colors).title}>選擇情境</Text>
         <Swiper
           showsButtons={true}
           // loop={false}
           showsPagination={false}
+          loop={false}
           nextButton={<Text style={styles(colors).buttonText}>›</Text>}
           prevButton={<Text style={styles(colors).buttonText}>‹</Text>}
         >
-          <View style={styles(colors).wrapper}>
-            <SelectCard props={{ ...props }} />
-          </View>
-          <View style={styles(colors).wrapper}>
-            <SelectCard navigation={() => navigation.navigate("評分結果")} />
-          </View>
+          {situations.map((row) => (
+            <View style={styles(colors).wrapper} key={row.id}>
+              <SelectCard
+                navigation={() => props.navigation.navigate("評分結果")}
+                title={row.title}
+                id={row.id}
+              />
+            </View>
+          ))}
         </Swiper>
       </View>
       <View style={styles(colors).infoArea}>
-        <Pressable
-          onPress={() => props.navigation.navigate("評分結果")}
-          style={({ pressed }) => [{}, styles(colors).submit]}
-        >
-          <Text style={styles(colors).submitText}>評分結果</Text>
-        </Pressable>
         <Text style={styles(colors).text}>訓練紀錄</Text>
         <View style={styles(colors).infoCard}>
           <View
@@ -45,7 +63,9 @@ const Setting = (props) => {
               }}
             >
               <View>
-                <Text style={{ fontSize: 20 }}>上次訓練</Text>
+                <Text style={{ fontSize: 20, color: colors.paragraph.primary }}>
+                  上次訓練
+                </Text>
                 <Text style={{ color: colors.paragraph.secondary }}>
                   June 6, 2021 08:00PM
                 </Text>
@@ -87,7 +107,9 @@ const Setting = (props) => {
                 borderRightWidth: 1,
               }}
             >
-              <Text style={{ color: colors.paragraph.secondary }}>完成訓練</Text>
+              <Text style={{ color: colors.paragraph.secondary }}>
+                完成訓練
+              </Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 6
               </Text>
@@ -100,19 +122,23 @@ const Setting = (props) => {
                 borderRightWidth: 1,
               }}
             >
-              <Text style={{ color: colors.paragraph.secondary }}>平均總分</Text>
+              <Text style={{ color: colors.paragraph.secondary }}>
+                平均總分
+              </Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 A
               </Text>
             </View>
             <View style={{ alignItems: "center", padding: 10 }}>
-              <Text style={{ color: colors.paragraph.secondary }}>完成題數</Text>
+              <Text style={{ color: colors.paragraph.secondary }}>
+                完成題數
+              </Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 60
               </Text>
             </View>
           </View>
-          <Pressable
+          <TouchableOpacity
             style={{
               flex: 0.5,
               justifyContent: "center",
@@ -122,9 +148,12 @@ const Setting = (props) => {
               width: "80%",
               borderRadius: 20,
             }}
+            onPress={() => {
+              props.navigation.navigate("訓練紀錄");
+            }}
           >
             <Text style={{ color: "#FFF" }}>查看所有訓練紀錄</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -142,13 +171,13 @@ const styles = (colors) =>
     title: {
       color: colors.paragraph.primary,
       fontSize: 30,
-      fontWeight: 'bold',
-      marginLeft: '7%',
+      fontWeight: "bold",
+      marginLeft: "7%",
     },
     text: {
       color: colors.paragraph.primary,
       fontSize: 20,
-      marginLeft: '7%',
+      marginLeft: "7%",
     },
     wrapper: {
       flex: 1,
@@ -186,7 +215,7 @@ const styles = (colors) =>
       alignSelf: "stretch",
     },
     selectArea: {
-      marginTop: '20%',
+      marginTop: 30,
       flex: 1,
     },
     infoCard: {

@@ -5,11 +5,12 @@ import Home from "./pages/Home/Home";
 import Train from "./pages/Train/Train";
 import Member from "./pages/Member/Member";
 import Setting from "./pages/Setting/Setting";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
 import theme from "./theme/theme";
+import darktheme from "./theme/darktheme";
 import LoginStack from "./pages/Login/Login";
 import { View, ActivityIndicator, Text } from "react-native";
 import { AuthContext } from "./components/context/context";
@@ -132,7 +133,9 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
+      <NavigationContainer
+      // theme={DarkTheme}
+      >
         {loginState.userToken !== null ? (
           <Tab.Navigator
             initialRouteName="首頁"
