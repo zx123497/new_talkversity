@@ -171,7 +171,7 @@ const App = () => {
               name="會員專區"
               component={Member}
               options={{
-                tabBarLabel: "會員專區",
+                tabBarLabel: "個人專區",
                 tabBarIcon: ({ color }) => (
                   <MaterialCommunityIcons
                     name="account"
