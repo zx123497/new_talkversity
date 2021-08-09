@@ -57,6 +57,7 @@ const Home = ({ navigation }) => {
           paddingBottom: 20,
           width: 500,
           flex: 1,
+          marginBottom: 30,
         }}
       >
         <Animated.View style={animatedStyles}>
