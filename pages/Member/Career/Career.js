@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useRef, useState, useEffect } from "react";
+import GradeService from "../../../services/GradeService";
 import {
   StyleSheet,
   Text,
@@ -14,55 +15,80 @@ import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+let firstMission = [];
+let secondMission = [];
+let thirdMission = [];
+let fourMission = [];
 const Setting = () => {
   const { colors } = useTheme();
   const [content, setContent] = useState(<View></View>);
   const [header, setHeader] = useState("");
   const bs = useRef();
   const fall = new Animated.Value(1);
-  const [firstMission, setFirstMission] = useState({});
-  const [secondMission, setSecondMission] = useState({});
-  const [thirdMission, setThirdMission] = useState({});
-  const [fourMission, setFourMission] = useState({});
+  // const [firstMission, setFirstMission] = useState([]);
+  // const [secondMission, setSecondMission] = useState([]);
+  // const [thirdMission, setThirdMission] = useState([]);
+  // const [fourMission, setFourMission] = useState([]);
 
   useEffect(() => {
-    setFirstMission({
-      unlock: true,
-      missions: [
-        { title: "總字數1000字", status: 1, current: 1000, total: 1000 },
-        { title: "文字達到A", status: 1, current: 1, total: 1 },
-        { title: "聲音達到A", status: 1, current: 1, total: 1 },
-        { title: "表情達到A", status: 1, current: 1, total: 1 },
-      ],
+    GradeService.getMissionList().then((res) => {
+      let list = res.data;
+      createMisionList(list);
+      console.log(firstMission);
     });
-    setSecondMission({
-      unlock: true,
-      missions: [
-        { title: "總字數2000字", status: 0, current: 1000, total: 2000 },
-        { title: "文字達到A+", status: 1, current: 1, total: 1 },
-        { title: "聲音達到A+", status: 0, current: 0, total: 1 },
-        { title: "表情達到A+", status: 1, current: 1, total: 1 },
-      ],
-    });
-    setThirdMission({
-      unlock: false,
-      missions: [
-        { title: "總字數5000字", status: 0, current: 1000, total: 5000 },
-        { title: "文字達到A++", status: 0, current: 0, total: 1 },
-        { title: "聲音達到A++", status: 0, current: 0, total: 1 },
-        { title: "表情達到A++", status: 1, current: 1, total: 1 },
-      ],
-    });
-    setFourMission({
-      unlock: false,
-      missions: [
-        { title: "總字數10000字", status: 0, current: 1000, total: 10000 },
-        { title: "文字A++", status: 0, current: 1, total: 5 },
-        { title: "聲音A++", status: 0, current: 0, total: 5 },
-        { title: "表情A++", status: 0, current: 0, total: 5 },
-      ],
-    });
+
+    // setFirstMission({
+    //   unlock: true,
+    //   missions: [
+    //     { title: "總字數1000字", status: 1, current: 1000, total: 1000 },
+    //     { title: "文字達到A", status: 1, current: 1, total: 1 },
+    //     { title: "聲音達到A", status: 1, current: 1, total: 1 },
+    //     { title: "表情達到A", status: 1, current: 1, total: 1 },
+    //   ],
+    // });
+    // setSecondMission({
+    //   unlock: true,
+    //   missions: [
+    //     { title: "總字數2000字", status: 0, current: 1000, total: 2000 },
+    //     { title: "文字達到A+", status: 1, current: 1, total: 1 },
+    //     { title: "聲音達到A+", status: 0, current: 0, total: 1 },
+    //     { title: "表情達到A+", status: 1, current: 1, total: 1 },
+    //   ],
+    // });
+    // setThirdMission({
+    //   unlock: false,
+    //   missions: [
+    //     { title: "總字數5000字", status: 0, current: 1000, total: 5000 },
+    //     { title: "文字達到A++", status: 0, current: 0, total: 1 },
+    //     { title: "聲音達到A++", status: 0, current: 0, total: 1 },
+    //     { title: "表情達到A++", status: 1, current: 1, total: 1 },
+    //   ],
+    // });
+    // setFourMission({
+    //   unlock: false,
+    //   missions: [
+    //     { title: "總字數10000字", status: 0, current: 1000, total: 10000 },
+    //     { title: "文字A++", status: 0, current: 1, total: 5 },
+    //     { title: "聲音A++", status: 0, current: 0, total: 5 },
+    //     { title: "表情A++", status: 0, current: 0, total: 5 },
+    //   ],
+    // });
   }, []);
+
+  const createMisionList = (list) => {
+    let temp = [];
+    list.forEach((mission) => {
+      if (mission.grade === 1) {
+        firstMission.push(mission);
+      } else if (mission.grade === 2) {
+        secondMission.push(mission);
+      } else if (mission.grade === 3) {
+        thirdMission.push(mission);
+      } else if (mission.grade === 4) {
+        fourMission.push(mission);
+      }
+    });
+  };
 
   const renderInner = () => (
     <View
@@ -97,9 +123,9 @@ const Setting = () => {
   const setInner = (grade) => {
     setContent(<View></View>);
     setContent(
-      grade.missions.map((row, index) => (
+      grade.map((row) => (
         <View
-          key={index}
+          key={row.id}
           style={{
             flexDirection: "row",
             marginBottom: 15,
@@ -148,11 +174,11 @@ const Setting = () => {
                 alignItems: "center",
               }}
             >
-              {row.title}
+              {row.achievement__name}
             </Text>
             <Text
               style={{ color: colors.paragraph.secondary, flex: 1 }}
-            >{`${row.current} / ${row.total}`}</Text>
+            >{`${0} / ${row.time}`}</Text>
           </View>
         </View>
       ))
