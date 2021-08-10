@@ -9,6 +9,14 @@ const UserService = {
       throw error;
     }
   },
+  UpdateCoachGender: async (data) => {
+    try {
+      const response = await axios.patch(`/users/coach/gender/`, data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default UserService;
