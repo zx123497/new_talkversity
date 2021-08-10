@@ -16,47 +16,21 @@ import {
   Switch,
 } from "react-native-paper";
 import { DrawerRouter } from "@react-navigation/native";
+
 const DrawerContent = (props) => {
   const { colors } = useTheme();
-  const { signOut } = React.useContext(AuthContext);
+  const { signOut, getData } = React.useContext(AuthContext);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPicture, setUserPicture] = useState("");
   useEffect(() => {
-    setUserInfo();
+    getData().then((data) => setUserInfo(data));
   }, []);
-  const setUserInfo = async () => {
-    try {
-      const name = await AsyncStorage.getItem("userName");
-      //   const email = await AsyncStorage.getItem("email");
-      //   const picture = await AsyncStorage.getItem("picture");
-      setUserName(name);
-      //   setUserEmail(email);
-      //   setUserPicture(picture);
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      // const name = await AsyncStorage.getItem("userName");
-      const email = await AsyncStorage.getItem("email");
-      //   const picture = await AsyncStorage.getItem("picture");
-      // setUserName(name);
-      setUserEmail(email);
-      //   setUserPicture(picture);
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      // const name = await AsyncStorage.getItem("userName");
-      //   const email = await AsyncStorage.getItem("email");
-      const picture = await AsyncStorage.getItem("picture");
-      // setUserName(name);
-      //   setUserEmail(email);
-      setUserPicture(picture);
-    } catch (e) {
-      console.log(e);
-    }
+  const setUserInfo = (data) => {
+    setUserName(data.userName);
+    setUserEmail(data.userEmail);
+    setUserPicture(data.userPicture);
   };
 
   const toggleTheme = () => {

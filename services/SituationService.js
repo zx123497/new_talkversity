@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-const ActivityService = {
+const SituationService = {
   getSituationList: async () => {
     try {
       const response = await axios.get(`/scenario`);
@@ -11,4 +11,4 @@ const ActivityService = {
   },
 };
 
-export default ActivityService;
+export default SituationService;
