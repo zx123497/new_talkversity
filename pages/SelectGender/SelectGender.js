@@ -12,17 +12,18 @@ import { useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../../components/context/context";
 import UserService from "../../services/UserService";
-let userdata = {};
+
 const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const [gender, setGender] = useState(null);
   const { getData } = useContext(AuthContext);
   let opacity = new Animated.Value(0);
-  useEffect(() => {
-    getData().then((data) => {
-      userdata = data;
-    });
-  }, []);
+  const userdata = getData();
+  // useEffect(() => {
+  //   getData().then((data) => {
+  //     userdata = data;
+  //   });
+  // }, []);
 
   const animate = () => {
     opacity.setValue(0);

@@ -25,7 +25,8 @@ const DrawerContent = (props) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPicture, setUserPicture] = useState("");
   useEffect(() => {
-    getData().then((data) => setUserInfo(data));
+    const data = getData();
+    setUserInfo(data);
   }, []);
   const setUserInfo = (data) => {
     setUserName(data.userName);

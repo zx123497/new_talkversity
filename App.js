@@ -97,7 +97,7 @@ const App = () => {
       load: () => {
         dispatch({ type: "GETTINGDATA" });
       },
-      getData: async () => {
+      getData: () => {
         const data = loginState;
         return data;
       },
@@ -107,6 +107,7 @@ const App = () => {
 
   useEffect(() => {
     setTimeout(async () => {
+      //測試用，accesstoken 不能用
       dispatch({
         type: "LOGIN",
         token: "test",
@@ -115,7 +116,9 @@ const App = () => {
         email: "wupalupa777@gmail.com",
         id: 6,
         username: "烏帕露帕",
-      }); //測試用，accesstoken 不能用
+      });
+
+      //開發完要用這個
       // dispatch({ type: "LOGOUT" });
     }, 1500);
   }, []);
