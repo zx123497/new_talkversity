@@ -10,23 +10,23 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useTheme } from "react-native-paper";
 import theme from "./theme/theme";
-import darktheme from "./theme/darktheme";
 import LoginStack from "./pages/Login/Login";
 import { View, ActivityIndicator, Text } from "react-native";
 import { AuthContext } from "./components/context/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tab = createMaterialBottomTabNavigator();
-
 const App = () => {
   const { colors } = useTheme();
   // const [isLoading, setIsLoading] = useState(true);
-  // const [userToken, setUserToken] = useState(null);
 
   const initialLoginState = {
     isLoading: true,
     userName: null,
-    userToken: null,
+    userPicture: null,
+    userEmail: null,
+    userToken: "123",
+    userId: null,
   };
 
   const loginReducer = (prevState, action) => {
@@ -37,11 +37,21 @@ const App = () => {
           userToken: action.token,
           isLoading: false,
         };
-      case "LOGIN":
+      case "RETRIEVE_ID":
         return {
           ...prevState,
-          userName: action.id,
+          userId: action.id,
+          isLoading: false,
+        };
+      case "LOGIN":
+        console.log(action.id);
+        return {
+          ...prevState,
+          userName: action.username,
+          userId: action.id,
+          userEmail: action.email,
           userToken: action.token,
+          userPicture: action.picture,
           isLoading: false,
         };
       case "LOGOUT":
@@ -49,12 +59,17 @@ const App = () => {
           ...prevState,
           userToken: null,
           userName: null,
+          userId: null,
           isLoading: false,
         };
       case "GETTINGDATA":
         return {
           ...prevState,
           isLoading: true,
+        };
+      case "GETDATA":
+        return {
+          ...prevState,
         };
     }
   };
@@ -66,51 +81,44 @@ const App = () => {
 
   const authContext = useMemo(
     () => ({
-      signIn: async (userName, accessToken, email, picture) => {
-        // setUserToken(accessToken);
-        // console.log(accessToken);
-        // setIsLoading(false);
-        try {
-          await AsyncStorage.setItem("userToken", accessToken);
-          await AsyncStorage.setItem("userName", userName);
-          await AsyncStorage.setItem("email", email);
-          await AsyncStorage.setItem("picture", picture);
-        } catch (e) {
-          console.log(e);
-        }
-        dispatch({ type: "LOGIN", id: userName, token: accessToken });
+      signIn: (id, userName, accessToken, email, picture) => {
+        dispatch({
+          type: "LOGIN",
+          id,
+          email,
+          picture,
+          username: userName,
+          token: accessToken,
+        });
       },
-      signOut: async () => {
-        // setUserToken(null);
-        // setIsLoading(false);
-        try {
-          await AsyncStorage.removeItem("userToken");
-          await AsyncStorage.removeItem("userName");
-          await AsyncStorage.removeItem("email");
-          await AsyncStorage.removeItem("picture");
-        } catch (e) {
-          console.log(e);
-        }
+      signOut: () => {
         dispatch({ type: "LOGOUT" });
       },
       load: () => {
-        // setUserToken(null);
-        // setIsLoading(false);
         dispatch({ type: "GETTINGDATA" });
       },
+      getData: () => {
+        const data = loginState;
+        return data;
+      },
     }),
-    []
+    [loginState]
   );
 
   useEffect(() => {
     setTimeout(async () => {
-      let userToken = null;
-      try {
-        userToken = await AsyncStorage.getItem("userToken");
-      } catch (e) {
-        console.log(e);
-      }
-      dispatch({ type: "RETRIEVE_TOKEN", token: userToken });
+      //測試用，accesstoken 不能用
+      dispatch({
+        type: "LOGIN",
+        token: "test",
+        picture:
+          "https://lh3.googleusercontent.com/a/AATXAJzeev5bFEU2gmnpYhdbQjJ83Z2oHUSfXIoE3Fe1=s96-c",
+        email: "wupalupa777@gmail.com",
+        id: 6,
+        username: "烏帕露帕",
+      });
+
+      //開發完要用這個
       // dispatch({ type: "LOGOUT" });
     }, 1500);
   }, []);

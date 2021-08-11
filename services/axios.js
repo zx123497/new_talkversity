@@ -29,7 +29,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log("response: ", response);
+    console.log("response: ", response.data);
     return response;
   },
   (error) => {

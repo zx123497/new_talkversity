@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Animated,
   Easing,
@@ -10,11 +10,20 @@ import {
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { AuthContext } from "../../components/context/context";
+import UserService from "../../services/UserService";
+
 const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const [gender, setGender] = useState(null);
-
+  const { getData } = useContext(AuthContext);
   let opacity = new Animated.Value(0);
+  const userdata = getData();
+  // useEffect(() => {
+  //   getData().then((data) => {
+  //     userdata = data;
+  //   });
+  // }, []);
 
   const animate = () => {
     opacity.setValue(0);
@@ -46,6 +55,21 @@ const Home = ({ navigation }) => {
     },
   ];
 
+  const submitGender = () => {
+    let userGender = gender;
+    if (userGender === "female") {
+      userGender = "F";
+    } else if (userGender === "male") {
+      userGender = "M";
+    }
+    const data = { user_id: userdata.userId, gender: userGender };
+    UserService.UpdateUserGender(data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <View style={styles(colors).container}>
       <View
@@ -57,6 +81,7 @@ const Home = ({ navigation }) => {
           paddingBottom: 20,
           width: 500,
           flex: 1,
+          marginBottom: 30,
         }}
       >
         <Animated.View style={animatedStyles}>
@@ -77,7 +102,7 @@ const Home = ({ navigation }) => {
           />
         </Animated.View>
       </View>
-      <View style={{ alignItems: "center", flex: 1 }}>
+      <View style={{ alignItems: "center", flex: 1, marginBottom: 20 }}>
         <Text
           style={{
             fontSize: 20,
@@ -164,6 +189,7 @@ const Home = ({ navigation }) => {
           elevation: 2,
         }}
         onPress={() => {
+          submitGender();
           navigation.navigate("選擇教練");
         }}
       >

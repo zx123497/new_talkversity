@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { useTheme } from "react-native-paper";
 import Swiper from "react-native-swiper";
+import { AuthContext } from "../../../components/context/context";
+import UserService from "../../../services/UserService";
 const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const [index, setIndex] = useState(0);
   const [name, setName] = useState("Amy");
-
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
+  const submitTutor = () => {
+    let gender;
+    let current = name;
+    if (current === "Amy") {
+      gender = "F";
+    } else {
+      gender = "M";
+    }
+    const data = { user_id: userData.userId, coach_gender: gender };
+    UserService.UpdateCoachGender(data).then((res) => {
+      console.log(res);
+    });
+  };
   const handleIndexChange = (index) => {
     if (index === 0) {
       setIndex(0);
@@ -46,7 +62,10 @@ const Home = ({ navigation }) => {
         </Swiper>
       </View>
       <Pressable
-        onPress={() => navigation.navigate("軟體介紹", { index: index })}
+        onPress={() => {
+          submitTutor();
+          navigation.navigate("軟體介紹", { index: index });
+        }}
         style={({ pressed }) => [
           {
             backgroundColor: pressed

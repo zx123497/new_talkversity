@@ -133,8 +133,9 @@ const styles = (colors) =>
       fontSize: 20,
       fontWeight: "600",
       color: colors.text.primary,
-      marginBottom: 50,
-      marginTop: 50,
+
+      marginTop: 10,
+      marginBottom: 30,
       marginLeft: 10,
       marginRight: 10,
     },

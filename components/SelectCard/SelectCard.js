@@ -6,12 +6,14 @@ const Setting = (props) => {
   const { colors } = useTheme();
   return (
     <View style={styles2(colors).card2}>
-      <View style={styles2(colors).infoArea}>
-        <Text style={styles2(colors).textTitle}>{props.title}</Text>
-        <Text style={styles2(colors).textContent}>
-          配合經典面試題型， 紀錄您的面試情形，並給予建議，
-          讓您能在面試表現上能有所進步。
-        </Text>
+      <View style={{ width: "60%" }}>
+        <View style={styles2(colors).infoArea}>
+          <Text style={styles2(colors).textTitle}>{props.title}</Text>
+          <Text style={styles2(colors).textContent}>
+            配合經典面試題型， 紀錄您的面試情形，並給予建議，
+            讓您能在面試表現上能有所進步。
+          </Text>
+        </View>
         <Pressable
           onPress={() => {
             props.navigation();
@@ -28,6 +30,7 @@ const Setting = (props) => {
           <Text style={styles2(colors).submitText}>開始訓練</Text>
         </Pressable>
       </View>
+
       <View style={styles2(colors).imageArea}>
         <Image
           style={styles2(colors).image}
@@ -80,11 +83,11 @@ const styles2 = (colors) =>
       shadowOpacity: 0.3,
       // backgroundColor:colors.background.paper,
       width: 120,
-      marginBottom: 40,
-      position: "absolute",
+      marginBottom: 0,
+      // position: "absolute",
       zIndex: 1,
-
-      top: 130,
+      // bottom: 15,
+      // margin: 15,
     },
     submitText: {
       color: colors.orange.main,
@@ -102,14 +105,14 @@ const styles2 = (colors) =>
       alignItems: "flex-start",
       justifyContent: "flex-start",
       margin: 10,
-      padding: 30,
+      padding: 15,
       paddingBottom: 0,
       borderRadius: 10,
       flexDirection: "row",
+      position: "relative",
       flex: 1,
     },
     infoArea: {
-      width: "60%",
       alignItems: "flex-start",
     },
     imageArea: {

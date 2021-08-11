@@ -42,15 +42,20 @@ const Member = ({ navigation }) => {
             }
           )
           .then(function (response) {
-            console.log(response.data);
-            // navigation.navigate("選擇教練");
+            console.log(response.data.data[0]);
+
             console.log("signIn");
+
             signIn(
-              response.data.name,
+              response.data.data[0].id,
+              response.data.data[0].name,
               accessToken,
-              response.data.email,
-              response.data.picture
+              response.data.data[0].email,
+              response.data.data[0].picture
             );
+          })
+          .then(() => {
+            // navigation.navigate("選擇性別");
           })
           .catch(function (error) {
             console.log(error);
