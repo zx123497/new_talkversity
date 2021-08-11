@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTheme } from "react-native-paper";
+import { AuthContext } from "../../components/context/context";
+import ArticleService from "../../services/ArticleService";
 import {
   StyleSheet,
   Text,
@@ -11,17 +13,35 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { BarChart } from "react-native-chart-kit";
-
+let redundentList = [0, 0, 0, 0];
 const TextResult = ({ navigation }) => {
   const { colors } = useTheme();
+  const [article, setArticle] = useState({ pure_text_len: 0, talk_speed: 0.0 });
+  const [articleDetail, setArticleDetail] = useState([]);
   const screenWidth = Dimensions.get("window").width;
-
-
-  const barChartData = {
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
+  useEffect(() => {
+    ArticleService.getArticleList(userData.userId).then((res) => {
+      console.log(res.data);
+      let arr = [];
+      arr = res.data.pop();
+      barChartData.datasets[0].data[0] = arr.redundant_1_count;
+      barChartData.datasets[0].data[1] = arr.redundant_2_count;
+      barChartData.datasets[0].data[2] = arr.redundant_3_count;
+      barChartData.datasets[0].data[3] = arr.redundant_4_count;
+      setArticle(arr);
+      ArticleService.getArticleDetail(arr.id).then((res2) => {
+        console.log(res2.data);
+        setArticleDetail(res2.data);
+      });
+    });
+  }, []);
+  let barChartData = {
     labels: ["所以", "然後", "就是", "那個"],
     datasets: [
       {
-        data: [15, 8, 3, 12],
+        data: redundentList,
         // 三個以下良好 colors.primary.light 五個警告"#FAA948" 八個嚴重"#D7ABAB"
         colors: [
           (opacity = 1) => "#D7ABAB",
@@ -64,7 +84,7 @@ const TextResult = ({ navigation }) => {
           )}
         </Pressable>
         <Text style={styles(colors).text}>評分結果</Text>
-        <Text style={styles(colors).scoreArea}>S</Text>
+        <Text style={styles(colors).scoreArea}>{article.rank}</Text>
       </View>
       <View style={styles(colors).resultWrapper}>
         <Text style={styles(colors).resultText}>語意分析</Text>
@@ -72,14 +92,18 @@ const TextResult = ({ navigation }) => {
           <View style={styles(colors).resultCard}>
             <Text style={styles(colors).resultCardTitle}>字數</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>140</Text>
+              <Text style={styles(colors).resultCardText}>
+                {article.pure_text_len}
+              </Text>
               <Text style={styles(colors).resultCardUnit}>字</Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>
             <Text style={styles(colors).resultCardTitle}>語速</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>190.9</Text>
+              <Text style={styles(colors).resultCardText}>
+                {article !== undefined ? article.talk_speed.toFixed(1) : ""}
+              </Text>
               <Text style={styles(colors).resultCardUnit}>字/分</Text>
             </View>
           </View>
@@ -94,7 +118,25 @@ const TextResult = ({ navigation }) => {
           </View>
           <View style={styles(colors).textContent}>
             <Text style={styles(colors).textNeutral}>
-              面試官好，我目前就讀中央大學資管系在學期間，我的成績一直都很爛，還差點被而已，
+              {/* {article.fulltext} */}
+              {articleDetail.map((text) => {
+                if (text.sentiment == "positive") {
+                  return (
+                    <Text key={text.id} style={styles(colors).textPositive}>
+                      {text.sentence + ", "}
+                    </Text>
+                  );
+                } else if (text.sentiment == "negative") {
+                  return (
+                    <Text key={text.id} style={styles(colors).textNegative}>
+                      {text.sentence + ", "},
+                    </Text>
+                  );
+                } else {
+                  return text.sentence + ", ";
+                }
+              })}
+              {/* 面試官好，我目前就讀中央大學資管系在學期間，我的成績一直都很爛，還差點被而已，
               <Text style={styles(colors).textNegative}>
                 很多科目最後成績都很差，此外我也有在學校其他單位接案，但因為能力不足常常被雇主嗎？
               </Text>
@@ -102,7 +144,7 @@ const TextResult = ({ navigation }) => {
               <Text style={styles(colors).textNegative}>
                 我可能會放很多錯，應該也不能升職薪水，應該也只能訂很低櫃
               </Text>
-              ，公司可以決定要不要錄用我。
+              ，公司可以決定要不要錄用我。 */}
             </Text>
           </View>
         </View>
@@ -116,8 +158,7 @@ const TextResult = ({ navigation }) => {
             如分析結果與您預期差異過大，建議您可放慢速度、注意咬字哦!
           </Text>
         </View>
-        <View>
-        </View>
+        <View></View>
         <View style={styles(colors).barChartWrapper}>
           <Text style={styles(colors).resultCardTitle}>冗言贅字</Text>
           <BarChart
@@ -143,7 +184,7 @@ const TextResult = ({ navigation }) => {
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-            使用負面詞彙，張力較不足夠，少數用詞不妥當。
+            {article.suggest}
           </Text>
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
             <Text
