@@ -158,11 +158,11 @@ const Setting = () => {
           height={220}
           chartConfig={chartConfig}
           formatYLabel={(value) => {
-            if (value == 1) return "E";
-            else if (value == 2) return "D";
-            else if (value == 3) return "C";
-            else if (value == 4) return "B";
-            else if (value == 5) return "A";
+            if (value == 1) return "D";
+            else if (value == 2) return "C";
+            else if (value == 3) return "B";
+            else if (value == 4) return "A";
+            else if (value == 5) return "S";
           }}
         />
         <View

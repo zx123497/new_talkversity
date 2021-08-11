@@ -17,6 +17,14 @@ const GradeService = {
       throw error;
     }
   },
+  getUserWords: async (id) => {
+    try {
+      const response = await axios.get(`/users/totalword/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default GradeService;

@@ -20,6 +20,7 @@ let secondMission = [];
 let thirdMission = [];
 let fourMission = [];
 let achievementList = [];
+let userWord = 0;
 const Setting = () => {
   const { colors } = useTheme();
   const [content, setContent] = useState(<View></View>);
@@ -33,10 +34,14 @@ const Setting = () => {
     GradeService.getAchievementList(userData.userId).then((res) => {
       console.log(res.data);
       achievementList = res.data;
-      GradeService.getMissionList().then((res2) => {
-        let list = res2.data;
-        createMisionList(list);
-        console.log(firstMission);
+      GradeService.getUserWords(userData.userId).then((res3) => {
+        userWord = res3.data[0].total_word;
+
+        GradeService.getMissionList().then((res2) => {
+          let list = res2.data;
+          createMisionList(list);
+          console.log(firstMission);
+        });
       });
     });
 
@@ -90,6 +95,9 @@ const Setting = () => {
       console.log(achievement);
       if (achievement !== undefined) {
         mission = { ...mission, current: achievement.achievement_count };
+        if (mission.achievement_id <= 4) {
+          mission = { ...mission, current: userWord };
+        }
         if (achievement.achievement_count >= mission.time) {
           mission = { ...mission, status: 1 };
         } else {
@@ -97,7 +105,11 @@ const Setting = () => {
         }
       } else {
         mission = { ...mission, current: 0, status: 0 };
+        if (mission.achievement_id <= 4) {
+          mission = { ...mission, current: userWord };
+        }
       }
+
       if (mission.grade === 1) {
         firstMission.push(mission);
       } else if (mission.grade === 2) {
@@ -210,7 +222,7 @@ const Setting = () => {
     <View style={styles(colors).container}>
       <BottomSheet
         ref={bs}
-        snapPoints={[450, 0]}
+        snapPoints={[550, 0]}
         initialSnap={1}
         callbackNode={fall}
         enabledContentGestureInteraction={true}
