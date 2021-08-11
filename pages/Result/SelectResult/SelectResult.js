@@ -4,7 +4,6 @@ import { useTheme } from 'react-native-paper';
 import { MaterialCommunityIcons, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import ResultListItem from '../../../components/TrainResult/ResultListItem';
 import Dash from 'react-native-dash';
-// import io from 'socket.io-client';
 
 const Train = ({navigation}) => {
   const {colors}=useTheme();
@@ -37,7 +36,7 @@ const Train = ({navigation}) => {
         </View>
         <View style={styles(colors).selectResult}>
           <Pressable
-            onPress={() => navigation.navigate('選擇教練')}
+            onPress={() => navigation.navigate('聲音分析')}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
@@ -84,7 +83,7 @@ const Train = ({navigation}) => {
           />
 
           <Pressable
-            onPress={() => navigation.navigate('選擇教練')}
+            onPress={() => navigation.navigate('聲音分析')}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
