@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -17,7 +16,7 @@ const Setting = (props) => {
   const [situations, setSituations] = useState([]);
   useEffect(() => {
     SituationService.getSituationList().then((res) => {
-      console.log(res);
+      // console.log(res);
       let temp = [];
       res.forEach((element) => {
         temp.push({ title: element.content, id: element.id });
@@ -43,7 +42,7 @@ const Setting = (props) => {
           {situations.map((row) => (
             <View style={styles(colors).wrapper} key={row.id}>
               <SelectCard
-                navigation={() => props.navigation.navigate("評分結果")}
+                navigation={() => props.navigation.navigate("開始訓練")}
                 title={row.title}
                 id={row.id}
               />
@@ -52,7 +51,14 @@ const Setting = (props) => {
         </Swiper>
       </View>
       <View style={styles(colors).infoArea}>
-        <Text style={[styles(colors).text, { marginTop: 20 }]}>訓練紀錄</Text>
+
+        <Pressable
+          onPress={() => props.navigation.navigate("評分結果")}
+          style={({ pressed }) => [{}, styles(colors).submit]}
+        >
+          <Text style={styles(colors).submitText}>評分結果</Text>
+        </Pressable>
+        <Text style={styles(colors).text}>訓練紀錄</Text>
         <View style={styles(colors).infoCard}>
           <View
             style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
@@ -217,7 +223,7 @@ const styles = (colors) =>
       alignSelf: "stretch",
     },
     selectArea: {
-      marginTop: 30,
+      marginTop: '15%',
       flex: 1,
     },
     infoCard: {
