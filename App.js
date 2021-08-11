@@ -81,6 +81,7 @@ const App = () => {
 
   const authContext = useMemo(
     () => ({
+      //登入
       signIn: (id, userName, accessToken, email, picture) => {
         dispatch({
           type: "LOGIN",
@@ -91,12 +92,15 @@ const App = () => {
           token: accessToken,
         });
       },
+      //登出
       signOut: () => {
         dispatch({ type: "LOGOUT" });
       },
+      //讀取畫面
       load: () => {
         dispatch({ type: "GETTINGDATA" });
       },
+      //取得資料
       getData: () => {
         const data = loginState;
         return data;
@@ -114,7 +118,7 @@ const App = () => {
         picture:
           "https://lh3.googleusercontent.com/a/AATXAJzeev5bFEU2gmnpYhdbQjJ83Z2oHUSfXIoE3Fe1=s96-c",
         email: "wupalupa777@gmail.com",
-        id: 6,
+        id: 1,
         username: "烏帕露帕",
       });
 

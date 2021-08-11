@@ -9,6 +9,14 @@ const GradeService = {
       throw error;
     }
   },
+  getAchievementList: async (id) => {
+    try {
+      const response = await axios.get(`/achievement/${id}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default GradeService;

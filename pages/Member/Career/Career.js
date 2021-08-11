@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import GradeService from "../../../services/GradeService";
 import {
   StyleSheet,
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTheme, Avatar } from "react-native-paper";
-
+import { AuthContext } from "../../../components/context/context";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -19,22 +19,25 @@ let firstMission = [];
 let secondMission = [];
 let thirdMission = [];
 let fourMission = [];
+let achievementList = [];
 const Setting = () => {
   const { colors } = useTheme();
   const [content, setContent] = useState(<View></View>);
   const [header, setHeader] = useState("");
   const bs = useRef();
   const fall = new Animated.Value(1);
-  // const [firstMission, setFirstMission] = useState([]);
-  // const [secondMission, setSecondMission] = useState([]);
-  // const [thirdMission, setThirdMission] = useState([]);
-  // const [fourMission, setFourMission] = useState([]);
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
 
   useEffect(() => {
-    GradeService.getMissionList().then((res) => {
-      let list = res.data;
-      createMisionList(list);
-      console.log(firstMission);
+    GradeService.getAchievementList(userData.userId).then((res) => {
+      console.log(res.data);
+      achievementList = res.data;
+      GradeService.getMissionList().then((res2) => {
+        let list = res2.data;
+        createMisionList(list);
+        console.log(firstMission);
+      });
     });
 
     // setFirstMission({
@@ -76,8 +79,25 @@ const Setting = () => {
   }, []);
 
   const createMisionList = (list) => {
-    let temp = [];
+    let achievement = {};
     list.forEach((mission) => {
+      if (mission.achievement_id <= 4) {
+        mission.time = mission.achievement__name.split(" ")[1];
+      }
+      achievement = achievementList.find((element) => {
+        return element.achievement_id === mission.achievement_id;
+      });
+      console.log(achievement);
+      if (achievement !== undefined) {
+        mission = { ...mission, current: achievement.achievement_count };
+        if (achievement.achievement_count >= mission.time) {
+          mission = { ...mission, status: 1 };
+        } else {
+          mission = { ...mission, status: 0 };
+        }
+      } else {
+        mission = { ...mission, current: 0, status: 0 };
+      }
       if (mission.grade === 1) {
         firstMission.push(mission);
       } else if (mission.grade === 2) {
@@ -87,6 +107,7 @@ const Setting = () => {
       } else if (mission.grade === 4) {
         fourMission.push(mission);
       }
+      achievement = null;
     });
   };
 
@@ -177,8 +198,8 @@ const Setting = () => {
               {row.achievement__name}
             </Text>
             <Text
-              style={{ color: colors.paragraph.secondary, flex: 1 }}
-            >{`${0} / ${row.time}`}</Text>
+              style={{ color: colors.paragraph.secondary, marginRight: 15 }}
+            >{`${row.current} / ${row.time}`}</Text>
           </View>
         </View>
       ))
