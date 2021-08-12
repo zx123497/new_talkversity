@@ -16,7 +16,11 @@ import { BarChart } from "react-native-chart-kit";
 let redundentList = [0, 0, 0, 0];
 const TextResult = ({ navigation }) => {
   const { colors } = useTheme();
-  const [article, setArticle] = useState({ pure_text_len: 0, talk_speed: 0.0 });
+  const [article, setArticle] = useState({
+    pure_text_len: 0,
+    talk_speed: 0.0,
+    suggest: "",
+  });
   const [articleDetail, setArticleDetail] = useState([]);
   const screenWidth = Dimensions.get("window").width;
   const { getData } = useContext(AuthContext);
@@ -184,7 +188,10 @@ const TextResult = ({ navigation }) => {
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-            {article.suggest}
+            {article.suggest
+              .replace(/\'/g, "")
+              .replace("[", "")
+              .replace("]", "")}
           </Text>
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
             <Text
