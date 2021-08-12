@@ -188,10 +188,7 @@ const TextResult = ({ navigation }) => {
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-            {article.suggest
-              .replace(/\'/g, "")
-              .replace("[", "")
-              .replace("]", "")}
+            {article.suggest}
           </Text>
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
             <Text
