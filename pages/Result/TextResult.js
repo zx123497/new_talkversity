@@ -28,7 +28,7 @@ const TextResult = ({ navigation }) => {
   useEffect(() => {
     ArticleService.getArticleList(userData.userId).then((res) => {
       console.log(res.data);
-      let arr = [];
+      let arr = {};
       arr = res.data.pop();
       barChartData.datasets[0].data[0] = arr.redundant_1_count;
       barChartData.datasets[0].data[1] = arr.redundant_2_count;
