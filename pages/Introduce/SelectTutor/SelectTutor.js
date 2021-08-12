@@ -8,7 +8,7 @@ const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const [index, setIndex] = useState(0);
   const [name, setName] = useState("Amy");
-  const { getData } = useContext(AuthContext);
+  const { getData, changeCoachGender } = useContext(AuthContext);
   const userData = getData();
   const submitTutor = () => {
     let gender;
@@ -18,6 +18,7 @@ const Home = ({ navigation }) => {
     } else {
       gender = "M";
     }
+    changeCoachGender(gender);
     const data = { user_id: userData.userId, coach_gender: gender };
     UserService.UpdateCoachGender(data).then((res) => {
       console.log(res);

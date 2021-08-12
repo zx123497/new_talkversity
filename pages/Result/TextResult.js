@@ -188,9 +188,13 @@ const TextResult = ({ navigation }) => {
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
             {/* {article.suggest} */}
-            {article.suggest_json[0] + "\n" + article.suggest_json[1] + "\n" + article.suggest_json[2]}
+            {article.suggest_json[0] +
+              "\n" +
+              article.suggest_json[1] +
+              "\n" +
+              article.suggest_json[2]}
           </Text>
-          
+
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
             <Text
               style={[

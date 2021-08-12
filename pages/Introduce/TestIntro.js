@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTheme } from "react-native-paper";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import IntroListItem from "../../components/IntroListItem/IntroNewsItem";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-
-const TestIntro = ({ navigation, route }) => {
+import { MaterialIcons } from "@expo/vector-icons";
+import { AuthContext } from "../../components/context/context";
+const TestIntro = ({ navigation }) => {
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
   const { colors } = useTheme();
   return (
     <View style={styles(colors).container}>
@@ -12,7 +14,7 @@ const TestIntro = ({ navigation, route }) => {
         <Image
           style={styles(colors).image}
           source={
-            route.params.index === 0
+            userData.coachGender === "F"
               ? require("../../images/tutor_orange.png")
               : require("../../images/tutor_m_orange.png")
           }
@@ -61,9 +63,7 @@ const TestIntro = ({ navigation, route }) => {
       </View>
       <View style={styles(colors).submitArea}>
         <Pressable
-          onPress={() =>
-            navigation.navigate("首頁", { index: route.params.index })
-          }
+          onPress={() => navigation.navigate("首頁")}
           style={({ pressed }) => [{}, styles(colors).submit]}
         >
           <Text style={styles(colors).submitText}>開始前測</Text>
