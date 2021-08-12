@@ -252,13 +252,13 @@ const styles = (colors) =>
       shadowOpacity: 0.1,
       shadowRadius: 2,
       elevation: 20,
+      alignItems: "center",
     },
     resultText: {
       color: colors.paragraph.primary,
       fontSize: 24,
       fontWeight: "bold",
       marginTop: "10%",
-      marginLeft: "15%",
       marginBottom: "5%",
     },
     resultTop: {
@@ -409,23 +409,19 @@ const styles = (colors) =>
       marginBottom: "1%",
     },
     commentImage: {
-      width: "120%",
-      height: "120%",
-      position: "absolute",
-      right: "-30%",
-      bottom: "5%",
-      alignSelf: "flex-end",
+      width: "100%",
+      height: 200,
     },
+
     commentWrapper: {
       width: "85%",
-      alignSelf: "center",
       backgroundColor: colors.background.default,
       borderRadius: 20,
       marginBottom: "5%",
       padding: "5%",
     },
     textComment: {
-      width: "75%",
+      width: "100%",
       fontSize: 14,
       color: colors.paragraph.primary,
       paddingRight: "8%",
