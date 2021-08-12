@@ -1,9 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useTheme } from "react-native-paper";
+import { AuthContext } from "../../components/context/context";
 const Setting = () => {
   const { colors } = useTheme();
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
   const [greet, setGreet] = useState("早安");
   const [greetword, setGreetword] = useState(
     "!OOO，今天要訓練甚麼呢? 趕快來訓練吧! LetGOGOGO!!!!!!"
@@ -48,9 +51,14 @@ const Setting = () => {
         </View>
       </View>
       <View style={styles(colors).image}>
+        {/*TODO:change better image*/}
         <Image
           style={styles(colors).tutor}
-          source={require("../../images/tutorMan_2.gif")}
+          source={
+            userData.coachGender === "F"
+              ? require("../../images/tutor_3.gif")
+              : require("../../images/tutorMan_2.gif")
+          }
         />
       </View>
     </View>

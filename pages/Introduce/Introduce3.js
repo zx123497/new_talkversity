@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useTheme } from "react-native-paper";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-
-const Introduce3 = ({ navigation, route }) => {
+import { AuthContext } from "../../components/context/context";
+const Introduce3 = ({ navigation }) => {
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
   const { colors } = useTheme();
   return (
     <View style={styles(colors).container}>
@@ -14,7 +16,7 @@ const Introduce3 = ({ navigation, route }) => {
         <Image
           style={styles(colors).image}
           source={
-            route.params.index === 0
+            userData.coachGender === "F"
               ? require("../../images/tutor_report.png")
               : require("../../images/tutor_m_report.png")
           }
@@ -22,9 +24,7 @@ const Introduce3 = ({ navigation, route }) => {
       </View>
       <View style={styles(colors).submitArea}>
         <Pressable
-          onPress={() =>
-            navigation.navigate("前測介紹", { index: route.params.index })
-          }
+          onPress={() => navigation.navigate("前測介紹")}
           style={({ pressed }) => [{}, styles(colors).submit]}
         >
           <Text style={styles(colors).submitText}>下一步</Text>

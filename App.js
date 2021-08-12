@@ -27,6 +27,8 @@ const App = () => {
     userEmail: null,
     userToken: "123",
     userId: null,
+    userGender: null,
+    coachGender: null,
   };
 
   const loginReducer = (prevState, action) => {
@@ -52,14 +54,20 @@ const App = () => {
           userEmail: action.email,
           userToken: action.token,
           userPicture: action.picture,
+          userGender: action.gender,
+          coachGender: action.coach_gender,
           isLoading: false,
         };
       case "LOGOUT":
         return {
           ...prevState,
-          userToken: null,
           userName: null,
+          userPicture: null,
+          userEmail: null,
+          userToken: null,
           userId: null,
+          userGender: null,
+          coachGender: null,
           isLoading: false,
         };
       case "GETTINGDATA":
@@ -70,6 +78,16 @@ const App = () => {
       case "GETDATA":
         return {
           ...prevState,
+        };
+      case "CHANGEGENDER":
+        return {
+          ...prevState,
+          userGender: action.gender,
+        };
+      case "CHANGECOACHGENDER":
+        return {
+          ...prevState,
+          coachGender: action.coach_gender,
         };
     }
   };
@@ -82,7 +100,15 @@ const App = () => {
   const authContext = useMemo(
     () => ({
       //登入
-      signIn: (id, userName, accessToken, email, picture) => {
+      signIn: (
+        id,
+        userName,
+        accessToken,
+        email,
+        picture,
+        gender,
+        coach_gender
+      ) => {
         dispatch({
           type: "LOGIN",
           id,
@@ -90,6 +116,8 @@ const App = () => {
           picture,
           username: userName,
           token: accessToken,
+          gender,
+          coach_gender,
         });
       },
       //登出
@@ -104,6 +132,12 @@ const App = () => {
       getData: () => {
         const data = loginState;
         return data;
+      },
+      changeGender: (gender) => {
+        dispatch({ type: "CHANGEGENDER", gender });
+      },
+      changeCoachGender: (coach_gender) => {
+        dispatch({ type: "CHANGECOACHGENDER", coach_gender });
       },
     }),
     [loginState]
@@ -120,6 +154,8 @@ const App = () => {
         email: "wupalupa777@gmail.com",
         id: 1,
         username: "烏帕露帕",
+        gender: "F",
+        coach_gender: "F",
       });
 
       //開發完要用這個

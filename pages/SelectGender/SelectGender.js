@@ -16,7 +16,7 @@ import UserService from "../../services/UserService";
 const Home = ({ navigation }) => {
   const { colors } = useTheme();
   const [gender, setGender] = useState(null);
-  const { getData } = useContext(AuthContext);
+  const { getData, changeGender } = useContext(AuthContext);
   let opacity = new Animated.Value(0);
   const userdata = getData();
   // useEffect(() => {
@@ -62,6 +62,7 @@ const Home = ({ navigation }) => {
     } else if (userGender === "male") {
       userGender = "M";
     }
+    changeGender(userGender);
     const data = { user_id: userdata.userId, gender: userGender };
     UserService.UpdateUserGender(data)
       .then((res) => {

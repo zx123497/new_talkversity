@@ -27,8 +27,8 @@ const TextResult = ({ navigation }) => {
   const userData = getData();
   useEffect(() => {
     ArticleService.getArticleList(userData.userId).then((res) => {
-      console.log(res.data);
-      let arr = {};
+      // console.log(res.data);
+      let arr = [];
       arr = res.data.pop();
       barChartData.datasets[0].data[0] = arr.redundant_1_count;
       barChartData.datasets[0].data[1] = arr.redundant_2_count;
@@ -36,7 +36,7 @@ const TextResult = ({ navigation }) => {
       barChartData.datasets[0].data[3] = arr.redundant_4_count;
       setArticle(arr);
       ArticleService.getArticleDetail(arr.id).then((res2) => {
-        console.log(res2.data);
+        // console.log(res2.data);
         setArticleDetail(res2.data);
       });
     });
@@ -69,7 +69,6 @@ const TextResult = ({ navigation }) => {
       borderRadius: 16,
     },
   };
-
   return (
     <ScrollView style={(styles.center, styles(colors).container)}>
       <View style={styles(colors).textArea}>
@@ -188,8 +187,14 @@ const TextResult = ({ navigation }) => {
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-            {article.suggest}
+            {/* {article.suggest} */}
+            {article.suggest_json[0] +
+              "\n" +
+              article.suggest_json[1] +
+              "\n" +
+              article.suggest_json[2]}
           </Text>
+
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
             <Text
               style={[
