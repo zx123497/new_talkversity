@@ -36,7 +36,7 @@ const Train = ({navigation}) => {
         </View>
         <View style={styles(colors).selectResult}>
           <Pressable
-            onPress={() => navigation.navigate('聲音分析')}
+            onPress={() => navigation.navigate('練習紀錄')}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed

@@ -52,12 +52,6 @@ const Setting = (props) => {
       </View>
       <View style={styles(colors).infoArea}>
 
-        <Pressable
-          onPress={() => props.navigation.navigate("評分結果")}
-          style={({ pressed }) => [{}, styles(colors).submit]}
-        >
-          <Text style={styles(colors).submitText}>評分結果</Text>
-        </Pressable>
         <Text style={styles(colors).text}>訓練紀錄</Text>
         <View style={styles(colors).infoCard}>
           <View
