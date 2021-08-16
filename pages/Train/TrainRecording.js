@@ -11,108 +11,12 @@ import { Camera } from "expo-camera";
 import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 
-import { Video } from "expo-av";
-import moment from "moment";
-
-const Recording = ({ navigation }) => {
+const TrainRecording = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [recording, setRecording] = useState(false);
-  const [hasFinished, setHasFinished] = useState(false);
-  const [videoDuration, setVideoDuration] = useState(0);
+  const [hasRecorded, setHasRecorded] = useState(false);
   const { colors } = useTheme();
-
-  const Timer = ({ interval, style }) => {
-    const pad = (n) => (n < 10 ? "0" + n : n);
-    const duration = moment.duration(interval);
-    return (
-      <View style={styles(colors).recordIndicatorContainer}>
-        <Text style={style}>{pad(duration.minutes())}:</Text>
-        <Text style={style}>{pad(duration.seconds())}</Text>
-      </View>
-    );
-  };
-
-  class Counter extends React.Component {
-    constructor() {
-      super();
-      this.state = {
-        count: 0,
-      };
-    }
-
-    componentDidMount() {
-      this.timer = setInterval(this.inc, 1000);
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.timer);
-    }
-
-    inc = () => {
-      this.setState((prevState) => ({
-        count: prevState.count + 1,
-      }));
-    };
-
-    render() {
-      return (
-        <Text style={styles(colors).recordTitle}> {this.state.count}</Text>
-      );
-    }
-  }
-
-  const renderVideoRecordIndicator = () => (
-    <View style={styles(colors).recordIndicatorContainer}>
-      <View style={styles(colors).recordDot} />
-      <Text style={styles(colors).recordTitle}>Record</Text>
-      {/* <Counter /> */}
-    </View>
-  );
-  const renderVideoResult = () => {
-<View style={styles(colors).finished}>
-      <Image
-        style={styles(colors).finishedImage}
-        source={require("../../images/tutor_orange.png")}
-        resizeMode="contain"
-      />
-      <Text style={styles(colors).finishedText}>恭喜您完成練習!</Text>
-      <Pressable
-        onPress={() => navigation.navigate("評分結果")}
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed
-              ? colors.primary.dark
-              : colors.primary.main,
-          },
-          styles(colors).buttonFinished,
-        ]}
-      >
-        <AntDesign name="play" size={24} color="white" />
-        <Text style={styles(colors).buttonText}>查看評分結果</Text>
-      </Pressable>
-    </View>
-  }
-  const renderIntroduce = () => (
-    <View style={styles(colors).topic}>
-      <View style={styles(colors).header}>
-        <Text style={styles(colors).subTitle}>題目</Text>
-      </View>
-      <Text style={styles(colors).title}>請您自我介紹...</Text>
-      <View style={styles(colors).line} />
-      <Image
-        source={require("../../images/logo_tiffany.png")}
-        resizeMode="contain"
-        style={styles(colors).logo}
-      />
-    </View>
-  
-  );
-
-  const renderFinished = () => {
-    {hasFinished ? renderVideoResult() : renderVideoRecordIndicator()}
-  };
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -128,16 +32,82 @@ const Recording = ({ navigation }) => {
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  return (
-    <View style={{ flex: 1 }}>
-      <Camera
-        style={{ flex: 1 }}
-        type={Camera.Constants.Type.front}
-        ref={(ref) => {
-          setCameraRef(ref);
-        }}
-      >
-        {/* <View style={styles(colors).finished}>
+
+  const renderIntroduce = () => {
+    return (
+      <View style={styles(colors).topic}>
+        <View style={styles(colors).header}>
+          <Text style={styles(colors).subTitle}>題目</Text>
+        </View>
+        <Text style={styles(colors).title}>請您自我介紹...</Text>
+        <View style={styles(colors).line} />
+        <Image
+          source={require("../../images/logo_tiffany.png")}
+          resizeMode="contain"
+          style={styles(colors).logo}
+        />
+      </View>
+    );
+  };
+
+  const renderVideoRecordIndicator = () => {
+    return (
+      <View style={styles(colors).recordIndicatorContainer}>
+        <View style={styles(colors).recordDot} />
+        <Text style={styles(colors).recordTitle}>Record</Text>
+      </View>
+    );
+  };
+
+  const renderVideoRecoding = (recording) => {
+    return (
+      <View style={{ flex: 1 }}>
+        {recording ? renderVideoRecordIndicator() : renderIntroduce()}
+        <View style={styles(colors).record}>
+          <TouchableOpacity
+            style={{ alignSelf: "center" }}
+            onPress={async () => {
+              console.log("take video");
+              try {
+                if (!recording) {
+                  setRecording(true);
+                  video = await cameraRef.recordAsync({
+                    maxDuration: 30,
+                  });
+                  console.log("video", video);
+                } else {
+                  console.log("stop record");
+                  let endVideo = await cameraRef.stopRecording();
+                  setRecording(false);
+                  setHasRecorded(true);
+                }
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+          >
+            <View style={styles(colors).outerButton}>
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderRadius: 25,
+                  borderColor: recording ? colors.primary.light : "red",
+                  height: 30,
+                  width: 30,
+                  backgroundColor: recording ? colors.primary.light : "red",
+                }}
+              ></View>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+  const renderHasRecorded = () => {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles(colors).finished}>
+          <View style={{ width:'100%', height:'100%', backgroundColor: "#0F0F0F", opacity: 0.7 }} />
           <Image
             style={styles(colors).finishedImage}
             source={require("../../images/tutor_orange.png")}
@@ -158,47 +128,21 @@ const Recording = ({ navigation }) => {
             <AntDesign name="play" size={24} color="white" />
             <Text style={styles(colors).buttonText}>查看評分結果</Text>
           </Pressable>
-        </View> */}
-
-        {recording ? renderVideoRecordIndicator() : renderIntroduce()}
-        <View style={styles(colors).record}>
-          <TouchableOpacity
-            style={{ alignSelf: "center" }}
-            onPress={async () => {
-              console.log("take video");
-              try {
-                if (!recording) {
-                  setRecording(true);
-                  let video = await cameraRef.recordAsync({
-                    maxDuration: 30,
-                  });
-                  console.log("video", video);
-                } else {
-                  console.log("stop record");
-                  let endVideo = await cameraRef.stopRecording();
-                  setRecording(false);
-                  setHasFinished(true);
-                }
-              } catch (err) {
-                console.log(err);
-              }
-            }
-          }
-          >
-            <View style={styles(colors).outerButton}>
-              <View
-                style={{
-                  borderWidth: 2,
-                  borderRadius: 25,
-                  borderColor: recording ? colors.primary.light : "red",
-                  height: 30,
-                  width: 30,
-                  backgroundColor: recording ? colors.primary.light : "red",
-                }}
-              ></View>
-            </View>
-          </TouchableOpacity>
         </View>
+      </View>
+    );
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Camera
+        style={{ flex: 1 }}
+        type={Camera.Constants.Type.front}
+        ref={(ref) => {
+          setCameraRef(ref);
+        }}
+      >
+        {hasRecorded ? renderHasRecorded() : renderVideoRecoding(recording)}
       </Camera>
     </View>
   );
@@ -290,13 +234,12 @@ const styles = (colors) =>
       backgroundColor: "#ff0000",
       marginRight: 8,
     },
-    finishedWrapper: {},
     finished: {
       width: "100%",
       height: "100%",
-      backgroundColor: "#0F0F0F",
-      opacity: 0.7,
+      // backgroundColor: "#0F0F0F",
       alignItems: "center",
+      // opacity: 0.7
     },
     finishedText: {
       color: colors.background.paper,
@@ -320,7 +263,6 @@ const styles = (colors) =>
       flexDirection: "row",
       position: "absolute",
       top: "80%",
-      zIndex: 5,
     },
     buttonText: {
       marginLeft: "3%",
@@ -330,4 +272,4 @@ const styles = (colors) =>
     },
   });
 
-export default Recording;
+export default TrainRecording;

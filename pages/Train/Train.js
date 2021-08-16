@@ -2,7 +2,7 @@ import React from 'react';
 import FacialResult from '../Result/FacialResult';
 import TextResult from '../Result/TextResult';
 import VoiceResult from '../Result/VoiceResult';
-import Recording from './Recording';
+import TrainRecording from './TrainRecording';
 import VideoRecord from '../Result/VideoRecord';
 import SelectResult from '../Result/SelectResult/SelectResult'
 import SelectSituation from './SelectSituation/SelectSituation';
@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
     return (
       <Stack.Navigator initialRouteName="選擇情境"  headerMode="none">
         <Stack.Screen name="選擇情境" component={SelectSituation}/>
-        <Stack.Screen name="開始訓練" component={Recording} />
+        <Stack.Screen name="開始訓練" component={TrainRecording} />
         <Stack.Screen name="評分結果" component={SelectResult} />
         <Stack.Screen name="練習紀錄" component={VideoRecord} />
         <Stack.Screen name="表情分析" component={FacialResult} />
