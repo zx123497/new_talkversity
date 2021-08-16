@@ -53,7 +53,8 @@ const Member = ({ navigation }) => {
               response.data.data[0].email,
               response.data.data[0].picture,
               response.data.data[0].gender,
-              response.data.data[0].coach_gender
+              response.data.data[0].coach_gender,
+              response.data.data[0].initial
             );
           })
           .then(() => {

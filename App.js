@@ -11,10 +11,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { useTheme } from "react-native-paper";
 import theme from "./theme/theme";
 import LoginStack from "./pages/Login/Login";
+import InitialStack from "./pages/Initial/Initial";
 import { View, ActivityIndicator, Text } from "react-native";
 import { AuthContext } from "./components/context/context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import LottieView from "lottie-react-native";
 const Tab = createMaterialBottomTabNavigator();
 const App = () => {
   const { colors } = useTheme();
@@ -29,6 +30,7 @@ const App = () => {
     userId: null,
     userGender: null,
     coachGender: null,
+    initial: false,
   };
 
   const loginReducer = (prevState, action) => {
@@ -56,6 +58,7 @@ const App = () => {
           userPicture: action.picture,
           userGender: action.gender,
           coachGender: action.coach_gender,
+          initial: action.initial,
           isLoading: false,
         };
       case "LOGOUT":
@@ -69,6 +72,7 @@ const App = () => {
           userGender: null,
           coachGender: null,
           isLoading: false,
+          initial: false,
         };
       case "GETTINGDATA":
         return {
@@ -89,6 +93,11 @@ const App = () => {
           ...prevState,
           coachGender: action.coach_gender,
         };
+      case "INITIALFINISH":
+        return {
+          ...prevState,
+          initial: action.initial,
+        };
     }
   };
 
@@ -107,7 +116,8 @@ const App = () => {
         email,
         picture,
         gender,
-        coach_gender
+        coach_gender,
+        initial
       ) => {
         dispatch({
           type: "LOGIN",
@@ -118,6 +128,7 @@ const App = () => {
           token: accessToken,
           gender,
           coach_gender,
+          initial,
         });
       },
       //登出
@@ -139,6 +150,9 @@ const App = () => {
       changeCoachGender: (coach_gender) => {
         dispatch({ type: "CHANGECOACHGENDER", coach_gender });
       },
+      changeInitial: (initial) => {
+        dispatch({ type: "INITIALFINISH", initial });
+      },
     }),
     [loginState]
   );
@@ -156,25 +170,30 @@ const App = () => {
         username: "烏帕露帕",
         gender: "F",
         coach_gender: "F",
+        initial: true,
       });
 
       //開發完要用這個
       // dispatch({ type: "LOGOUT" });
-    }, 1500);
+    }, 2500);
   }, []);
   if (loginState.isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={colors.primary.main} />
-        <Text
+        <View
           style={{
-            marginTop: 10,
-            color: colors.primary.main,
-            fontWeight: "bold",
+            width: 300,
+            height: 200,
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
-          教材準備中...
-        </Text>
+          <LottieView
+            source={require("./assets/loading4.json")}
+            autoPlay
+            loop
+          />
+        </View>
       </View>
     );
   }
@@ -185,65 +204,73 @@ const App = () => {
       // theme={DarkTheme}
       >
         {loginState.userToken !== null ? (
-          <Tab.Navigator
-            initialRouteName="首頁"
-            inactiveColor={colors.text.secondary}
-            activeColor={colors.primary.main}
-            barStyle={{ backgroundColor: colors.background.paper }}
-          >
-            <Tab.Screen
-              name="首頁"
-              component={Home}
-              options={{
-                tabBarLabel: "首頁",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons name="home" color={color} size={26} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="訓練"
-              component={Train}
-              options={{
-                tabBarLabel: "訓練",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons
-                    name="tooltip"
-                    color={color}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="會員專區"
-              component={Member}
-              options={{
-                tabBarLabel: "個人專區",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons
-                    name="account"
-                    color={color}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="設定"
-              component={Setting}
-              options={{
-                tabBarLabel: "設定",
-                tabBarIcon: ({ color }) => (
-                  <MaterialCommunityIcons
-                    name="tools"
-                    color={color}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-          </Tab.Navigator>
+          loginState.initial ? (
+            <Tab.Navigator
+              initialRouteName="首頁"
+              inactiveColor={colors.text.secondary}
+              activeColor={colors.primary.main}
+              barStyle={{ backgroundColor: colors.background.paper }}
+            >
+              <Tab.Screen
+                name="首頁"
+                component={Home}
+                options={{
+                  tabBarLabel: "首頁",
+                  tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons
+                      name="home"
+                      color={color}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="訓練"
+                component={Train}
+                options={{
+                  tabBarLabel: "訓練",
+                  tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons
+                      name="tooltip"
+                      color={color}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="會員專區"
+                component={Member}
+                options={{
+                  tabBarLabel: "個人專區",
+                  tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons
+                      name="account"
+                      color={color}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="設定"
+                component={Setting}
+                options={{
+                  tabBarLabel: "設定",
+                  tabBarIcon: ({ color }) => (
+                    <MaterialCommunityIcons
+                      name="tools"
+                      color={color}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+            </Tab.Navigator>
+          ) : (
+            <InitialStack />
+          )
         ) : (
           <LoginStack />
         )}

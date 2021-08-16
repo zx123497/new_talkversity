@@ -5,7 +5,7 @@ import IntroListItem from "../../components/IntroListItem/IntroNewsItem";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AuthContext } from "../../components/context/context";
 const TestIntro = ({ navigation }) => {
-  const { getData } = useContext(AuthContext);
+  const { getData, changeInitial } = useContext(AuthContext);
   const userData = getData();
   const { colors } = useTheme();
   return (
@@ -63,7 +63,10 @@ const TestIntro = ({ navigation }) => {
       </View>
       <View style={styles(colors).submitArea}>
         <Pressable
-          onPress={() => navigation.navigate("首頁")}
+          onPress={() => {
+            changeInitial(true);
+            // navigation.navigate("首頁")
+          }}
           style={({ pressed }) => [{}, styles(colors).submit]}
         >
           <Text style={styles(colors).submitText}>開始前測</Text>
