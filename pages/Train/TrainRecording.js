@@ -6,12 +6,17 @@ import {
   View,
   TouchableOpacity,
   Pressable,
+  Dimensions
 } from "react-native";
 import { Camera } from "expo-camera";
 import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import * as FaceDetector from "expo-face-detector";
 
 const TrainRecording = ({ navigation }) => {
+  const dimensions = useRef(Dimensions.get("window"));
+  const screenWidth = dimensions.current.width;
+  const height = Math.round((screenWidth * 16) / 9);
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [recording, setRecording] = useState(false);
@@ -107,7 +112,14 @@ const TrainRecording = ({ navigation }) => {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles(colors).finished}>
-          <View style={{ width:'100%', height:'100%', backgroundColor: "#0F0F0F", opacity: 0.7 }} />
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: "#0F0F0F",
+              opacity: 0.7,
+            }}
+          />
           <Image
             style={styles(colors).finishedImage}
             source={require("../../images/tutor_orange.png")}
@@ -136,7 +148,8 @@ const TrainRecording = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <Camera
-        style={{ flex: 1 }}
+        ratio="16:9"
+        style={{ flex: 1,height: height, width: "100%"}}
         type={Camera.Constants.Type.front}
         ref={(ref) => {
           setCameraRef(ref);
