@@ -25,6 +25,14 @@ const GradeService = {
       throw error;
     }
   },
+  getUserGrade: async () => {
+    try {
+      const response = await axios.get(`/grade/user`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default GradeService;

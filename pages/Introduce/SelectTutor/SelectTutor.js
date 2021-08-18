@@ -51,7 +51,7 @@ const Home = ({ navigation }) => {
           <View style={styles(colors).wrapper}>
             <Image
               style={styles(colors).image}
-              source={require("../../../images/tutor_w.png")}
+              source={require("../../../images/tutor_girl_2.png")}
             />
           </View>
           <View style={styles(colors).wrapper}>
