@@ -60,7 +60,17 @@ const Setting = () => {
         <Image
           style={{
             position: "absolute",
-            bottom: 0,
+            bottom: -20,
+            left: 80,
+            height: 100,
+            resizeMode: "contain",
+          }}
+          source={require("../../images/flower.png")}
+        />
+        <Image
+          style={{
+            position: "absolute",
+            bottom: -10,
             left: 150,
             height: 100,
             resizeMode: "contain",
@@ -68,12 +78,43 @@ const Setting = () => {
           source={require("../../images/dog.png")}
         />
         <Image
+          style={{
+            position: "absolute",
+            bottom: -20,
+            left: 200,
+            height: 100,
+            resizeMode: "contain",
+          }}
+          source={require("../../images/flower.png")}
+        />
+        <Image
+          style={{
+            position: "absolute",
+            bottom: -20,
+            left: 400,
+            height: 100,
+            resizeMode: "contain",
+          }}
+          source={require("../../images/flower2.png")}
+        />
+
+        <Image
           style={styles(colors).tutor}
           source={
             userData.coachGender === "F"
               ? require("../../images/tutor_girl.gif")
               : require("../../images/tutorMan_2.gif")
           }
+        />
+        <Image
+          style={{
+            position: "absolute",
+            bottom: -20,
+            left: 300,
+            height: 100,
+            resizeMode: "contain",
+          }}
+          source={require("../../images/flower2.png")}
         />
       </View>
     </View>
