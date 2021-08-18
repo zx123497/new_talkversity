@@ -54,7 +54,8 @@ const FacialResult = ({ navigation }) => {
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>笑容表達</Text>
+            <Text style={[styles(colors).resultCardTitle,{marginBottom:0}]}>笑容表達</Text>
+            <Text style={styles(colors).resultCardTitle}>PR值</Text>
             <View style={styles(colors).resultContent}>
               <CircleChart
                   percentage={54}
@@ -65,7 +66,8 @@ const FacialResult = ({ navigation }) => {
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>眉毛表現</Text>
+            <Text style={[styles(colors).resultCardTitle,{marginBottom:0}]}>眉毛表現</Text>
+            <Text style={styles(colors).resultCardTitle}>PR值</Text>
             <View style={styles(colors).resultContent}>
               <CircleChart
                     percentage={80}
