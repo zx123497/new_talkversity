@@ -1,20 +1,18 @@
 import * as React from "react";
 import { useTheme } from "react-native-paper";
-import { StyleSheet, Text, View, Dimensions, Button } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Pressable } from "react-native";
 import { Video } from "expo-av";
 
-const VideoRecord = ({ navigation }) => {
+const VideoRecord = ({ navigation, route }) => {
   const { colors } = useTheme();
   const { width } = Dimensions.get("window");
-  const video = React.useRef(null);
-  const [status, setStatus] = React.useState({});
+  const video_uri = route.params.uri.video_uri;
   return (
-    
     <View style={styles(colors).container}>
       <View>
         <Video
           source={{
-            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+            uri: video_uri,
           }}
           shouldPlay
           useNativeControls
@@ -30,20 +28,11 @@ const styles = (colors) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "#fff",
+      width: "100%",
+      height: "100%",
+      backgroundColor: colors.background.default,
       alignItems: "center",
       justifyContent: "center",
-    },
-    controlBar: {
-      position: "absolute",
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: 45,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
   });
 export default VideoRecord;

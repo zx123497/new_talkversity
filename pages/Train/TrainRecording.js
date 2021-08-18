@@ -17,24 +17,28 @@ const TrainRecording = ({ navigation }) => {
   const dimensions = useRef(Dimensions.get("window"));
   const screenWidth = dimensions.current.width;
   const height = Math.round((screenWidth * 16) / 9);
-  const [hasPermission, setHasPermission] = useState(null);
+  const [hasAudioPermission, setHasAudioPermission] = useState(null);
+  const [hasCameraPermission, setHasCameraPermission] =useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [recording, setRecording] = useState(false);
   const [hasRecorded, setHasRecorded] = useState(false);
+  const [video_uri, setVideoUri] = useState(null);
+
   const { colors } = useTheme();
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      Camera.requestMicrophonePermissionsAsync();
-      setHasPermission(status === "granted");
+      const cameraStatus = await Camera.requestPermissionsAsync();
+      setHasCameraPermission(cameraStatus.status === 'granted');
+
+      const audioStatus = await Camera.requestMicrophonePermissionsAsync();
+      setHasAudioPermission(audioStatus.status === 'granted');
     })();
   }, []);
 
-  if (hasPermission === null) {
-    console.log("no permission ", hasPermission);
+  if (hasCameraPermission === null || hasAudioPermission === null ) {
     return <View />;
   }
-  if (hasPermission === false) {
+  if (hasCameraPermission === false || hasAudioPermission === false) {
     return <Text>No access to camera</Text>;
   }
 
@@ -76,10 +80,11 @@ const TrainRecording = ({ navigation }) => {
               try {
                 if (!recording) {
                   setRecording(true);
-                  video = await cameraRef.recordAsync({
+                  const video = await cameraRef.recordAsync({
                     maxDuration: 30,
                   });
-                  console.log("video", video);
+                  console.log("video", video.uri);
+                  setVideoUri(video.uri);
                 } else {
                   console.log("stop record");
                   let endVideo = await cameraRef.stopRecording();
@@ -109,6 +114,7 @@ const TrainRecording = ({ navigation }) => {
     );
   };
   const renderHasRecorded = () => {
+    
     return (
       <View style={{ flex: 1 }}>
         <View style={styles(colors).finished}>
@@ -126,8 +132,9 @@ const TrainRecording = ({ navigation }) => {
             resizeMode="contain"
           />
           <Text style={styles(colors).finishedText}>恭喜您完成練習!</Text>
+          
           <Pressable
-            onPress={() => navigation.navigate("評分結果")}
+            onPress={() => navigation.navigate("評分結果", { uri: {video_uri} })}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
