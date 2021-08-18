@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useTheme, Avatar } from "react-native-paper";
 import { AuthContext } from "../../../components/context/context";
-import Animated from "react-native-reanimated";
+import Animated, { set } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -26,13 +26,13 @@ const Setting = () => {
   const [content, setContent] = useState(<View></View>);
   const [header, setHeader] = useState("");
   const bs = useRef();
+  const [unlock, setUnlock] = useState([false, false, false, false]);
   const fall = new Animated.Value(1);
   const { getData } = useContext(AuthContext);
   const userData = getData();
 
   useEffect(() => {
     GradeService.getAchievementList(userData.userId).then((res) => {
-      console.log(res.data);
       achievementList = res.data;
       GradeService.getUserWords(userData.userId).then((res3) => {
         userWord = res3.data[0].total_word;
@@ -40,7 +40,14 @@ const Setting = () => {
         GradeService.getMissionList().then((res2) => {
           let list = res2.data;
           createMisionList(list);
-          console.log(firstMission);
+          GradeService.getUserGrade().then((res4) => {
+            let list = res4.filter((row) => row.id === userData.userId);
+            let temp = [false, false, false, false];
+            list.forEach((row) => {
+              temp[row.grade - 1] = true;
+            });
+            setUnlock(temp);
+          });
         });
       });
     });
@@ -101,7 +108,13 @@ const Setting = () => {
         if (achievement.achievement_count >= mission.time) {
           mission = { ...mission, status: 1 };
         } else {
-          mission = { ...mission, status: 0 };
+          if (mission.achievement_id <= 4) {
+            if (mission.time <= userWord) {
+              mission = { ...mission, status: 1 };
+            }
+          } else {
+            mission = { ...mission, status: 0 };
+          }
         }
       } else {
         mission = { ...mission, current: 0, status: 0 };
@@ -324,7 +337,6 @@ const Setting = () => {
         >
           <TouchableOpacity
             onPress={() => {
-              console.log("HI");
               setInner(firstMission);
               setHeader("一年級");
               bs.current.snapTo([0]);
@@ -338,7 +350,7 @@ const Setting = () => {
             <Image
               style={styles(colors).image}
               source={
-                firstMission.unlock
+                unlock[0]
                   ? require("../../../images/ball1.png")
                   : require("../../../images/ball1_lock.png")
               }
@@ -356,7 +368,7 @@ const Setting = () => {
             <Image
               style={styles(colors).image}
               source={
-                secondMission.unlock
+                unlock[1]
                   ? require("../../../images/ball2.png")
                   : require("../../../images/ball2_lock.png")
               }
@@ -374,7 +386,7 @@ const Setting = () => {
             <Image
               style={styles(colors).image}
               source={
-                thirdMission.unlock
+                unlock[2]
                   ? require("../../../images/ball3.png")
                   : require("../../../images/ball3_lock.png")
               }
@@ -392,7 +404,7 @@ const Setting = () => {
             <Image
               style={styles(colors).image}
               source={
-                fourMission.unlock
+                unlock[3]
                   ? require("../../../images/ball4.png")
                   : require("../../../images/ball4_lock.png")
               }
