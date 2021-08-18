@@ -125,7 +125,7 @@ const Setting = () => {
           }}
           style={[
             {
-              // alignItems: "center",
+              alignItems: "center",
               margin: 15,
               borderColor: colors.primary.main,
               borderWidth: 2,
@@ -284,7 +284,11 @@ const Setting = () => {
             </View>
             <Image
               style={styles(colors).image}
-              source={require("../../../images/tutor_orange.png")}
+              source={
+                userData.coachGender === "F"
+                  ? require("../../../images/tutor_orange.png")
+                  : require("../../../images/tutor_m_orange.png")
+              }
             />
           </View>
         </View>

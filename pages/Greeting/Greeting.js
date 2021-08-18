@@ -25,12 +25,16 @@ const Setting = () => {
     let randomGreeting = getRandomInt(0, 3);
     if (randomGreeting === 0) {
       setGreetword(
-        "! OOO，今天也是適合訓練的一天~~ 趕快來訓練吧! LetGOGOGO!!!!!!"
+        `！ ${userData.userName}，今天也是適合訓練的一天~~ 趕快來場溝通訓練吧！`
       );
     } else if (randomGreeting === 1) {
-      setGreetword("! OOO，今天要訓練甚麼呢? 趕快來訓練吧! LetGOGOGO!!!!!!");
+      setGreetword(
+        `！ ${userData.userName}，今天天氣很好~~ 是時候來場自我介紹訓練！`
+      );
     } else {
-      setGreetword("! OOO，HEyYOYOO 歡迎來到Talkversity! LetGOGOGO!!!!!!");
+      setGreetword(
+        `！ ${userData.userName}，Hey Yo What's up, 來場面試訓練吧！`
+      );
     }
   }, []);
 
@@ -50,8 +54,19 @@ const Setting = () => {
           </Text>
         </View>
       </View>
+
       <View style={styles(colors).image}>
         {/*TODO:change better image*/}
+        <Image
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 150,
+            height: 100,
+            resizeMode: "contain",
+          }}
+          source={require("../../images/dog.png")}
+        />
         <Image
           style={styles(colors).tutor}
           source={
@@ -92,15 +107,17 @@ const styles = (colors) =>
     },
     box: {
       flex: 1,
-      backgroundColor: colors.background.paper,
+      backgroundColor: colors.primary.dark,
       alignItems: "center",
       justifyContent: "center",
       borderRadius: 10,
       padding: 20,
       flexWrap: "wrap",
+      elevation: 3,
     },
     greeting: {
       fontSize: 18,
+      color: "#FFF",
     },
   });
 export default Setting;

@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { useTheme } from "react-native-paper";
+import { AuthContext } from "../context/context";
 
 const Setting = (props) => {
   const { colors } = useTheme();
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
   return (
     <View style={styles2(colors).card2}>
       <View style={{ width: "60%" }}>
@@ -34,7 +37,11 @@ const Setting = (props) => {
       <View style={styles2(colors).imageArea}>
         <Image
           style={styles2(colors).image}
-          source={require("../../images/tutor_orange.png")}
+          source={
+            userData.coachGender === "F"
+              ? require("../../images/tutor_orange.png")
+              : require("../../images/tutor_m_orange.png")
+          }
         />
       </View>
     </View>
