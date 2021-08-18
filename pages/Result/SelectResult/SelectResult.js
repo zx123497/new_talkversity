@@ -11,9 +11,9 @@ import Dash from "react-native-dash";
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-const Train = ({ navigation }) => {
+const Train = ({ navigation, route }) => {
   const { colors } = useTheme();
-
+  const video_uri = route.params.uri.video_uri;
   const bs = useRef();
   const fall = new Animated.Value(1);
 
@@ -121,7 +121,7 @@ const Train = ({ navigation }) => {
         </View>
         <View style={styles(colors).selectResult}>
           <Pressable
-            onPress={() => navigation.navigate("練習紀錄")}
+            onPress={() => navigation.navigate("練習紀錄",  { uri: {video_uri} } )}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
