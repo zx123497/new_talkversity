@@ -14,7 +14,7 @@ const Introduce = ({ navigation }) => {
       <Text style={styles(colors).text}>初次見面~ 我們是Talkversity</Text>
 
       <View style={styles(colors).containerTutor}>
-        {/*TODO:change better image*/}
+        {/*TODO:change #1 better image*/}
         <Image
           style={styles(colors).image}
           source={

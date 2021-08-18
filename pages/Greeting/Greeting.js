@@ -56,7 +56,7 @@ const Setting = () => {
           style={styles(colors).tutor}
           source={
             userData.coachGender === "F"
-              ? require("../../images/tutor_3.gif")
+              ? require("../../images/tutor_girl.gif")
               : require("../../images/tutorMan_2.gif")
           }
         />
