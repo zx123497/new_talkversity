@@ -22,7 +22,7 @@ const TestIntro = ({ navigation }) => {
       </View>
       <View style={styles(colors).introArea}>
         <Text style={styles(colors).introTitle}>
-          接下來，我將會記錄您的說話習慣，作為訓練判斷的基準，我們將會記錄：
+          接下來，將請您面無表情朗讀一段話，作為訓練判斷的基準，我們將會記錄：
         </Text>
 
         <View style={styles(colors).listArea}>
@@ -64,8 +64,8 @@ const TestIntro = ({ navigation }) => {
       <View style={styles(colors).submitArea}>
         <Pressable
           onPress={() => {
-            changeInitial(true);
-            // navigation.navigate("首頁")
+            navigation.navigate("開始前測");
+            // changeInitial(true);
           }}
           style={({ pressed }) => [{}, styles(colors).submit]}
         >
@@ -96,7 +96,6 @@ const styles = (colors) =>
     },
     containerLogo: {
       flex: 2,
-
       alignItems: "center",
       justifyContent: "center",
     },
@@ -133,10 +132,10 @@ const styles = (colors) =>
       justifyContent: "center",
     },
     introTitle: {
+      width: '80%',
       fontSize: 20,
-      fontWeight: "600",
+      fontWeight: 'bold',
       color: colors.text.primary,
-
       marginTop: 10,
       marginBottom: 30,
       marginLeft: 10,

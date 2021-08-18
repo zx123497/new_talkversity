@@ -3,8 +3,9 @@ import Introduce from "../Introduce/Introduce";
 import Introduce2 from "../Introduce/Introduce2";
 import Introduce3 from "../Introduce/Introduce3";
 import TestIntro from "../Introduce/TestIntro";
+import PreTest from "../Introduce/PreTest";
 import SelectTutor from "../Introduce/SelectTutor/SelectTutor";
-import Greeting from "../Greeting/Greeting";
+// import Greeting from "../Greeting/Greeting";
 import SelectGender from "../SelectGender/SelectGender";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../Login/Login";
@@ -24,6 +25,7 @@ const Home = () => {
       <Stack.Screen name="軟體介紹2" component={Introduce2} />
       <Stack.Screen name="軟體介紹3" component={Introduce3} />
       <Stack.Screen name="前測介紹" component={TestIntro} />
+      <Stack.Screen name="開始前測" component={PreTest} />
     </Stack.Navigator>
   );
 };
