@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { useTheme } from "react-native-paper";
 import {
@@ -8,11 +8,48 @@ import {
 } from "@expo/vector-icons";
 import ResultListItem from "../../../components/TrainResult/ResultListItem";
 import Dash from "react-native-dash";
+import Animated from 'react-native-reanimated';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 const Train = ({ navigation }) => {
   const { colors } = useTheme();
+
+  const bs = useRef();
+  const fall = new Animated.Value(1);
+
+  const renderInner = () => (
+    <View
+      style={styles(colors).scoreSheet}
+    >
+      <View
+      style={styles(colors).scoreLine}
+    />
+      <View style={styles(colors).scoreInner}>
+      <Text
+        style={styles(colors).scoreTitle}
+      >
+        您獲得的總分是
+      </Text>
+      <Text
+        style={styles(colors).scoreText}
+      >
+        S
+      </Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={(styles.center, styles(colors).container)}>
+      <BottomSheet
+        ref={bs}
+        snapPoints={['40%', 0]}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledContentGestureInteraction={true}
+        renderContent={renderInner}
+      />
+      
       <View style={styles(colors).wrapper}>
         <Image
           source={require("../../../images/result_bg.png")}
@@ -132,7 +169,7 @@ const Train = ({ navigation }) => {
           />
 
           <Pressable
-            onPress={() => navigation.navigate("聲音分析")}
+            onPress={() => bs.current.snapTo(0)}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
@@ -142,7 +179,7 @@ const Train = ({ navigation }) => {
               styles(colors).buttonSelect,
             ]}
           >
-            <Text style={styles(colors).scoreText}>查看總分</Text>
+            <Text style={styles(colors).scoreButtonText}>查看總分</Text>
             <Text style={styles(colors).scoreNext}>›</Text>
           </Pressable>
         </View>
@@ -162,6 +199,7 @@ const Train = ({ navigation }) => {
         <AntDesign name="play" size={24} color="white" />
         <Text style={styles(colors).buttonText}>返回主頁</Text>
       </Pressable>
+
     </View>
   );
 };
@@ -250,7 +288,7 @@ const styles = (colors) =>
       marginRight: "5%",
     },
 
-    scoreText: {
+    scoreButtonText: {
       color: colors.background.paper,
       fontSize: 20,
       fontWeight: "bold",
@@ -275,6 +313,38 @@ const styles = (colors) =>
       justifyContent: "center",
       borderRadius: 100,
       flexDirection: "row",
+    },
+    scoreSheet:{
+      height: "100%",
+      backgroundColor: colors.primary.light,
+      paddingTop: 16,
+      justifyContent: "center",
+      alignItems: "center",
+      borderTopRightRadius: 30,
+      borderTopLeftRadius: 30,
+    },
+    scoreLine:{
+      marginTop: '3%',
+        width: '20%',
+        borderColor: colors.paragraph.secondary,
+        borderTopWidth:6,
+        borderRadius: 50,
+        alignSelf: 'center',
+    },
+    scoreInner: {
+      flex: 1, 
+      alignItems: "center", 
+      justifyContent:'center',
+    },
+    scoreTitle: {
+      color: colors.background.paper,
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    scoreText: {
+      color: colors.background.paper,
+      fontSize: 120,
+      fontWeight: "bold",
     },
   });
 export default Train;
