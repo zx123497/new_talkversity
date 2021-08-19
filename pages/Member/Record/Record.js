@@ -1,13 +1,20 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { useTheme } from "react-native-paper";
 const Setting = () => {
   const { colors } = useTheme();
   return (
     <ScrollView style={styles(colors).container}>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((row) => (
-        <View
+        <TouchableOpacity
           key={row}
           style={{
             flexDirection: "row",
@@ -42,7 +49,7 @@ const Setting = () => {
               June 6, 2021 08:00PM
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );

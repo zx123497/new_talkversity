@@ -31,7 +31,7 @@ const Member = ({ navigation }) => {
 
         axios
           .post(
-            "https://talkversity.herokuapp.com/users/",
+            "http://140.115.81.245:8000/api/users/",
             {
               access_token: accessToken,
             },
