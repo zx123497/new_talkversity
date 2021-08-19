@@ -5,7 +5,7 @@ var password = "ej03xu3m065;4cl4";
 const token = Buffer.from(`${username}:${password}`, "utf8").toString("base64");
 
 const instance = axios.create({
-  baseURL: "http://140.115.81.245:8000/api/",
+  baseURL: "http://140.115.81.245:8000/",
   headers: {
     Authorization: `Basic ${token}`,
     "Content-Type": "application/json",

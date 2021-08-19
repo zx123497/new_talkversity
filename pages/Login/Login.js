@@ -31,7 +31,7 @@ const Member = ({ navigation }) => {
 
         axios
           .post(
-            "http://140.115.81.245:8000/api/users/",
+            "http://140.115.81.245:8000/users/",
             {
               access_token: accessToken,
             },
