@@ -28,9 +28,7 @@ const Setting = (props) => {
   return (
     <View style={styles(colors).container}>
       <View style={styles(colors).selectArea}>
-        <Text style={[styles(colors).title, { marginTop: "10%" }]}>
-          選擇情境
-        </Text>
+        <Text style={[styles(colors).title, { marginTop: 0 }]}>選擇情境</Text>
         <Swiper
           showsButtons={true}
           // loop={false}
@@ -51,7 +49,6 @@ const Setting = (props) => {
         </Swiper>
       </View>
       <View style={styles(colors).infoArea}>
-
         <Text style={styles(colors).text}>訓練紀錄</Text>
         <View style={styles(colors).infoCard}>
           <View
@@ -217,7 +214,7 @@ const styles = (colors) =>
       alignSelf: "stretch",
     },
     selectArea: {
-      marginTop: '15%',
+      marginTop: "15%",
       flex: 1,
     },
     infoCard: {

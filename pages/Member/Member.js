@@ -9,12 +9,35 @@ import Record from "./Record/Record";
 import { useRoute } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import DrawerContent from "../../components/DrawerContent/DrawerContent";
-
+import RecordInfo from "./Record/RecordInfo";
 import Icon from "react-native-vector-icons/Ionicons";
 const GrowStack = createStackNavigator();
 const CareerStack = createStackNavigator();
 const RecordStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+
+const RecordInfoStack = createStackNavigator();
+const RecordInfoStackScreen = ({ navigation }) => (
+  <RecordInfoStack.Navigator
+    headerShown={false}
+    headerMode="screen"
+    screenOptions={{
+      headerStyle: { backgroundColor: "white" },
+
+      headerTintColor: "#5d5d5d",
+      headerTitleStyle: { fontWeight: "bold" },
+      headerTitleAlign: "center",
+    }}
+  >
+    <RecordInfoStack.Screen
+      name="info"
+      options={{
+        headerShown: false,
+      }}
+      component={RecordInfo}
+    />
+  </RecordInfoStack.Navigator>
+);
 
 const GrowStackScreen = ({ navigation }) => (
   <GrowStack.Navigator
@@ -101,6 +124,7 @@ const RecordStackScreen = ({ navigation }) => (
         ),
       }}
     />
+    <RecordStack.Screen name="紀錄內容" component={RecordInfoStackScreen} />
   </RecordStack.Navigator>
 );
 

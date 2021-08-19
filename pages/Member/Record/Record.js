@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {
   StyleSheet,
@@ -9,13 +8,20 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTheme } from "react-native-paper";
-const Setting = () => {
+
+const Record = ({ navigation }) => {
   const { colors } = useTheme();
   return (
     <ScrollView style={styles(colors).container}>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((row) => (
         <TouchableOpacity
           key={row}
+          onPress={() => {
+            navigation.navigate("紀錄內容", {
+              screen: "info",
+              params: { title: "自我介紹訓練", id: row },
+            });
+          }}
           style={{
             flexDirection: "row",
             height: 100,
@@ -76,4 +82,4 @@ const styles = (colors) =>
       padding: 2,
     },
   });
-export default Setting;
+export default Record;
