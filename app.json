@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#79CAC3"
-      }
+      },
+      "package": "Talkversity.apk"
     },
     "web": {
       "favicon": "./assets/favicon.png"

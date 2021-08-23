@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { useTheme } from "react-native-paper";
 import {
@@ -8,8 +8,8 @@ import {
 } from "@expo/vector-icons";
 import ResultListItem from "../../../components/TrainResult/ResultListItem";
 import Dash from "react-native-dash";
-import Animated from 'react-native-reanimated';
-import BottomSheet from 'reanimated-bottom-sheet';
+import Animated from "react-native-reanimated";
+import BottomSheet from "reanimated-bottom-sheet";
 
 const Train = ({ navigation, route }) => {
   const { colors } = useTheme();
@@ -18,23 +18,11 @@ const Train = ({ navigation, route }) => {
   const fall = new Animated.Value(1);
 
   const renderInner = () => (
-    <View
-      style={styles(colors).scoreSheet}
-    >
-      <View
-      style={styles(colors).scoreLine}
-    />
+    <View style={styles(colors).scoreSheet}>
+      <View style={styles(colors).scoreLine} />
       <View style={styles(colors).scoreInner}>
-      <Text
-        style={styles(colors).scoreTitle}
-      >
-        您獲得的總分是
-      </Text>
-      <Text
-        style={styles(colors).scoreText}
-      >
-        S
-      </Text>
+        <Text style={styles(colors).scoreTitle}>您獲得的總分是</Text>
+        <Text style={styles(colors).scoreText}>S</Text>
       </View>
     </View>
   );
@@ -43,13 +31,13 @@ const Train = ({ navigation, route }) => {
     <View style={(styles.center, styles(colors).container)}>
       <BottomSheet
         ref={bs}
-        snapPoints={['40%', 0]}
+        snapPoints={["40%", 0]}
         initialSnap={1}
         callbackNode={fall}
         enabledContentGestureInteraction={true}
         renderContent={renderInner}
       />
-      
+
       <View style={styles(colors).wrapper}>
         <Image
           source={require("../../../images/result_bg.png")}
@@ -121,7 +109,9 @@ const Train = ({ navigation, route }) => {
         </View>
         <View style={styles(colors).selectResult}>
           <Pressable
-            onPress={() => navigation.navigate("練習紀錄",  { uri: {video_uri} } )}
+            onPress={() =>
+              navigation.navigate("練習紀錄", { uri: { video_uri } })
+            }
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
@@ -199,7 +189,6 @@ const Train = ({ navigation, route }) => {
         <AntDesign name="play" size={24} color="white" />
         <Text style={styles(colors).buttonText}>返回主頁</Text>
       </Pressable>
-
     </View>
   );
 };
@@ -314,7 +303,7 @@ const styles = (colors) =>
       borderRadius: 100,
       flexDirection: "row",
     },
-    scoreSheet:{
+    scoreSheet: {
       height: "100%",
       backgroundColor: colors.primary.light,
       paddingTop: 16,
@@ -323,18 +312,18 @@ const styles = (colors) =>
       borderTopRightRadius: 30,
       borderTopLeftRadius: 30,
     },
-    scoreLine:{
-      marginTop: '3%',
-        width: '20%',
-        borderColor: colors.paragraph.secondary,
-        borderTopWidth:6,
-        borderRadius: 50,
-        alignSelf: 'center',
+    scoreLine: {
+      marginTop: "3%",
+      width: "20%",
+      borderColor: colors.paragraph.secondary,
+      borderTopWidth: 6,
+      borderRadius: 50,
+      alignSelf: "center",
     },
     scoreInner: {
-      flex: 1, 
-      alignItems: "center", 
-      justifyContent:'center',
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
     },
     scoreTitle: {
       color: colors.background.paper,

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../../components/context/context";
+import RecordService from "../../../services/RecordService";
 import {
   StyleSheet,
   Text,
@@ -8,18 +10,37 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useTheme } from "react-native-paper";
+import { createKeyboardAwareNavigator } from "react-navigation";
 
 const Record = ({ navigation }) => {
   const { colors } = useTheme();
+  const [records, setRecords] = useState([]);
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
+  useEffect(() => {
+    RecordService.getRecordList(userData.userId).then((res) => {
+      let temp = [];
+      res.data.forEach((element) => {
+        temp.push(createRow(element));
+      });
+      setRecords(temp);
+    });
+  }, []);
+
+  const createRow = (record) => {
+    const date = record.created.split("T")[0];
+    const time = record.created.split("T")[1].split(".")[0];
+    return { ...record, created: date + " " + time };
+  };
   return (
     <ScrollView style={styles(colors).container}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((row) => (
+      {records.map((row) => (
         <TouchableOpacity
-          key={row}
+          key={row.id}
           onPress={() => {
             navigation.navigate("紀錄內容", {
               screen: "info",
-              params: { title: "自我介紹訓練", id: row },
+              params: { title: "自我介紹訓練", id: row.id },
             });
           }}
           style={{
@@ -49,10 +70,10 @@ const Record = ({ navigation }) => {
 
           <View style={{ flex: 3, padding: 10, justifyContent: "center" }}>
             <Text style={{ fontSize: 15, marginBottom: 5, fontWeight: "bold" }}>
-              自我介紹訓練
+              {row.scenario__content}訓練
             </Text>
-            <Text style={{ color: colors.text.secondary }}>
-              June 6, 2021 08:00PM
+            <Text style={{ color: colors.paragraph.secondary }}>
+              {row.created}
             </Text>
           </View>
         </TouchableOpacity>

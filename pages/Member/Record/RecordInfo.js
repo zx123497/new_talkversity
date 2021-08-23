@@ -1,12 +1,59 @@
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useTheme } from "react-native-paper";
 import { Video } from "expo-av";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import RecordService from "../../../services/RecordService";
+import Animated from "react-native-reanimated";
+import BottomSheet from "reanimated-bottom-sheet";
 const RecordInfo = ({ route }) => {
   const { colors } = useTheme();
+  useEffect(() => {
+    RecordService.getRecord(route.params.id).then((res) => {
+      console.log(res.data);
+    });
+  }, []);
+  const bs = useRef();
+  const fall = new Animated.Value(1);
+
+  const renderInner = () => (
+    <ScrollView
+      style={{
+        height: "100%",
+        backgroundColor: colors.background.paper,
+        paddingTop: 16,
+        // justifyContent: "center",
+        // alignItems: "center",
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
+        elevation: 2,
+      }}
+    >
+      <View
+        style={{
+          marginVertical: 5,
+          marginBottom: 15,
+          width: "20%",
+          borderColor: colors.paragraph.secondary,
+          borderTopWidth: 6,
+          borderRadius: 50,
+          alignSelf: "center",
+        }}
+      />
+      <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>您獲得的總分是</Text>
+      </View>
+    </ScrollView>
+  );
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+      }}
+    >
       {/* <Text>
         {route.params.title} id: {route.params.id}
       </Text> */}
@@ -42,7 +89,6 @@ const RecordInfo = ({ route }) => {
           padding: 20,
           paddingHorizontal: 40,
           alignItems: "center",
-          elevation: 2,
         }}
       >
         <View style={{ alignSelf: "stretch" }}>
@@ -68,6 +114,10 @@ const RecordInfo = ({ route }) => {
         </View>
         <View style={{ alignSelf: "stretch", marginTop: 20 }}>
           <TouchableOpacity
+            onPress={() => {
+              bs.current.snapTo(0);
+              console.log("HI");
+            }}
             style={{
               backgroundColor: colors.background.default,
               height: 60,
@@ -167,6 +217,15 @@ const RecordInfo = ({ route }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <BottomSheet
+        style={{ flex: 1 }}
+        ref={bs}
+        snapPoints={[500, 0]}
+        initialSnap={1}
+        callbackNode={fall}
+        enabledContentGestureInteraction={true}
+        renderContent={renderInner}
+      />
     </View>
   );
 };

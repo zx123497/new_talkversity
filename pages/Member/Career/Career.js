@@ -32,62 +32,21 @@ const Setting = () => {
   const userData = getData();
 
   useEffect(() => {
-    GradeService.getAchievementList(userData.userId).then((res) => {
+    GradeService.getAllAchievementList(userData.userId).then((res) => {
       achievementList = res.data;
       GradeService.getUserWords(userData.userId).then((res3) => {
         userWord = res3.data[0].total_word;
-
-        GradeService.getMissionList().then((res2) => {
-          let list = res2.data;
-          createMisionList(list);
-          GradeService.getUserGrade().then((res4) => {
-            let list = res4.filter((row) => row.id === userData.userId);
-            let temp = [false, false, false, false];
-            list.forEach((row) => {
-              temp[row.grade - 1] = true;
-            });
-            setUnlock(temp);
+        createMisionList(achievementList);
+        GradeService.getUserGrade().then((res4) => {
+          let list = res4.filter((row) => row.id === userData.userId);
+          let temp = [false, false, false, false];
+          list.forEach((row) => {
+            temp[row.grade - 1] = true;
           });
+          setUnlock(temp);
         });
       });
     });
-
-    // setFirstMission({
-    //   unlock: true,
-    //   missions: [
-    //     { title: "總字數1000字", status: 1, current: 1000, total: 1000 },
-    //     { title: "文字達到A", status: 1, current: 1, total: 1 },
-    //     { title: "聲音達到A", status: 1, current: 1, total: 1 },
-    //     { title: "表情達到A", status: 1, current: 1, total: 1 },
-    //   ],
-    // });
-    // setSecondMission({
-    //   unlock: true,
-    //   missions: [
-    //     { title: "總字數2000字", status: 0, current: 1000, total: 2000 },
-    //     { title: "文字達到A+", status: 1, current: 1, total: 1 },
-    //     { title: "聲音達到A+", status: 0, current: 0, total: 1 },
-    //     { title: "表情達到A+", status: 1, current: 1, total: 1 },
-    //   ],
-    // });
-    // setThirdMission({
-    //   unlock: false,
-    //   missions: [
-    //     { title: "總字數5000字", status: 0, current: 1000, total: 5000 },
-    //     { title: "文字達到A++", status: 0, current: 0, total: 1 },
-    //     { title: "聲音達到A++", status: 0, current: 0, total: 1 },
-    //     { title: "表情達到A++", status: 1, current: 1, total: 1 },
-    //   ],
-    // });
-    // setFourMission({
-    //   unlock: false,
-    //   missions: [
-    //     { title: "總字數10000字", status: 0, current: 1000, total: 10000 },
-    //     { title: "文字A++", status: 0, current: 1, total: 5 },
-    //     { title: "聲音A++", status: 0, current: 0, total: 5 },
-    //     { title: "表情A++", status: 0, current: 0, total: 5 },
-    //   ],
-    // });
   }, []);
 
   const createMisionList = (list) => {
@@ -95,32 +54,7 @@ const Setting = () => {
     list.forEach((mission) => {
       if (mission.achievement_id <= 4) {
         mission.time = mission.achievement__name.split(" ")[1];
-      }
-      achievement = achievementList.find((element) => {
-        return element.achievement_id === mission.achievement_id;
-      });
-      console.log(achievement);
-      if (achievement !== undefined) {
-        mission = { ...mission, current: achievement.achievement_count };
-        if (mission.achievement_id <= 4) {
-          mission = { ...mission, current: userWord };
-        }
-        if (achievement.achievement_count >= mission.time) {
-          mission = { ...mission, status: 1 };
-        } else {
-          if (mission.achievement_id <= 4) {
-            if (mission.time <= userWord) {
-              mission = { ...mission, status: 1 };
-            }
-          } else {
-            mission = { ...mission, status: 0 };
-          }
-        }
-      } else {
-        mission = { ...mission, current: 0, status: 0 };
-        if (mission.achievement_id <= 4) {
-          mission = { ...mission, current: userWord };
-        }
+        mission = { ...mission, current: userWord };
       }
 
       if (mission.grade === 1) {
@@ -171,7 +105,7 @@ const Setting = () => {
     setContent(
       grade.map((row) => (
         <View
-          key={row.id}
+          key={row.achievement_id}
           style={{
             flexDirection: "row",
             marginBottom: 15,
@@ -190,14 +124,14 @@ const Setting = () => {
               <Icon
                 name="check-bold"
                 color={`${
-                  row.status === 1 ? "white" : colors.paragraph.primary
+                  row.is_achieve === 1 ? "white" : colors.paragraph.primary
                 }`}
                 size={30}
               />
             )}
             style={{
               backgroundColor:
-                row.status === 1
+                row.is_achieve === 1
                   ? colors.orange.light
                   : colors.paragraph.secondary,
             }}
