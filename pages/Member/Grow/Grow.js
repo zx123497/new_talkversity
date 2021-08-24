@@ -154,6 +154,7 @@ const Setting = () => {
         style={{
           backgroundColor: colors.background.paper,
           // alignItems: "center",
+          width: "100%",
           padding: 10,
           flex: 1,
         }}
@@ -172,7 +173,7 @@ const Setting = () => {
           <LineChart
             style={{ flex: 1 }}
             data={data}
-            width={screenWidth}
+            width={screenWidth - 40}
             height={220}
             chartConfig={chartConfig}
             formatYLabel={(value) => {
@@ -210,41 +211,18 @@ const Setting = () => {
                   style={{
                     backgroundColor: colors.background.default,
                     padding: 10,
+                    width: "50%",
                     borderRadius: 10,
                     alignItems: "center",
                     marginHorizontal: 10,
                   }}
                 >
-                  <Text style={{ color: colors.primary.dark }}>訓練總字數</Text>
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                    {words}
+                  <Text
+                    style={{ color: colors.primary.dark, marginBottom: 10 }}
+                  >
+                    訓練總字數
                   </Text>
-                </View>
-                <View
-                  style={{
-                    backgroundColor: colors.background.default,
-                    padding: 10,
-                    borderRadius: 10,
-                    alignItems: "center",
-                    marginHorizontal: 10,
-                  }}
-                >
-                  <Text style={{ color: colors.primary.dark }}>訓練總字數</Text>
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                    {words}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    backgroundColor: colors.background.default,
-                    padding: 10,
-                    borderRadius: 10,
-                    alignItems: "center",
-                    marginHorizontal: 10,
-                  }}
-                >
-                  <Text style={{ color: colors.primary.dark }}>訓練總字數</Text>
-                  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  <Text style={{ fontSize: 25, fontWeight: "bold" }}>
                     {words}
                   </Text>
                 </View>
@@ -257,7 +235,9 @@ const Setting = () => {
           <View
             style={{
               height: 150,
+              width: "100%",
               marginTop: 20,
+              margin: 20,
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
