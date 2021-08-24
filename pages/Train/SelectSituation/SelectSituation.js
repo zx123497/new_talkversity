@@ -19,7 +19,11 @@ const Setting = (props) => {
       // console.log(res);
       let temp = [];
       res.forEach((element) => {
-        temp.push({ title: element.content, id: element.id });
+        temp.push({
+          title: element.content,
+          id: element.id,
+          intro: element.intro,
+        });
       });
       setSituations(temp);
     });
@@ -42,6 +46,7 @@ const Setting = (props) => {
               <SelectCard
                 navigation={() => props.navigation.navigate("開始訓練")}
                 title={row.title}
+                info={row.intro}
                 id={row.id}
               />
             </View>

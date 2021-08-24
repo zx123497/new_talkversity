@@ -24,7 +24,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#79CAC3"
       },
-      "package": "Talkversity.apk"
+      "package": "Talkversity.apk",
+      "config":{
+        "googleSignIn":{
+          "apiKey":"AIzaSyB8qvALrkAimLx2_-xSAPvoHjSLdHt9SjA",
+          "certificateHash":"4A5277250B3578DFFE57858C38458553CC04B9B6A430034F64F3F1170B1ECEFF"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

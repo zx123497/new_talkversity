@@ -12,10 +12,7 @@ const Setting = (props) => {
       <View style={{ width: "60%" }}>
         <View style={styles2(colors).infoArea}>
           <Text style={styles2(colors).textTitle}>{props.title}</Text>
-          <Text style={styles2(colors).textContent}>
-            配合經典面試題型， 紀錄您的面試情形，並給予建議，
-            讓您能在面試表現上能有所進步。
-          </Text>
+          <Text style={styles2(colors).textContent}>{props.info}</Text>
         </View>
         <Pressable
           onPress={() => {

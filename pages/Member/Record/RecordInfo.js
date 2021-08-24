@@ -17,6 +17,7 @@ import CircleChart from "../../../components/Chart/CircleChart";
 const RecordInfo = ({ route }) => {
   const { colors } = useTheme();
   const screenWidth = Dimensions.get("window").width;
+  const [word, setWord] = useState({});
   let barChartData = {
     labels: ["前側", "實測"],
     datasets: [
@@ -45,6 +46,18 @@ const RecordInfo = ({ route }) => {
   useEffect(() => {
     RecordService.getRecord(route.params.id).then((res) => {
       console.log(res.data);
+      let temp = res.data.article[0].suggest_json;
+      let new_suggest = Object.keys(temp).map((k) => ({
+        id: k,
+        name: temp[k],
+      }));
+      console.log(new_suggest);
+      let talk_speed = res.data.article[0].talk_speed.toFixed(1);
+      setWord({
+        ...res.data.article[0],
+        suggest_json: new_suggest,
+        talk_speed: talk_speed,
+      });
     });
   }, []);
   const bs_voice = useRef();
@@ -464,7 +477,7 @@ const RecordInfo = ({ route }) => {
                   fontWeight: "bold",
                 }}
               >
-                140 字
+                {word.pure_text_len} 字
               </Text>
             </View>
           </View>
@@ -499,7 +512,7 @@ const RecordInfo = ({ route }) => {
                   color: colors.orange.main,
                 }}
               >
-                190字/分
+                {word.talk_speed}字/分
               </Text>
             </View>
           </View>
@@ -525,9 +538,7 @@ const RecordInfo = ({ route }) => {
           >
             文字分析
           </Text>
-          <Text style={{ color: colors.primary.main }}>
-            面試官好，我目前就讀中央大學資管系在學期間，我的成績一直都很爛，還差點被而已，很多科目最後成績都很差，此外我也有在學校其他單位接案，但因為能力不足常常被雇主嗎？最後需要其他人幫我收爛攤子烤雞的分數也很低，在新的工作中，我可能會放很多錯，應該也不能升職薪水，應該也只能訂很低櫃，公司可以決定要不要錄用我。
-          </Text>
+          <Text style={{ color: colors.primary.main }}>{word.fulltext}</Text>
         </View>
         <View
           style={{
@@ -621,11 +632,13 @@ const RecordInfo = ({ route }) => {
           >
             評分建議
           </Text>
-          <Text style={{ color: colors.paragraph.secondary }}>
-            使用負面詞彙，張力較不足夠， 少數用詞不妥當。
-            使用負面詞彙，張力較不足夠，
-            少數用詞不妥當。使用負面詞彙，張力較不足夠， 少數用詞不妥當。
-          </Text>
+          {word.suggest_json.map((row) => (
+            <View key={row.id} style={{ marginBottom: 10 }}>
+              <Text style={{ color: colors.paragraph.secondary }}>
+                {row.name}
+              </Text>
+            </View>
+          ))}
         </View>
         <View style={{ height: 100 }} />
       </View>

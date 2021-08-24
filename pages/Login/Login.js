@@ -23,6 +23,8 @@ const Member = ({ navigation }) => {
       const { type, user, accessToken } = await Google.logInAsync({
         iosClientId: `969636168353-uuu3n6fu1t2j7q02fkdvvib4bindthbt.apps.googleusercontent.com`,
         androidClientId: `969636168353-f18olkamqlbulmapg90e5fldpfotknpf.apps.googleusercontent.com`,
+        androidStandaloneAppClientId:
+          "953963415767-dajapmnedf5dtfdqetb35cn67mg6cmth.apps.googleusercontent.com",
       });
 
       if (type === "success") {
