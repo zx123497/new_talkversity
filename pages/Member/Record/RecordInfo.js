@@ -17,7 +17,13 @@ import CircleChart from "../../../components/Chart/CircleChart";
 const RecordInfo = ({ route }) => {
   const { colors } = useTheme();
   const screenWidth = Dimensions.get("window").width;
-  const [word, setWord] = useState({});
+  const [word, setWord] = useState({
+    suggest_json: [],
+    redundant_1_count: 0,
+    redundant_2_count: 0,
+    redundant_3_count: 0,
+    redundant_4_count: 0,
+  });
   let barChartData = {
     labels: ["前側", "實測"],
     datasets: [
@@ -27,6 +33,27 @@ const RecordInfo = ({ route }) => {
         colors: [
           (opacity = 1) => colors.orange.main,
           (opacity = 1) => colors.primary.main,
+        ],
+      },
+    ],
+  };
+
+  let barChartDataWord = {
+    labels: ["所以", "然後", "就是", "那個"],
+    datasets: [
+      {
+        data: [
+          word.redundant_1_count,
+          word.redundant_2_count,
+          word.redundant_3_count,
+          word.redundant_4_count,
+        ],
+        // 三個以下良好 colors.primary.light 五個警告"#FAA948" 八個嚴重"#D7ABAB"
+        colors: [
+          (opacity = 1) => "#D7ABAB",
+          (opacity = 1) => "#FAA948",
+          (opacity = 1) => colors.primary.light,
+          (opacity = 1) => "#D7ABAB",
         ],
       },
     ],
@@ -43,6 +70,7 @@ const RecordInfo = ({ route }) => {
       borderRadius: 16,
     },
   };
+
   useEffect(() => {
     RecordService.getRecord(route.params.id).then((res) => {
       console.log(res.data);
@@ -597,7 +625,7 @@ const RecordInfo = ({ route }) => {
             }}
           >
             <BarChart
-              data={barChartData}
+              data={barChartDataWord}
               width={screenWidth - 80}
               height={300}
               chartConfig={chartConfig}
