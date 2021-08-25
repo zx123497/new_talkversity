@@ -41,6 +41,17 @@ const TextResult = ({ navigation }) => {
       });
     });
   }, []);
+
+  // 處理評分建議
+  const obj = article.suggest_json;
+  var suggest_str = "";
+  for (var item in obj) {
+    if (obj.hasOwnProperty(item)) {
+      suggest_str += obj[item];
+      suggest_str += "\n\n";
+    }
+  }
+
   let barChartData = {
     labels: ["所以", "然後", "就是", "那個"],
     datasets: [
@@ -56,7 +67,6 @@ const TextResult = ({ navigation }) => {
       },
     ],
   };
-  // console.log(data.datasets[0].data[0]);
 
   const chartConfig = {
     backgroundColor: colors.background.paper,
@@ -187,12 +197,7 @@ const TextResult = ({ navigation }) => {
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-            {article.suggest}
-            {/* {article.suggest_json[0] +
-              "\n" +
-              article.suggest_json[1] +
-              "\n" +
-              article.suggest_json[2]} */}
+            {suggest_str}
           </Text>
 
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
