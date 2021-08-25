@@ -19,7 +19,6 @@ const TextResult = ({ navigation }) => {
   const [article, setArticle] = useState({
     pure_text_len: 0,
     talk_speed: 0.0,
-    suggest: "",
   });
   const [articleDetail, setArticleDetail] = useState([]);
   const screenWidth = Dimensions.get("window").width;
@@ -34,13 +33,30 @@ const TextResult = ({ navigation }) => {
       barChartData.datasets[0].data[1] = arr.redundant_2_count;
       barChartData.datasets[0].data[2] = arr.redundant_3_count;
       barChartData.datasets[0].data[3] = arr.redundant_4_count;
-      setArticle(arr);
+      setArticle(res.data);
       ArticleService.getArticleDetail(arr.id).then((res2) => {
         // console.log(res2.data);
         setArticleDetail(res2.data);
       });
     });
+    
   }, []);
+  const color_1 = article.redundant_1_count <= 3 ? colors.primary.light 
+  :  article.redundant_1_count >= 8 ? "#D7ABAB"
+  : "#FAA948";
+
+  const color_2 = article.redundant_2_count <= 3 ? colors.primary.light 
+  :  article.redundant_2_count >= 8 ? "#D7ABAB"
+  : "#FAA948";
+
+  const color_3 = article.redundant_3_count <= 3 ? colors.primary.light 
+  :  article.redundant_3_count >= 8 ? "#D7ABAB"
+  : "#FAA948";
+
+  const color_4 = article.redundant_4_count <= 3 ? colors.primary.light 
+  :  article.redundant_4_count >= 8 ? "#D7ABAB"
+  : "#FAA948";
+  
 
   // 處理評分建議
   const obj = article.suggest_json;
@@ -51,7 +67,7 @@ const TextResult = ({ navigation }) => {
       suggest_str += "\n\n";
     }
   }
-
+  // console.log(article);
   let barChartData = {
     labels: ["所以", "然後", "就是", "那個"],
     datasets: [
@@ -59,10 +75,10 @@ const TextResult = ({ navigation }) => {
         data: redundentList,
         // 三個以下良好 colors.primary.light 五個警告"#FAA948" 八個嚴重"#D7ABAB"
         colors: [
-          (opacity = 1) => "#D7ABAB",
-          (opacity = 1) => "#FAA948",
-          (opacity = 1) => colors.primary.light,
-          (opacity = 1) => "#D7ABAB",
+          (opacity = 1) => color_1,
+          (opacity = 1) => color_2,
+          (opacity = 1) => color_3,
+          (opacity = 1) => color_4,
         ],
       },
     ],
