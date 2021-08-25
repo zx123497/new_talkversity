@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../components/context/context";
 import { useTheme } from "react-native-paper";
 import {
   StyleSheet,
@@ -12,10 +13,40 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import CircleChart from "../../components/Chart/CircleChart";
+import FaceService from "../../services/FaceService";
 
 const FacialResult = ({ navigation }) => {
   const { colors } = useTheme();
   const screenWidth = Dimensions.get("window").width;
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
+  console.log(userData);
+  const [face, setFace] = useState({
+    distractTime: 0,
+    EyebrowHeight_PR: 0,
+    Mouth_PR: 0,
+  });
+  useEffect(() => {
+    FaceService.getFaceLatest(userData.userId).then((res) => {
+      let arr = [];
+      arr = res.data;
+      setFace(res.data);
+    });
+  }, []);
+  // console.log(face);
+  const distractTime = Math.round(face.DistractTime*100);
+  const EyebrowHeight_PR = face.EyebrowHeight_PR == 0 ? 1 : Math.round(face.EyebrowHeight_PR);
+  const Mouth_PR = face.Mouth_PR == 0 ? 1 : Math.round(face.Mouth_PR);
+
+  // 處理評分建議
+  const obj = face.suggest;
+  var suggest_str = "";
+  for (var item in obj) {
+    if (obj.hasOwnProperty(item)) {
+      suggest_str += obj[item];
+      suggest_str += "\n";
+    }
+  }
 
   return (
     <ScrollView style={(styles.center, styles(colors).container)}>
@@ -35,7 +66,7 @@ const FacialResult = ({ navigation }) => {
           )}
         </Pressable>
         <Text style={styles(colors).text}>評分結果</Text>
-        <Text style={styles(colors).scoreArea}>B</Text>
+        <Text style={styles(colors).scoreArea}>{face.Total_Score}</Text>
       </View>
       <View style={styles(colors).resultWrapper}>
         <Text style={styles(colors).resultText}>臉部分析</Text>
@@ -43,56 +74,71 @@ const FacialResult = ({ navigation }) => {
           <View style={styles(colors).resultCard}>
             <Text style={styles(colors).resultCardTitle}>皺眉</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>適中</Text>
+              <Text style={styles(colors).resultCardText}>
+                {face.EyebrowPitch_PR}
+              </Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>
             <Text style={styles(colors).resultCardTitle}>眨眼</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>15</Text>
+              <Text style={styles(colors).resultCardText}>{face.WinkTime}</Text>
               <Text style={styles(colors).resultCardUnit}>字/分</Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={[styles(colors).resultCardTitle,{marginBottom:0}]}>笑容表達</Text>
+            <Text style={[styles(colors).resultCardTitle, { marginBottom: 0 }]}>
+              笑容表達
+            </Text>
             <Text style={styles(colors).resultCardTitle}>PR值</Text>
             <View style={styles(colors).resultContent}>
               <CircleChart
-                  percentage={54}
-                  color={colors.red.main}
-                  delay={500 + 100 * 0}
-                  max={100}
-                />
+                percentage={Mouth_PR}
+                color={colors.red.main}
+                delay={500 + 100 * 0}
+                max={100}
+              />
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={[styles(colors).resultCardTitle,{marginBottom:0}]}>眉毛表現</Text>
+            <Text style={[styles(colors).resultCardTitle, { marginBottom: 0 }]}>
+              眉毛表現
+            </Text>
             <Text style={styles(colors).resultCardTitle}>PR值</Text>
             <View style={styles(colors).resultContent}>
               <CircleChart
-                    percentage={80}
-                    color={colors.primary.dark}
-                    delay={500 + 100 * 0}
-                    max={100}
-                  />
+                percentage={EyebrowHeight_PR}
+                color={colors.primary.dark}
+                delay={500 + 100 * 0}
+                max={100}
+              />
             </View>
           </View>
         </View>
         <View style={styles(colors).eyesAnalysis}>
-          <Text style={[styles(colors).resultCardTitle,{width: '40%',textAlign:'center'}]}>眼神游移百分比</Text>
-          <Text style={[styles(colors).resultCardTitle,{marginTop:0}]}></Text>
+          <Text
+            style={[
+              styles(colors).resultCardTitle,
+              { width: "40%", textAlign: "center" },
+            ]}
+          >
+            眼神游移百分比
+          </Text>
+          <Text
+            style={[styles(colors).resultCardTitle, { marginTop: 0 }]}
+          ></Text>
           <CircleChart
-                    percentage={92}
-                    color={colors.orange.main}
-                    delay={500 + 100 * 0}
-                    max={100}
-                  />
+            percentage={distractTime}
+            color={colors.orange.main}
+            delay={500 + 100 * 0}
+            max={100}
+          />
         </View>
 
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-            語調起伏較平緩，平均語速稍快，可調整語調並減緩語速
+            {suggest_str}
           </Text>
 
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
@@ -247,9 +293,9 @@ const styles = (colors) =>
       paddingRight: "8%",
     },
     eyesAnalysis: {
-      flexDirection: 'row',
-      alignItems:'center',
-      justifyContent:'space-between',
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
       width: "72%",
       backgroundColor: colors.background.paper,
       borderRadius: 20,
@@ -259,9 +305,8 @@ const styles = (colors) =>
       shadowRadius: 15,
       elevation: 3,
       marginBottom: "5%",
-      paddingVertical:'8%',
-      paddingHorizontal:'10%',
+      paddingVertical: "8%",
+      paddingHorizontal: "10%",
     },
-    
   });
 export default FacialResult;
