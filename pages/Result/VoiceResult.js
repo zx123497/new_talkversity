@@ -41,25 +41,25 @@ const VoiceResult = ({ navigation }) => {
   }, []);
   console.log(sound);
 
-  weird_sound_score = sound.weird_sound_score == 0 ? "良好" 
-  :  sound.weird_sound_score == 1 ? "適中"
-  : "過多";
+  weird_sound_score = sound.weird_sound_score == 0 ? "過多" 
+  :  sound.weird_sound_score == 1 ? "普通"
+  : "良好";
 
-  stop_too_long_score = sound.stop_too_long_score == 0 ? "良好" 
-  :  sound.stop_too_long_score == 1 ? "適中"
-  : "過多";
+  stop_too_long_score = sound.stop_too_long_score == 0 ? "過多" 
+  :  sound.stop_too_long_score == 1 ? "普通"
+  : "良好";
   
-  frequency_score = sound.frequency_score == 0 ? "過高" 
-  :  sound.frequency_score == 1 ? "穩定"
+  frequency_score = sound.frequency_score == 0 ? "穩定" 
+  :  sound.frequency_score == 1 ? "過高"
   : "過低";
 
-  voice_calm_score = sound.voice_calm_score == 0 ? "抑揚頓挫" 
+  voice_calm_score = sound.voice_calm_score == 0 ? "平淡" 
   :  sound.voice_calm_score == 1 ? "普通"
-  : "平淡";
+  : "抑揚頓挫";
 
-  amplitude_score = sound.amplitude_score == 0 ? "過小" 
-  :  sound.amplitude_score == 1 ? "適中"
-  : "過大";
+  amplitude_score = sound.amplitude_score == 0 ? "適中"
+  :  sound.amplitude_score == 1 ? "過大"
+  : "過小";
   pretest_db = sound.pretest_db;
   avg_db = Math.round(sound.avg_db);
 
