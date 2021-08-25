@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../components/context/context";
 import { useTheme } from "react-native-paper";
 import {
   StyleSheet,
@@ -11,16 +12,72 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { BarChart } from "react-native-chart-kit";
+import SoundService from "../../services/SoundService";
 
 const VoiceResult = ({ navigation }) => {
   const { colors } = useTheme();
+  const [sound, setSound] = useState(
+    {
+      weird_sound_score: "",
+      stop_too_long_score: "",
+      frequency_score: "",
+      voice_calm_score: "",
+      amplitude_score: "",
+      pretest_db: 0,
+      avg_db: 0,
+    }
+  );
   const screenWidth = Dimensions.get("window").width;
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
+  
+  useEffect(() => {
+    SoundService.getSoundLatest(userData.userId).then((res) => {
+      let arr = [];
+      arr = res.data;
+      setSound(res.data);
+      
+    });
+  }, []);
+  console.log(sound);
+
+  weird_sound_score = sound.weird_sound_score == 0 ? "良好" 
+  :  sound.weird_sound_score == 1 ? "適中"
+  : "過多";
+
+  stop_too_long_score = sound.stop_too_long_score == 0 ? "良好" 
+  :  sound.stop_too_long_score == 1 ? "適中"
+  : "過多";
+  
+  frequency_score = sound.frequency_score == 0 ? "過高" 
+  :  sound.frequency_score == 1 ? "穩定"
+  : "過低";
+
+  voice_calm_score = sound.voice_calm_score == 0 ? "抑揚頓挫" 
+  :  sound.voice_calm_score == 1 ? "普通"
+  : "平淡";
+
+  amplitude_score = sound.amplitude_score == 0 ? "過小" 
+  :  sound.amplitude_score == 1 ? "適中"
+  : "過大";
+  pretest_db = sound.pretest_db;
+  avg_db = Math.round(sound.avg_db);
+
+  // 處理評分建議
+  const obj = sound.analyze_json;
+  var suggest_str = "";
+  for (var item in obj) {
+    if (obj.hasOwnProperty(item)) {
+      suggest_str += obj[item];
+      suggest_str += "。\n";
+    }
+  }
+
   let barChartData = {
     labels: ["前側", "實測"],
     datasets: [
       {
-        data: [15, 30],
-        // 三個以下良好 colors.primary.light 五個警告"#FAA948" 八個嚴重"#D7ABAB"
+        data: [pretest_db, avg_db],
         colors: [
           (opacity = 1) => colors.orange.main,
           (opacity = 1) => colors.primary.main,
@@ -59,7 +116,7 @@ const VoiceResult = ({ navigation }) => {
           )}
         </Pressable>
         <Text style={styles(colors).text}>評分結果</Text>
-        <Text style={styles(colors).scoreArea}>A</Text>
+        <Text style={styles(colors).scoreArea}>{sound.rank}</Text>
       </View>
       <View style={styles(colors).resultWrapper}>
         <Text style={styles(colors).resultText}>聲音分析</Text>
@@ -67,13 +124,33 @@ const VoiceResult = ({ navigation }) => {
           <View style={styles(colors).resultCard}>
             <Text style={styles(colors).resultCardTitle}>發語聲</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>過多</Text>
+              <Text style={styles(colors).resultCardText}>
+                {weird_sound_score}
+              </Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>
             <Text style={styles(colors).resultCardTitle}>停頓</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>過長</Text>
+              <Text style={styles(colors).resultCardText}>
+                {stop_too_long_score}
+              </Text>
+            </View>
+          </View>
+          <View style={styles(colors).resultCard}>
+            <Text style={styles(colors).resultCardTitle}>頻率</Text>
+            <View style={styles(colors).resultContent}>
+              <Text style={styles(colors).resultCardText}>
+                {frequency_score}
+              </Text>
+            </View>
+          </View>
+          <View style={styles(colors).resultCard}>
+            <Text style={styles(colors).resultCardTitle}>語調</Text>
+            <View style={styles(colors).resultContent}>
+              <Text style={styles(colors).resultCardText}>
+                {voice_calm_score}
+              </Text>
             </View>
           </View>
         </View>
@@ -88,35 +165,22 @@ const VoiceResult = ({ navigation }) => {
             showBarTops={false}
             showValuesOnTopOfBars={true}
             fromZero={true}
-            style={{ marginTop: "1%", marginBottom: "5%",}}
+            style={{ marginTop: "1%", marginBottom: "5%" }}
           />
-        </View>
-        <View style={styles(colors).barChartWrapper}>
-          <Text style={styles(colors).resultCardTitle}>語調</Text>
-          <BarChart
-            data={barChartData}
-            width={screenWidth - 150}
-            height={200}
-            chartConfig={chartConfig}
-            withCustomBarColorFromData={true}
-            showBarTops={false}
-            showValuesOnTopOfBars={true}
-            fromZero={true}
-            style={{ marginTop: "1%" }}
-          />
-          <View style={styles(colors).tuneResultCard}>
+           <View style={styles(colors).tuneResultCard}>
             <Text style={styles(colors).resultCardTitle}>訓練結果</Text>
             <View style={styles(colors).resultContent}>
-              <Text style={styles(colors).resultCardText}>平淡</Text>
+              <Text style={styles(colors).resultCardText}>{amplitude_score}</Text>
             </View>
           </View>
         </View>
+
         <View style={styles(colors).commentWrapper}>
           <Text style={styles(colors).commentText}>評分建議</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
-          語調起伏較平緩，平均語速稍快，可調整語調並減緩語速
+            {suggest_str}
           </Text>
-          
+
           <Pressable onPress={() => navigation.navigate("成長紀錄")}>
             <Text
               style={[
@@ -193,10 +257,20 @@ const styles = (colors) =>
       marginBottom: "5%",
     },
     resultTop: {
+      flexWrap: "wrap",
       width: "80%",
       flexDirection: "row",
       alignSelf: "center",
       justifyContent: "space-around",
+      // marginBottom: "5%",
+    },
+    tuneResultCard: {
+      width: "55%",
+      backgroundColor: colors.background.default,
+      borderRadius: 20,
+      padding: "2%",
+      marginTop: '2%',
+      marginBottom: '5%',
       marginBottom: "5%",
     },
     resultCard: {
@@ -209,14 +283,7 @@ const styles = (colors) =>
       shadowRadius: 15,
       elevation: 8,
       padding: "2%",
-    },
-    tuneResultCard: {
-      width: "55%",
-      backgroundColor: colors.background.default,
-      borderRadius: 20,
-      padding: "2%",
-      marginTop: '2%',
-      marginBottom: '5%',
+      marginBottom: "5%",
     },
     resultCardTitle: {
       alignSelf: "center",
