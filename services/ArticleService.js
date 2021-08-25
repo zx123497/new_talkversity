@@ -9,6 +9,14 @@ const ArticleService = {
       throw error;
     }
   },
+  getArticleListLatest: async (id) => {
+    try {
+      const response = await axios.get(`/article/${id}/latest`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   getArticleDetail: async (id) => {
     try {
       const response = await axios.get(`/articleDetail/${id}`);

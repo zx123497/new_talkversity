@@ -26,10 +26,10 @@ const TextResult = ({ navigation }) => {
   const { getData } = useContext(AuthContext);
   const userData = getData();
   useEffect(() => {
-    ArticleService.getArticleList(userData.userId).then((res) => {
+    ArticleService.getArticleListLatest(userData.userId).then((res) => {
       // console.log(res.data);
       let arr = [];
-      arr = res.data.pop();
+      arr = res.data;
       barChartData.datasets[0].data[0] = arr.redundant_1_count;
       barChartData.datasets[0].data[1] = arr.redundant_2_count;
       barChartData.datasets[0].data[2] = arr.redundant_3_count;
