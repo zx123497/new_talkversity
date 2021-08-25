@@ -43,6 +43,22 @@ const PreTest = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
+  const CreateFormData = (uri) => {
+    const form = new FormData();
+    var time = new Date();
+    var theTime = time.getTime();
+    const i = "1";
+    form.append("File", {
+      name: "PreTestVideo"+theTime+".mp4",
+      uri: uri,
+      type: "video/mp4",
+    });
+
+    // Now perform a post request here by adding this form in the body part of the request
+    // Then you can handle the file you sent in the backend i.e server
+
+  };
+
   const renderIntroduce = () => {
     return (
       <View style={styles(colors).topic}>
@@ -58,14 +74,6 @@ const PreTest = ({ navigation }) => {
     );
   };
 
-  const renderVideoRecordIndicator = () => {
-    return (
-      <View style={styles(colors).recordIndicatorContainer}>
-        <View style={styles(colors).recordDot} />
-        <Text style={styles(colors).recordTitle}>Record</Text>
-      </View>
-    );
-  };
 
   const renderVideoRecoding = (recording) => {
     return (
@@ -83,6 +91,7 @@ const PreTest = ({ navigation }) => {
                     maxDuration: 30,
                   });
                   console.log("video", video);
+                  CreateFormData(video.uri);
                 } else {
                   console.log("stop record");
                   let endVideo = await cameraRef.stopRecording();

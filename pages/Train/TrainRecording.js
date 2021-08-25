@@ -42,6 +42,22 @@ const TrainRecording = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
+  const CreateFormData = (uri) => {
+    const form = new FormData();
+    var time = new Date();
+    var theTime = time.getTime();
+    const i = "1";
+    form.append("File", {
+      name: "trainVideo"+theTime+".mp4",
+      uri: uri,
+      type: "video/mp4",
+    });
+
+    // Now perform a post request here by adding this form in the body part of the request
+    // Then you can handle the file you sent in the backend i.e server
+
+  };
+  
   const renderIntroduce = () => {
     return (
       <View style={styles(colors).topic}>
@@ -85,6 +101,7 @@ const TrainRecording = ({ navigation }) => {
                   });
                   console.log("video", video.uri);
                   setVideoUri(video.uri);
+                  CreateFormData(video_uri);
                 } else {
                   console.log("stop record");
                   let endVideo = await cameraRef.stopRecording();
