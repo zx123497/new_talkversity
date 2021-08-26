@@ -17,6 +17,14 @@ const ArticleService = {
       throw error;
     }
   },
+  getRecordVideo: async (id) => {
+    try {
+      const response = await axios.get(`/face/${id}/`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default ArticleService;

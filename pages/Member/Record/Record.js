@@ -40,7 +40,7 @@ const Record = ({ navigation }) => {
           onPress={() => {
             navigation.navigate("紀錄內容", {
               screen: "info",
-              params: { title: "自我介紹訓練", id: row.id },
+              params: { title: "自我介紹訓練", id: row.id, time: row.created },
             });
           }}
           style={{

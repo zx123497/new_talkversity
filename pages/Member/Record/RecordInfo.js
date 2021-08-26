@@ -17,6 +17,21 @@ import CircleChart from "../../../components/Chart/CircleChart";
 const RecordInfo = ({ route }) => {
   const { colors } = useTheme();
   const screenWidth = Dimensions.get("window").width;
+  const [video, setVideo] = useState(null);
+  const [face, setFace] = useState({
+    distractTime: 0,
+    EyebrowHeight_PR: 0,
+    Mouth_PR: 0,
+  });
+  const [sound, setSound] = useState({
+    weird_sound_score: "",
+    stop_too_long_score: "",
+    frequency_score: "",
+    voice_calm_score: "",
+    amplitude_score: "",
+    pretest_db: 0,
+    avg_db: 0,
+  });
   const [word, setWord] = useState({
     suggest_json: [],
     redundant_1_count: 0,
@@ -58,6 +73,77 @@ const RecordInfo = ({ route }) => {
       },
     ],
   };
+  const obj = face.Suggest;
+  var suggest_str = "";
+  for (var item in obj) {
+    if (obj.hasOwnProperty(item)) {
+      suggest_str += obj[item];
+      suggest_str += "\n";
+    }
+  }
+  const obj_voice = sound.analyze_json;
+  var suggest_str_v = "";
+  for (var item in obj_voice) {
+    if (obj_voice.hasOwnProperty(item)) {
+      suggest_str_v += obj_voice[item];
+      suggest_str_v += "。\n";
+    }
+  }
+
+  const distractTime = Math.round(face.DistractTime * 100);
+  const EyebrowHeight_PR =
+    face.EyebrowHeight_PR == 0 ? 1 : Math.round(face.EyebrowHeight_PR);
+  const Mouth_PR = face.Mouth_PR == 0 ? 1 : Math.round(face.Mouth_PR);
+
+  weird_sound_score =
+    sound.weird_sound_score == 0
+      ? "過多"
+      : sound.weird_sound_score == 1
+      ? "普通"
+      : "良好";
+
+  stop_too_long_score =
+    sound.stop_too_long_score == 0
+      ? "過多"
+      : sound.stop_too_long_score == 1
+      ? "普通"
+      : "良好";
+
+  frequency_score =
+    sound.frequency_score == 0
+      ? "穩定"
+      : sound.frequency_score == 1
+      ? "過高"
+      : "過低";
+
+  voice_calm_score =
+    sound.voice_calm_score == 0
+      ? "平淡"
+      : sound.voice_calm_score == 1
+      ? "普通"
+      : "抑揚頓挫";
+
+  amplitude_score =
+    sound.amplitude_score == 0
+      ? "適中"
+      : sound.amplitude_score == 1
+      ? "過大"
+      : "過小";
+  pretest_db = sound.pretest_db;
+  avg_db = Math.round(sound.avg_db);
+
+  let barChartDataVoice = {
+    labels: ["前側", "實測"],
+    datasets: [
+      {
+        data: [pretest_db, avg_db],
+        colors: [
+          (opacity = 1) => colors.orange.main,
+          (opacity = 1) => colors.primary.main,
+        ],
+      },
+    ],
+  };
 
   const chartConfig = {
     backgroundColor: colors.background.paper,
@@ -72,21 +158,30 @@ const RecordInfo = ({ route }) => {
   };
 
   useEffect(() => {
-    RecordService.getRecord(route.params.id).then((res) => {
-      console.log(res.data);
-      let temp = res.data.article[0].suggest_json;
-      let new_suggest = Object.keys(temp).map((k) => ({
-        id: k,
-        name: temp[k],
-      }));
-      console.log(new_suggest);
-      let talk_speed = res.data.article[0].talk_speed.toFixed(1);
-      setWord({
-        ...res.data.article[0],
-        suggest_json: new_suggest,
-        talk_speed: talk_speed,
+    RecordService.getRecord(route.params.id)
+      .then((res) => {
+        console.log(res.data);
+        let video = res.data.face[0].Videofile;
+        setVideo(video);
+
+        let temp = res.data.article[0].suggest_json;
+        let new_suggest = Object.keys(temp).map((k) => ({
+          id: k,
+          name: temp[k],
+        }));
+        console.log(new_suggest);
+        let talk_speed = res.data.article[0].talk_speed.toFixed(1);
+        setSound(res.data.sound[0]);
+        setWord({
+          ...res.data.article[0],
+          suggest_json: new_suggest,
+          talk_speed: talk_speed,
+        });
+        setFace(res.data.face[0]);
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    });
   }, []);
   const bs_voice = useRef();
   const bs_word = useRef();
@@ -291,7 +386,7 @@ const RecordInfo = ({ route }) => {
                   fontWeight: "bold",
                 }}
               >
-                適中
+                {weird_sound_score}
               </Text>
             </View>
           </View>
@@ -326,7 +421,86 @@ const RecordInfo = ({ route }) => {
                   color: colors.orange.main,
                 }}
               >
-                過長
+                {stop_too_long_score}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            height: 150,
+            width: "100%",
+            alignItems: "stretch",
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#FFF",
+              padding: 10,
+              marginBottom: 20,
+              marginRight: 10,
+              elevation: 1,
+              borderRadius: 10,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16, color: colors.paragraph.secondary }}>
+              頻率
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: colors.orange.main,
+                  fontSize: 28,
+                  fontWeight: "bold",
+                }}
+              >
+                {frequency_score}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#FFF",
+              padding: 10,
+
+              marginLeft: 10,
+              marginBottom: 20,
+              borderRadius: 10,
+              alignItems: "center",
+              // justifyContent: "center",
+              elevation: 1,
+            }}
+          >
+            <Text style={{ fontSize: 16, color: colors.paragraph.secondary }}>
+              語調
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 28,
+                  fontWeight: "bold",
+                  color: colors.orange.main,
+                }}
+              >
+                {voice_calm_score}
               </Text>
             </View>
           </View>
@@ -335,65 +509,34 @@ const RecordInfo = ({ route }) => {
           style={{
             backgroundColor: "#FFF",
             width: "100%",
-            height: 400,
             borderRadius: 10,
+            // height: 450,
             alignItems: "center",
             justifyContent: "center",
             padding: 10,
+            marginTop: 0,
             elevation: 1,
           }}
         >
-          <Text style={{ fontSize: 25 }}>聲音</Text>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              // backgroundColor: colors.orange.light,s
-              alignSelf: "stretch",
-            }}
+          <Text
+            style={{ fontSize: 25, color: colors.text, fontWeight: "bold" }}
           >
-            <BarChart
-              data={barChartData}
-              width={screenWidth - 80}
-              height={300}
-              chartConfig={chartConfig}
-              withCustomBarColorFromData={true}
-              showBarTops={false}
-              showValuesOnTopOfBars={true}
-              fromZero={true}
-              style={{ marginTop: "1%", marginBottom: "5%" }}
-            />
-          </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: "#FFF",
-            width: "100%",
-            borderRadius: 10,
-            height: 450,
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 10,
-            marginTop: 20,
-            elevation: 1,
-          }}
-        >
-          <Text style={{ fontSize: 25 }}>語調</Text>
+            音量(分貝)
+          </Text>
           <View
             style={{
               flex: 1,
               alignItems: "center",
               justifyContent: "center",
-
+              marginTop: 20,
               // backgroundColor: colors.orange.light,
               alignSelf: "stretch",
             }}
           >
             <BarChart
-              data={barChartData}
+              data={barChartDataVoice}
               width={screenWidth - 80}
-              height={300}
+              height={250}
               chartConfig={chartConfig}
               withCustomBarColorFromData={true}
               showBarTops={false}
@@ -424,7 +567,7 @@ const RecordInfo = ({ route }) => {
                 fontWeight: "bold",
               }}
             >
-              平淡
+              {amplitude_score}
             </Text>
           </View>
         </View>
@@ -445,8 +588,10 @@ const RecordInfo = ({ route }) => {
           <Text style={{ color: colors.text, fontSize: 20, marginBottom: 15 }}>
             評分建議
           </Text>
-          <Text style={{ color: colors.paragraph.secondary }}>
-            語調起伏較平緩，平均語速 稍快，可調整語調並減緩語速
+          <Text
+            style={{ color: colors.paragraph.secondary, alignSelf: "stretch" }}
+          >
+            {suggest_str_v}
           </Text>
         </View>
         <View style={{ height: 100 }} />
@@ -535,7 +680,7 @@ const RecordInfo = ({ route }) => {
             >
               <Text
                 style={{
-                  fontSize: 28,
+                  fontSize: 24,
                   fontWeight: "bold",
                   color: colors.orange.main,
                 }}
@@ -726,7 +871,7 @@ const RecordInfo = ({ route }) => {
                   fontWeight: "bold",
                 }}
               >
-                適中
+                {face.EyebrowPitch_PR}
               </Text>
             </View>
           </View>
@@ -761,7 +906,7 @@ const RecordInfo = ({ route }) => {
                   color: colors.orange.main,
                 }}
               >
-                15 次/分
+                {face.WinkTime} 次/分
               </Text>
             </View>
           </View>
@@ -809,7 +954,7 @@ const RecordInfo = ({ route }) => {
                 PR95
               </Text> */}
               <CircleChart
-                percentage={80}
+                percentage={Mouth_PR}
                 color={colors.primary.dark}
                 delay={500 + 100 * 0}
                 max={100}
@@ -850,7 +995,7 @@ const RecordInfo = ({ route }) => {
                 PR45
               </Text> */}
               <CircleChart
-                percentage={95}
+                percentage={EyebrowHeight_PR}
                 color={colors.orange.main}
                 delay={500 + 100 * 0}
                 max={100}
@@ -880,7 +1025,7 @@ const RecordInfo = ({ route }) => {
             }}
           >
             <Text style={{ fontSize: 16, color: colors.paragraph.secondary }}>
-              笑容表現PR值
+              眼神游移百分比
             </Text>
             <View
               style={{
@@ -899,7 +1044,7 @@ const RecordInfo = ({ route }) => {
                 PR95
               </Text> */}
               <CircleChart
-                percentage={80}
+                percentage={distractTime}
                 color={colors.red.main}
                 delay={500 + 100 * 0}
                 max={100}
@@ -930,9 +1075,7 @@ const RecordInfo = ({ route }) => {
             評分建議
           </Text>
           <Text style={{ color: colors.paragraph.secondary }}>
-            使用負面詞彙，張力較不足夠， 少數用詞不妥當。
-            使用負面詞彙，張力較不足夠，
-            少數用詞不妥當。使用負面詞彙，張力較不足夠， 少數用詞不妥當。
+            {suggest_str}
           </Text>
         </View>
         <View style={{ height: 100 }} />
@@ -965,9 +1108,12 @@ const RecordInfo = ({ route }) => {
           resizeMode="contain"
           useNativeControls
           isLooping
-          source={{
-            uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-          }} // Can be a URL or a local file.
+          source={
+            {
+              uri: video,
+            }
+            // : require(video)
+          } // Can be a URL or a local file.
           style={{
             width: "100%",
             height: "100%",
@@ -1004,7 +1150,7 @@ const RecordInfo = ({ route }) => {
               marginTop: 10,
             }}
           >
-            2021/10/10 08:00AM
+            {route.params.time}
           </Text>
         </View>
         <View style={{ alignSelf: "stretch", marginTop: 20 }}>
