@@ -25,6 +25,14 @@ const ArticleService = {
       throw error;
     }
   },
+  getRecordWeekdate: async (id) => {
+    try {
+      const response = await axios.get(`/record/${id}/weekdate/`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default ArticleService;

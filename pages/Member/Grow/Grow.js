@@ -13,33 +13,181 @@ import { Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { AuthContext } from "../../../components/context/context";
 import GradeSerivce from "../../../services/GradeService";
-import {
-  LineChart,
-  // BarChart,
-  // PieChart,
-  // ProgressChart,
-  // ContributionGraph,
-  // StackedBarChart,
-} from "react-native-chart-kit";
+import RecordService from "../../../services/RecordService";
+import { LineChart } from "react-native-chart-kit";
+
 const Setting = () => {
   const { colors } = useTheme();
   const [type, setType] = useState("face");
   const [words, setWords] = useState(0);
+  const [suggest_str, setSuggest_str] = useState("");
+  const [records, setRecords] = useState({
+    date: ["1/1", "1/2", "1/3"],
+    wordscore: [1, 1, 1],
+    soundscore: [1, 1, 1],
+    facescore: [1, 1, 1],
+  });
+
+  useEffect(() => {
+    console.log("suggest change");
+    let suggest = "";
+    if (type === "text") {
+      suggest = "";
+      if (records.wordscore[records.wordscore.length] > records.wordscore[0]) {
+        suggest += "這一週的語意表現有進步的趨勢，繼續加油";
+      } else {
+        suggest += "這一週的語意表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+      }
+      setSuggest_str(suggest);
+    }
+    if (type === "voice") {
+      suggest = "";
+      if (
+        records.soundscore[records.soundscore.length] > records.soundscore[0]
+      ) {
+        suggest += "這一週的聲音表現有進步的趨勢，繼續加油";
+      } else {
+        suggest += "這一週的聲音表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+      }
+      setSuggest_str(suggest);
+    }
+    if (type === "face") {
+      suggest = "";
+      if (records.facescore[records.facescore.length] > records.facescore[0]) {
+        suggest += "這一週的表情表現有進步的趨勢，繼續加油";
+      } else {
+        suggest += "這一週的表情表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+      }
+      setSuggest_str(suggest);
+    }
+  }, [type]);
+
   const screenWidth = Dimensions.get("window").width;
   const { getData } = useContext(AuthContext);
   const userData = getData();
   useEffect(() => {
-    GradeSerivce.getUserWords(userData.userId).then((res) => {
-      setWords(res.data[0].total_word);
+    RecordService.getRecordWeekdate(userData.userId).then((res) => {
+      console.log(res.data);
+      let temp = [];
+      let temp2 = [];
+      let temp3 = [];
+      let temp4 = [];
+      res.data.forEach((record) => {
+        temp.push(createScore(record));
+        temp2.push(createDate(record));
+        temp3.push(createScore_v(record));
+        temp4.push(createScore_f(record));
+      });
+      setRecords({
+        date: temp2,
+        wordscore: temp,
+        soundscore: temp3,
+        facescore: temp4,
+      });
+      GradeSerivce.getUserWords(userData.userId).then((res) => {
+        setWords(res.data[0].total_word);
+      });
     });
   }, []);
+
+  const createScore = (record) => {
+    if (record.article__rank === "S") {
+      return 5;
+    } else if (record.article__rank === "A") {
+      return 4;
+    } else if (record.article__rank === "B") {
+      return 3;
+    } else if (record.article__rank === "C") {
+      return 2;
+    } else if (record.article__rank === "D") {
+      return 1;
+    }
+  };
+  const createScore_v = (record) => {
+    if (record.sound__rank === "S") {
+      return 5;
+    } else if (record.sound__rank === "A") {
+      return 4;
+    } else if (record.sound__rank === "B") {
+      return 3;
+    } else if (record.sound__rank === "C") {
+      return 2;
+    } else if (record.sound__rank === "D") {
+      return 1;
+    }
+  };
+  const createScore_f = (record) => {
+    if (record.face__Total_Score === "S") {
+      return 5;
+    } else if (record.face__Total_Score === "A") {
+      return 4;
+    } else if (record.face__Total_Score === "B") {
+      return 3;
+    } else if (record.face__Total_Score === "C") {
+      return 2;
+    } else if (record.face__Total_Score === "D") {
+      return 1;
+    }
+  };
+  const createDate = (record) => {
+    const date = record.created.split("T")[0];
+    const md = date.split("-")[1] + "/" + date.split("-")[2];
+    return md;
+  };
+
   const data = {
-    labels: ["8/1", "8/2", "8/3", "8/4", "8/5", "8/6"],
+    labels: records.date,
     datasets: [
       {
-        data: [1, 4, 2, 3, 5, 4],
+        data: records.wordscore,
         color: (opacity = 1) => `rgba(121,202,195, ${opacity})`, // optional
         strokeWidth: 0, // optional
+      },
+      {
+        data: [1], // minfake
+        color: (opacity = 0) => `rgba(121,202,195, 0)`, // optional
+      },
+      {
+        data: [5], // maxfake
+        color: (opacity = 0) => `rgba(121,202,195, 0)`, // optional
+      },
+    ],
+    // legend: ["成長分析"], // optional
+  };
+  const data_v = {
+    labels: records.date,
+    datasets: [
+      {
+        data: records.soundscore,
+        color: (opacity = 1) => `rgba(121,202,195, ${opacity})`, // optional
+        strokeWidth: 0, // optional
+      },
+      {
+        data: [1], // minfake
+        color: (opacity = 0) => `rgba(121,202,195, 0)`, // optional
+      },
+      {
+        data: [5], // maxfake
+        color: (opacity = 0) => `rgba(121,202,195, 0)`, // optional
+      },
+    ],
+    // legend: ["成長分析"], // optional
+  };
+  const data_f = {
+    labels: records.date,
+    datasets: [
+      {
+        data: records.facescore,
+        color: (opacity = 1) => `rgba(121,202,195, ${opacity})`, // optional
+        strokeWidth: 0, // optional
+      },
+      {
+        data: [1], // minfake
+        color: (opacity = 0) => `rgba(121,202,195, 0)`, // optional
+      },
+      {
+        data: [5], // maxfake
+        color: (opacity = 0) => `rgba(121,202,195, 0)`, // optional
       },
     ],
     // legend: ["成長分析"], // optional
@@ -168,22 +316,65 @@ const Setting = () => {
               marginBottom: 20,
             }}
           >
-            {type}の成長分析
+            {type === "face" ? "表情" : type === "voice" ? "聲音" : "語意"}
+            近一週訓練之成長分析
           </Text>
-          <LineChart
-            style={{ flex: 1 }}
-            data={data}
-            width={screenWidth - 40}
-            height={220}
-            chartConfig={chartConfig}
-            formatYLabel={(value) => {
-              if (value == 1) return "D";
-              else if (value == 2) return "C";
-              else if (value == 3) return "B";
-              else if (value == 4) return "A";
-              else if (value == 5) return "S";
-            }}
-          />
+          {type === "text" ? (
+            <LineChart
+              style={{ flex: 1 }}
+              data={data}
+              width={screenWidth - 40}
+              height={220}
+              yLabelsOffset={10}
+              yAxisInterval={1}
+              segments={4}
+              chartConfig={chartConfig}
+              formatYLabel={(value) => {
+                if (value == 1) return "D";
+                else if (value == 2) return "C";
+                else if (value == 3) return "B";
+                else if (value == 4) return "A";
+                else if (value == 5) return "S";
+              }}
+            />
+          ) : type === "voice" ? (
+            <LineChart
+              style={{ flex: 1 }}
+              data={data_v}
+              width={screenWidth - 40}
+              height={220}
+              yLabelsOffset={10}
+              yAxisInterval={1}
+              segments={4}
+              chartConfig={chartConfig}
+              formatYLabel={(value) => {
+                if (value == 1) return "D";
+                else if (value == 2) return "C";
+                else if (value == 3) return "B";
+                else if (value == 4) return "A";
+                else if (value == 5) return "S";
+              }}
+            />
+          ) : (
+            <LineChart
+              style={{ flex: 1 }}
+              data={data_f}
+              width={screenWidth - 40}
+              height={220}
+              yLabelsOffset={10}
+              yAxisInterval={1}
+              segments={4}
+              chartConfig={chartConfig}
+              formatYLabel={(value) => {
+                if (value == 1) return "D";
+                else if (value == 2) return "C";
+                else if (value == 3) return "B";
+                else if (value == 4) return "A";
+                else if (value == 5) return "S";
+              }}
+            />
+          )}
+
           {type === "text" ? (
             <View
               style={{
@@ -259,7 +450,7 @@ const Setting = () => {
                 成長建議
               </Text>
               <Text style={{ color: colors.paragraph.secondary, fontSize: 16 }}>
-                皺眉的情況有改善，不過眨眼的次數 還是需要加強。
+                {suggest_str}
               </Text>
             </View>
             <Image

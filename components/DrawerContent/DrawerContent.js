@@ -4,7 +4,7 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { useTheme } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthContext } from "../context/context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import GradeService from "../../services/GradeService";
 import {
   Avatar,
   Title,
@@ -15,19 +15,50 @@ import {
   TouchableRipple,
   Switch,
 } from "react-native-paper";
-import { DrawerRouter } from "@react-navigation/native";
 
 const DrawerContent = (props) => {
   const { colors } = useTheme();
   const { signOut, getData } = React.useContext(AuthContext);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [userName, setUserName] = useState("");
+  const [userWord, setUserWord] = useState(0);
+  const [grade, setGrade] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPicture, setUserPicture] = useState("");
   useEffect(() => {
     const data = getData();
     setUserInfo(data);
+    GradeService.getUserWords(data.userId).then((res) => {
+      setUserWord(res.data[0].total_word);
+    });
+    GradeService.getUserGrade().then((res) => {
+      // console.log();
+      setGrade(getGrade(res));
+    });
   }, []);
+
+  const getGrade = (res) => {
+    let grade = 0;
+    let userId = getData.userId;
+    res.forEach((row) => {
+      if (row.user === userId) {
+        if (row.grade > grade) {
+          grade = row.grade;
+        }
+      }
+    });
+    if (grade === 0) {
+      return "未取得";
+    } else if (grade === 1) {
+      return "一年級";
+    } else if (grade === 2) {
+      return "二年級";
+    } else if (grade === 3) {
+      return "三年級";
+    } else if (grade === 4) {
+      return "四年級";
+    }
+  };
   const setUserInfo = (data) => {
     setUserName(data.userName);
     setUserEmail(data.userEmail);
@@ -38,12 +69,16 @@ const DrawerContent = (props) => {
     setIsDarkTheme(!isDarkTheme);
   };
   return (
-    <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props}>
+    <View style={{ flex: 1, backgroundColor: colors.primary.dark }}>
+      <DrawerContentScrollView
+        {...props}
+        style={{ backgroundColor: colors.primary.dark }}
+      >
         <View style={styles(colors).drawerContent}>
           <View style={styles(colors).userInfoSection}>
             <View style={{ flexDirection: "row", marginTop: 15 }}>
               <Avatar.Image
+                style={{ backgroundColor: "#FFF", borderRadius: 35 }}
                 // source={require("../../images/avatar.jpg")}
                 source={{ uri: userPicture ? userPicture : "123" }}
                 size={70}
@@ -61,15 +96,15 @@ const DrawerContent = (props) => {
                 <Paragraph
                   style={[styles(colors).paragraph, styles(colors).caption]}
                 >
-                  80
+                  {userWord}
                 </Paragraph>
-                <Caption style={styles(colors).caption}>完成訓練</Caption>
+                <Caption style={styles(colors).caption}>訓練字數</Caption>
               </View>
               <View style={styles(colors).section}>
                 <Paragraph
                   style={[styles(colors).paragraph, styles(colors).caption]}
                 >
-                  三年級
+                  {grade}
                 </Paragraph>
                 <Caption style={styles(colors).caption}>成就段位</Caption>
               </View>
@@ -78,6 +113,7 @@ const DrawerContent = (props) => {
           <Drawer.Section style={styles(colors).drawerSection}>
             <DrawerItem
               label="成長紀錄"
+              inactiveTintColor="white"
               icon={({ color, size }) => (
                 <Icon name="chart-line" color={color} size={size} />
               )}
@@ -87,6 +123,7 @@ const DrawerContent = (props) => {
             />
             <DrawerItem
               label="生涯成就"
+              inactiveTintColor="white"
               icon={({ color, size }) => (
                 <Icon name="crown-outline" color={color} size={size} />
               )}
@@ -96,6 +133,7 @@ const DrawerContent = (props) => {
             />
             <DrawerItem
               label="訓練紀錄"
+              inactiveTintColor="#FFF"
               icon={({ color, size }) => (
                 <Icon name="history" color={color} size={size} />
               )}
@@ -104,25 +142,30 @@ const DrawerContent = (props) => {
               }}
             />
           </Drawer.Section>
-          <Drawer.Section title="外觀設定">
+          {/* <Drawer.Section
+            title={
+              <Text style={{ color: colors.primary.light }}>外觀模式</Text>
+            }
+          >
             <TouchableRipple
               onPress={() => {
                 toggleTheme();
               }}
             >
               <View style={styles(colors).preference}>
-                <Text>暗黑模式</Text>
+                <Text style={{ color: "#FFF" }}>暗黑模式</Text>
                 <View pointerEvents="none">
                   <Switch value={isDarkTheme} />
                 </View>
               </View>
             </TouchableRipple>
-          </Drawer.Section>
+          </Drawer.Section> */}
         </View>
       </DrawerContentScrollView>
       <Drawer.Section style={styles(colors).bottomDrawerSection}>
         <DrawerItem
           label="登出"
+          inactiveTintColor="white"
           icon={({ color, size }) => (
             <Icon name="exit-to-app" color={color} size={size} />
           )}
@@ -144,11 +187,13 @@ const styles = (colors) =>
       paddingLeft: 20,
     },
     title: {
+      color: "#FFF",
       fontSize: 16,
       marginTop: 3,
       fontWeight: "bold",
     },
     caption: {
+      color: "rgba(255,255,255,0.7)",
       fontSize: 14,
       lineHeight: 15,
     },
@@ -163,6 +208,7 @@ const styles = (colors) =>
       marginRight: 15,
     },
     paragraph: {
+      color: "#FFF",
       fontWeight: "bold",
       marginRight: 3,
     },
@@ -171,8 +217,9 @@ const styles = (colors) =>
     },
     bottomDrawerSection: {
       marginBottom: 15,
-      borderTopColor: "#f4f4f4",
+      borderTopColor: colors.primary.light,
       borderTopWidth: 1,
+      backgroundColor: colors.primary.dark,
       color: colors.paragraph.primary,
     },
     preference: {
