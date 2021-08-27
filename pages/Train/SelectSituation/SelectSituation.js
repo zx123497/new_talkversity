@@ -5,6 +5,7 @@ import {
   View,
   Pressable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import Swiper from "react-native-swiper";
@@ -14,6 +15,7 @@ import SituationService from "../../../services/SituationService";
 const Setting = (props) => {
   const { colors } = useTheme();
   const [situations, setSituations] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     SituationService.getSituationList().then((res) => {
       // console.log(res);
@@ -25,6 +27,7 @@ const Setting = (props) => {
           intro: element.intro,
         });
       });
+      setLoading(false);
       setSituations(temp);
     });
   }, []);
@@ -33,25 +36,35 @@ const Setting = (props) => {
     <View style={styles(colors).container}>
       <View style={styles(colors).selectArea}>
         <Text style={[styles(colors).title, { marginTop: 0 }]}>選擇情境</Text>
-        <Swiper
-          showsButtons={true}
-          // loop={false}
-          showsPagination={false}
-          loop={false}
-          nextButton={<Text style={styles(colors).buttonText}>›</Text>}
-          prevButton={<Text style={styles(colors).buttonText}>‹</Text>}
-        >
-          {situations.map((row) => (
-            <View style={styles(colors).wrapper} key={row.id}>
-              <SelectCard
-                navigation={() => props.navigation.navigate("開始訓練")}
-                title={row.title}
-                info={row.intro}
-                id={row.id}
-              />
-            </View>
-          ))}
-        </Swiper>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={colors.primary.main}
+            style={{
+              flex: 1,
+            }}
+          />
+        ) : (
+          <Swiper
+            showsButtons={true}
+            // loop={false}
+            showsPagination={false}
+            loop={false}
+            nextButton={<Text style={styles(colors).buttonText}>›</Text>}
+            prevButton={<Text style={styles(colors).buttonText}>‹</Text>}
+          >
+            {situations.map((row) => (
+              <View style={styles(colors).wrapper} key={row.id}>
+                <SelectCard
+                  navigation={() => props.navigation.navigate("開始訓練")}
+                  title={row.title}
+                  info={row.intro}
+                  id={row.id}
+                />
+              </View>
+            ))}
+          </Swiper>
+        )}
       </View>
       <View style={styles(colors).infoArea}>
         <Text style={styles(colors).text}>訓練紀錄</Text>
@@ -169,7 +182,7 @@ const styles = (colors) =>
     container: {
       flex: 1,
       backgroundColor: colors.background.default,
-      alignItems: "center",
+      alignItems: "stretch",
       justifyContent: "center",
     },
     title: {

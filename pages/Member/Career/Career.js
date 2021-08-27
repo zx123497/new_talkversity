@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme, Avatar } from "react-native-paper";
 import { AuthContext } from "../../../components/context/context";
@@ -30,7 +31,7 @@ const Setting = () => {
   const fall = new Animated.Value(1);
   const { getData } = useContext(AuthContext);
   const userData = getData();
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     GradeService.getAllAchievementList(userData.userId).then((res) => {
       achievementList = res.data;
@@ -44,6 +45,7 @@ const Setting = () => {
             temp[row.grade - 1] = true;
           });
           setUnlock(temp);
+          setLoading(false);
         });
       });
     });
@@ -164,7 +166,15 @@ const Setting = () => {
       ))
     );
   };
-
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        style={{ flex: 1 }}
+        color={colors.primary.main}
+      />
+    );
+  }
   return (
     <View style={styles(colors).container}>
       <BottomSheet

@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import { createKeyboardAwareNavigator } from "react-navigation";
@@ -17,6 +18,7 @@ const Record = ({ navigation }) => {
   const [records, setRecords] = useState([]);
   const { getData } = useContext(AuthContext);
   const userData = getData();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     RecordService.getRecordList(userData.userId).then((res) => {
       let temp = [];
@@ -24,6 +26,7 @@ const Record = ({ navigation }) => {
         temp.push(createRow(element));
       });
       setRecords(temp);
+      setLoading(false);
     });
   }, []);
 
@@ -32,6 +35,15 @@ const Record = ({ navigation }) => {
     const time = record.created.split("T")[1].split(".")[0];
     return { ...record, created: date + " " + time };
   };
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        style={{ flex: 1 }}
+        color={colors.primary.main}
+      />
+    );
+  }
   return (
     <ScrollView style={styles(colors).container}>
       {records.map((row) => (

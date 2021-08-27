@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import { Dimensions } from "react-native";
@@ -21,6 +22,7 @@ const Setting = () => {
   const [type, setType] = useState("face");
   const [words, setWords] = useState(0);
   const [suggest_str, setSuggest_str] = useState("");
+  const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState({
     date: ["1/1", "1/2", "1/3"],
     wordscore: [1, 1, 1],
@@ -86,6 +88,7 @@ const Setting = () => {
       });
       GradeSerivce.getUserWords(userData.userId).then((res) => {
         setWords(res.data[0].total_word);
+        setLoading(false);
       });
     });
   }, []);
@@ -203,6 +206,16 @@ const Setting = () => {
     barPercentage: 0.5,
     useShadowColorFromDataset: true, // optional
   };
+
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        style={{ flex: 1 }}
+        color={colors.primary.main}
+      />
+    );
+  }
 
   return (
     <View style={styles(colors).container}>

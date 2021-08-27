@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import { Video } from "expo-av";
@@ -18,6 +19,7 @@ const RecordInfo = ({ route }) => {
   const { colors } = useTheme();
   const screenWidth = Dimensions.get("window").width;
   const [video, setVideo] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [face, setFace] = useState({
     distractTime: 0,
     EyebrowHeight_PR: 0,
@@ -178,6 +180,7 @@ const RecordInfo = ({ route }) => {
           talk_speed: talk_speed,
         });
         setFace(res.data.face[0]);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -1082,6 +1085,15 @@ const RecordInfo = ({ route }) => {
       </View>
     </ScrollView>
   );
+  if (loading) {
+    return (
+      <ActivityIndicator
+        size="large"
+        style={{ flex: 1 }}
+        color={colors.primary.main}
+      />
+    );
+  }
 
   return (
     <View
