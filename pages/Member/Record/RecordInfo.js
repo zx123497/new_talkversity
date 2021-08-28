@@ -15,11 +15,27 @@ import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import { BarChart } from "react-native-chart-kit";
 import CircleChart from "../../../components/Chart/CircleChart";
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryPolarAxis,
+  VictoryArea,
+  VictoryLabel,
+} from "victory-native";
 const RecordInfo = ({ route }) => {
   const { colors } = useTheme();
   const screenWidth = Dimensions.get("window").width;
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [chartData, setChartData] = useState([
+    { x: "恐懼", y: 2 },
+    { x: "快樂", y: 3 },
+    { x: "悲傷", y: 5 },
+    { x: "憤怒", y: 4 },
+    { x: "驚訝", y: 7 },
+    { x: "噁心", y: 7 },
+    { x: "信任", y: 2 },
+  ]);
   const [face, setFace] = useState({
     distractTime: 0,
     EyebrowHeight_PR: 0,
@@ -34,6 +50,16 @@ const RecordInfo = ({ route }) => {
     pretest_db: 0,
     avg_db: 0,
   });
+
+  const characterData = [
+    {
+      strength: 0.4,
+      intelligence: 0.23,
+      luck: 0.2,
+      stealth: 0.2,
+      charisma: 0.3,
+    },
+  ];
   const [word, setWord] = useState({
     suggest_json: [],
     redundant_1_count: 0,
@@ -165,7 +191,25 @@ const RecordInfo = ({ route }) => {
         console.log(res.data);
         let video = res.data.face[0].Videofile;
         setVideo(video);
+        let suprise = res.data.article[0].surprise_score;
+        let angry = res.data.article[0].anger_score;
+        let disgust = res.data.article[0].disgust_score;
+        let fear = res.data.article[0].fear_score;
+        let joy = res.data.article[0].joy_score;
+        let trust = res.data.article[0].trust_score;
+        let sad = res.data.article[0].sadness_score;
 
+        let chart = [
+          { x: "恐懼", y: fear },
+          { x: "快樂", y: joy },
+          { x: "悲傷", y: sad },
+          { x: "憤怒", y: angry },
+          { x: "驚訝", y: suprise },
+          { x: "噁心", y: disgust },
+          { x: "信任", y: trust },
+        ];
+
+        setChartData(chart);
         let temp = res.data.article[0].suggest_json;
         let new_suggest = Object.keys(temp).map((k) => ({
           id: k,
@@ -608,8 +652,7 @@ const RecordInfo = ({ route }) => {
         backgroundColor: colors.background.default,
         paddingTop: 16,
         padding: 20,
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
+
         elevation: 2,
       }}
     >
@@ -723,7 +766,7 @@ const RecordInfo = ({ route }) => {
             justifyContent: "center",
             backgroundColor: colors.background.paper,
             padding: 15,
-            height: 300,
+            // height: 300,
             borderRadius: 10,
             elevation: 1,
             marginTop: 20,
@@ -734,11 +777,55 @@ const RecordInfo = ({ route }) => {
               fontSize: 20,
               color: colors.text,
               fontWeight: "bold",
-              marginBottom: 10,
+              // marginBottom: 10,
             }}
           >
             情緒分析
           </Text>
+          <View>
+            <VictoryChart
+              polar
+              style={{
+                flex: 1,
+                data: { fill: colors.orange.main },
+                background: { fill: colors.orange.light },
+              }}
+              width={screenWidth - 20}
+              theme={VictoryTheme.material}
+            >
+              <VictoryArea
+                style={{
+                  data: {
+                    fill: colors.orange.main,
+                    fillOpacity: 0.5,
+                    strokeWidth: 2,
+                  },
+                }}
+                data={chartData}
+              ></VictoryArea>
+              {["恐懼", "快樂", "悲傷", "憤怒", "驚訝", "噁心", "信任"].map(
+                (d, i) => {
+                  return (
+                    <VictoryPolarAxis
+                      dependentAxis
+                      key={i}
+                      label={d}
+                      tickLabelComponent={
+                        <VictoryLabel labelPlacement="vertical" />
+                      }
+                      labelPlacement="perpendicular"
+                      style={{
+                        tickLabels: { fill: "none", stroke: "none" },
+                        axis: { stroke: "none" },
+                        grid: { stroke: colors.orange.main, opacity: 0.1 },
+                      }}
+                      axisValue={d}
+                    />
+                  );
+                }
+              )}
+            </VictoryChart>
+          </View>
         </View>
         <View
           style={{
@@ -829,8 +916,7 @@ const RecordInfo = ({ route }) => {
         padding: 20,
         // justifyContent: "center",
         // alignItems: "center",
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
+
         elevation: 2,
       }}
     >
