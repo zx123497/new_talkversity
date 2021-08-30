@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#79CAC3"
       },
-      "package": "Talkversity.apk",
+      "package": "com.app.talkversity",
       "config":{
         "googleSignIn":{
           "apiKey":"AIzaSyB8qvALrkAimLx2_-xSAPvoHjSLdHt9SjA",
