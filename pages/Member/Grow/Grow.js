@@ -104,6 +104,8 @@ const Setting = () => {
       return 2;
     } else if (record.article__rank === "D") {
       return 1;
+    } else {
+      return 1;
     }
   };
   const createScore_v = (record) => {
@@ -117,6 +119,8 @@ const Setting = () => {
       return 2;
     } else if (record.sound__rank === "D") {
       return 1;
+    } else {
+      return 1;
     }
   };
   const createScore_f = (record) => {
@@ -129,6 +133,8 @@ const Setting = () => {
     } else if (record.face__Total_Score === "C") {
       return 2;
     } else if (record.face__Total_Score === "D") {
+      return 1;
+    } else {
       return 1;
     }
   };
@@ -339,6 +345,7 @@ const Setting = () => {
               width={screenWidth - 40}
               height={220}
               yLabelsOffset={10}
+              withVerticalLabels={false}
               yAxisInterval={1}
               segments={4}
               chartConfig={chartConfig}
@@ -357,6 +364,7 @@ const Setting = () => {
               width={screenWidth - 40}
               height={220}
               yLabelsOffset={10}
+              withVerticalLabels={false}
               yAxisInterval={1}
               segments={4}
               chartConfig={chartConfig}
@@ -375,6 +383,7 @@ const Setting = () => {
               width={screenWidth - 40}
               height={220}
               yLabelsOffset={10}
+              withVerticalLabels={false}
               yAxisInterval={1}
               segments={4}
               chartConfig={chartConfig}

@@ -203,13 +203,13 @@ const RecordInfo = ({ route }) => {
 
         let chart = [
           { x: "驚訝", y: suprise },
-        { x: "信任", y: trust },
-        { x: "快樂", y: joy },
-        { x: "噁心", y: disgust },
-        { x: "憤怒", y: angry },
-        { x: "悲傷", y: sad },
-        { x: "恐懼", y: fear },
-        { x: "期待", y: anticipation },
+          { x: "信任", y: trust },
+          { x: "快樂", y: joy },
+          { x: "噁心", y: disgust },
+          { x: "憤怒", y: angry },
+          { x: "悲傷", y: sad },
+          { x: "恐懼", y: fear },
+          { x: "期待", y: anticipation },
         ];
 
         setChartData(chart);
@@ -806,27 +806,34 @@ const RecordInfo = ({ route }) => {
                 }}
                 data={chartData}
               ></VictoryArea>
-              {["恐懼", "快樂", "悲傷", "憤怒", "驚訝", "噁心", "信任","期待"].map(
-                (d, i) => {
-                  return (
-                    <VictoryPolarAxis
-                      dependentAxis
-                      key={i}
-                      label={d}
-                      tickLabelComponent={
-                        <VictoryLabel labelPlacement="vertical" />
-                      }
-                      labelPlacement="perpendicular"
-                      style={{
-                        tickLabels: { fill: "none", stroke: "none" },
-                        axis: { stroke: "none" },
-                        grid: { stroke: colors.primary.light, opacity: 0.1 },
-                      }}
-                      axisValue={d}
-                    />
-                  );
-                }
-              )}
+              {[
+                "恐懼",
+                "快樂",
+                "悲傷",
+                "憤怒",
+                "驚訝",
+                "噁心",
+                "信任",
+                "期待",
+              ].map((d, i) => {
+                return (
+                  <VictoryPolarAxis
+                    dependentAxis
+                    key={i}
+                    label={d}
+                    tickLabelComponent={
+                      <VictoryLabel labelPlacement="vertical" />
+                    }
+                    labelPlacement="perpendicular"
+                    style={{
+                      tickLabels: { fill: "none", stroke: "none" },
+                      axis: { stroke: "none" },
+                      grid: { stroke: colors.primary.light, opacity: 0.1 },
+                    }}
+                    axisValue={d}
+                  />
+                );
+              })}
             </VictoryChart>
           </View>
         </View>
