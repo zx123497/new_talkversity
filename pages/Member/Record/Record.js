@@ -19,9 +19,13 @@ const Record = ({ navigation }) => {
   const { getData } = useContext(AuthContext);
   const userData = getData();
   const [loading, setLoading] = useState(true);
+  const [noData, setNoData] = useState(false);
   useEffect(() => {
     RecordService.getRecordList(userData.userId).then((res) => {
       let temp = [];
+      if (res.data.length === 0) {
+        setNoData(true);
+      }
       res.data.forEach((element) => {
         temp.push(createRow(element));
       });
@@ -42,6 +46,27 @@ const Record = ({ navigation }) => {
         style={{ flex: 1 }}
         color={colors.primary.main}
       />
+    );
+  } else if (noData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          margin: 15,
+        }}
+      >
+        <Text
+          style={{
+            color: colors.primary.main,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          {`目前還沒有訓練的紀錄喔\n請先完成第一次訓練再來看看:D`}
+        </Text>
+      </View>
     );
   }
   return (

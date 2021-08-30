@@ -23,6 +23,7 @@ const Setting = () => {
   const [words, setWords] = useState(0);
   const [suggest_str, setSuggest_str] = useState("");
   const [loading, setLoading] = useState(true);
+  const [noData, setNoData] = useState(false);
   const [records, setRecords] = useState({
     date: ["1/1", "1/2", "1/3"],
     wordscore: [1, 1, 1],
@@ -74,18 +75,24 @@ const Setting = () => {
       let temp2 = [];
       let temp3 = [];
       let temp4 = [];
-      res.data.forEach((record) => {
-        temp.push(createScore(record));
-        temp2.push(createDate(record));
-        temp3.push(createScore_v(record));
-        temp4.push(createScore_f(record));
-      });
-      setRecords({
-        date: temp2,
-        wordscore: temp,
-        soundscore: temp3,
-        facescore: temp4,
-      });
+      if (res.data.length != 0) {
+        res.data.forEach((record) => {
+          temp.push(createScore(record));
+          temp2.push(createDate(record));
+          temp3.push(createScore_v(record));
+          temp4.push(createScore_f(record));
+        });
+        setRecords({
+          date: temp2,
+          wordscore: temp,
+          soundscore: temp3,
+          facescore: temp4,
+        });
+      } else {
+        setNoData(true);
+        setLoading(false);
+      }
+
       GradeSerivce.getUserWords(userData.userId).then((res) => {
         setWords(res.data[0].total_word);
         setLoading(false);
@@ -220,6 +227,27 @@ const Setting = () => {
         style={{ flex: 1 }}
         color={colors.primary.main}
       />
+    );
+  } else if (noData) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          margin: 15,
+        }}
+      >
+        <Text
+          style={{
+            color: colors.primary.main,
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          {`目前還沒有訓練的紀錄喔\n請先完成第一次訓練再來看看:D`}
+        </Text>
+      </View>
     );
   }
 

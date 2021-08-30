@@ -27,6 +27,7 @@ const RecordInfo = ({ route }) => {
   const screenWidth = Dimensions.get("window").width;
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [totalScore, setTotalScore] = useState("");
   const [chartData, setChartData] = useState([
     { x: "恐懼", y: 2 },
     { x: "快樂", y: 3 },
@@ -190,6 +191,7 @@ const RecordInfo = ({ route }) => {
     RecordService.getRecord(route.params.id)
       .then((res) => {
         console.log(res.data);
+        setTotalScore(res.data.total_score);
         let video = res.data.face[0].Videofile;
         setVideo(video);
         let suprise = res.data.article[0].surprise_score;
@@ -382,7 +384,9 @@ const RecordInfo = ({ route }) => {
         backgroundColor: colors.orange.main,
       }}
     >
-      <Text style={{ fontSize: 80, color: "#FFF", fontWeight: "bold" }}>S</Text>
+      <Text style={{ fontSize: 80, color: "#FFF", fontWeight: "bold" }}>
+        {totalScore}
+      </Text>
     </View>
   );
   const renderInnerVoice = () => (
