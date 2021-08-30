@@ -35,6 +35,7 @@ const RecordInfo = ({ route }) => {
     { x: "驚訝", y: 7 },
     { x: "噁心", y: 7 },
     { x: "信任", y: 2 },
+    { x: "期待", y: 1 },
   ]);
   const [face, setFace] = useState({
     distractTime: 0,
@@ -198,15 +199,17 @@ const RecordInfo = ({ route }) => {
         let joy = res.data.article[0].joy_score;
         let trust = res.data.article[0].trust_score;
         let sad = res.data.article[0].sadness_score;
+        let anticipation = res.data.article[0].anticipation_score;
 
         let chart = [
-          { x: "恐懼", y: fear },
-          { x: "快樂", y: joy },
-          { x: "悲傷", y: sad },
-          { x: "憤怒", y: angry },
           { x: "驚訝", y: suprise },
-          { x: "噁心", y: disgust },
-          { x: "信任", y: trust },
+        { x: "信任", y: trust },
+        { x: "快樂", y: joy },
+        { x: "噁心", y: disgust },
+        { x: "憤怒", y: angry },
+        { x: "悲傷", y: sad },
+        { x: "恐懼", y: fear },
+        { x: "期待", y: anticipation },
         ];
 
         setChartData(chart);
@@ -787,8 +790,8 @@ const RecordInfo = ({ route }) => {
               polar
               style={{
                 flex: 1,
-                data: { fill: colors.orange.main },
-                background: { fill: colors.orange.light },
+                data: { fill: colors.background.default },
+                background: { fill: colors.background.default },
               }}
               width={screenWidth - 20}
               theme={VictoryTheme.material}
@@ -796,14 +799,14 @@ const RecordInfo = ({ route }) => {
               <VictoryArea
                 style={{
                   data: {
-                    fill: colors.orange.main,
+                    fill: colors.primary.light,
                     fillOpacity: 0.5,
                     strokeWidth: 2,
                   },
                 }}
                 data={chartData}
               ></VictoryArea>
-              {["恐懼", "快樂", "悲傷", "憤怒", "驚訝", "噁心", "信任"].map(
+              {["恐懼", "快樂", "悲傷", "憤怒", "驚訝", "噁心", "信任","期待"].map(
                 (d, i) => {
                   return (
                     <VictoryPolarAxis
@@ -817,7 +820,7 @@ const RecordInfo = ({ route }) => {
                       style={{
                         tickLabels: { fill: "none", stroke: "none" },
                         axis: { stroke: "none" },
-                        grid: { stroke: colors.orange.main, opacity: 0.1 },
+                        grid: { stroke: colors.primary.light, opacity: 0.1 },
                       }}
                       axisValue={d}
                     />

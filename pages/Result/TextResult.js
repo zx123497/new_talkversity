@@ -13,8 +13,18 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { BarChart } from "react-native-chart-kit";
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryPolarAxis,
+  VictoryArea,
+  VictoryLabel,
+} from "victory-native";
+
 let redundentList = [0, 0, 0, 0];
 const TextResult = ({ navigation }) => {
+  const [loading, setLoading] = useState(true);
+
   const { colors } = useTheme();
   const [article, setArticle] = useState({
     pure_text_len: 0,
@@ -24,6 +34,17 @@ const TextResult = ({ navigation }) => {
   const screenWidth = Dimensions.get("window").width;
   const { getData } = useContext(AuthContext);
   const userData = getData();
+  const [chartData, setChartData] = useState([
+    { x: "恐懼", y: 2 },
+    { x: "快樂", y: 3 },
+    { x: "悲傷", y: 5 },
+    { x: "憤怒", y: 4 },
+    { x: "驚訝", y: 7 },
+    { x: "噁心", y: 7 },
+    { x: "信任", y: 2 },
+    { x: "期待", y: 1 },
+  ]);
+
   useEffect(() => {
     ArticleService.getArticleListLatest(userData.userId).then((res) => {
       // console.log(res.data);
@@ -34,29 +55,60 @@ const TextResult = ({ navigation }) => {
       barChartData.datasets[0].data[2] = arr.redundant_3_count;
       barChartData.datasets[0].data[3] = arr.redundant_4_count;
       setArticle(res.data);
+      let suprise = arr.surprise_score;
+      let angry = arr.anger_score;
+      let disgust = arr.disgust_score;
+      let fear = arr.fear_score;
+      let joy = arr.joy_score;
+      let trust = arr.trust_score;
+      let sad = arr.sadness_score;
+      let anticipation = arr.anticipation_score;
+      let chart = [
+        { x: "驚訝", y: suprise },
+        { x: "信任", y: trust },
+        { x: "快樂", y: joy },
+        { x: "噁心", y: disgust },
+        { x: "憤怒", y: angry },
+        { x: "悲傷", y: sad },
+        { x: "恐懼", y: fear },
+        { x: "期待", y: anticipation },
+      ];
+
+      setChartData(chart);
       ArticleService.getArticleDetail(arr.id).then((res2) => {
         // console.log(res2.data);
         setArticleDetail(res2.data);
       });
+      setLoading(false);
     });
-    
   }, []);
-  const color_1 = article.redundant_1_count <= 3 ? colors.primary.light 
-  :  article.redundant_1_count >= 8 ? "#D7ABAB"
-  : "#FAA948";
+  const color_1 =
+    article.redundant_1_count <= 3
+      ? colors.primary.light
+      : article.redundant_1_count >= 8
+      ? "#D7ABAB"
+      : "#FAA948";
 
-  const color_2 = article.redundant_2_count <= 3 ? colors.primary.light 
-  :  article.redundant_2_count >= 8 ? "#D7ABAB"
-  : "#FAA948";
+  const color_2 =
+    article.redundant_2_count <= 3
+      ? colors.primary.light
+      : article.redundant_2_count >= 8
+      ? "#D7ABAB"
+      : "#FAA948";
 
-  const color_3 = article.redundant_3_count <= 3 ? colors.primary.light 
-  :  article.redundant_3_count >= 8 ? "#D7ABAB"
-  : "#FAA948";
+  const color_3 =
+    article.redundant_3_count <= 3
+      ? colors.primary.light
+      : article.redundant_3_count >= 8
+      ? "#D7ABAB"
+      : "#FAA948";
 
-  const color_4 = article.redundant_4_count <= 3 ? colors.primary.light 
-  :  article.redundant_4_count >= 8 ? "#D7ABAB"
-  : "#FAA948";
-  
+  const color_4 =
+    article.redundant_4_count <= 3
+      ? colors.primary.light
+      : article.redundant_4_count >= 8
+      ? "#D7ABAB"
+      : "#FAA948";
 
   // 處理評分建議
   const obj = article.suggest_json;
@@ -165,17 +217,53 @@ const TextResult = ({ navigation }) => {
                   return text.sentence + ", ";
                 }
               })}
-              {/* 面試官好，我目前就讀中央大學資管系在學期間，我的成績一直都很爛，還差點被而已，
-              <Text style={styles(colors).textNegative}>
-                很多科目最後成績都很差，此外我也有在學校其他單位接案，但因為能力不足常常被雇主嗎？
-              </Text>
-              最後需要其他人幫我收爛攤子烤雞的分數也很低，在新的工作中，
-              <Text style={styles(colors).textNegative}>
-                我可能會放很多錯，應該也不能升職薪水，應該也只能訂很低櫃
-              </Text>
-              ，公司可以決定要不要錄用我。 */}
             </Text>
           </View>
+        </View>
+        <View style={styles(colors).barChartWrapper}>
+          <Text style={styles(colors).resultCardTitle}>情緒分析</Text>
+          <VictoryChart
+            polar
+            style={{
+              flex: 1,
+              data: { fill: colors.background.default },
+              background: { fill: colors.background.default },
+            }}
+            width={screenWidth - 20}
+            theme={VictoryTheme.material}
+          >
+            <VictoryArea
+              style={{
+                data: {
+                  fill: colors.primary.light,
+                  fillOpacity: 0.5,
+                  strokeWidth: 2,
+                },
+              }}
+              data={chartData}
+            ></VictoryArea>
+            {["快樂", "信任", "驚訝", "期待", "恐懼", "悲傷","憤怒", "噁心"].map(
+              (d, i) => {
+                return (
+                  <VictoryPolarAxis
+                    dependentAxis
+                    key={i}
+                    label={d}
+                    tickLabelComponent={
+                      <VictoryLabel labelPlacement="vertical" />
+                    }
+                    labelPlacement="perpendicular"
+                    style={{
+                      tickLabels: { fill: "none", stroke: "none" },
+                      axis: { stroke: "none" },
+                      grid: { stroke: colors.primary.light, opacity: 0.1 },
+                    }}
+                    axisValue={d}
+                  />
+                );
+              }
+            )}
+          </VictoryChart>
         </View>
         <View style={styles(colors).remindWrapper}>
           <Image
