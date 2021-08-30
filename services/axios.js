@@ -9,27 +9,28 @@ const instance = axios.create({
   headers: {
     Authorization: `Basic ${token}`,
     "Content-Type": "application/json",
-    Accept: "application/json",
+    "Accept": "application/json",
   },
 });
 
 //You can also use interceptors in an instance
 instance.interceptors.request.use(
   (request) => {
-    // console.log("request: ", request);
+    console.log("request: ", request);
     // const accessToken = `Bearer ${localStorage.getItem("token")}`;
     // if (localStorage.getItem("token"))
     //   request.headers["Authorization"] = accessToken;
     return request;
   },
   (error) => {
+    console.log(error)
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
   (response) => {
-    // console.log("response: ", response.data);
+    console.log("response: ", response.data);
     return response;
   },
   (error) => {

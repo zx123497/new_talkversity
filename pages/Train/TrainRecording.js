@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   Image,
   StyleSheet,
@@ -6,36 +6,42 @@ import {
   View,
   TouchableOpacity,
   Pressable,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import { AuthContext } from "../../components/context/context";
 import * as FaceDetector from "expo-face-detector";
+import PostVideoService from "../../services/PostVideoService";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from 'expo-media-library';
 
 const TrainRecording = ({ navigation }) => {
   const dimensions = useRef(Dimensions.get("window"));
   const screenWidth = dimensions.current.width;
   const height = Math.round((screenWidth * 16) / 9);
   const [hasAudioPermission, setHasAudioPermission] = useState(null);
-  const [hasCameraPermission, setHasCameraPermission] =useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [recording, setRecording] = useState(false);
   const [hasRecorded, setHasRecorded] = useState(false);
   const [video_uri, setVideoUri] = useState(null);
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
 
   const { colors } = useTheme();
   useEffect(() => {
     (async () => {
       const cameraStatus = await Camera.requestPermissionsAsync();
-      setHasCameraPermission(cameraStatus.status === 'granted');
+      setHasCameraPermission(cameraStatus.status === "granted");
 
       const audioStatus = await Camera.requestMicrophonePermissionsAsync();
-      setHasAudioPermission(audioStatus.status === 'granted');
+      setHasAudioPermission(audioStatus.status === "granted");
     })();
   }, []);
 
-  if (hasCameraPermission === null || hasAudioPermission === null ) {
+  if (hasCameraPermission === null || hasAudioPermission === null) {
     return <View />;
   }
   if (hasCameraPermission === false || hasAudioPermission === false) {
@@ -43,21 +49,45 @@ const TrainRecording = ({ navigation }) => {
   }
 
   const CreateFormData = (uri) => {
+    // async () => {
+    //   const cameraStatus = await MediaLibrary.requestPermissionsAsync();
+    // }
+   
+    // const asset = MediaLibrary.createAssetAsync(uri);
+
+    FileSystem.getContentUriAsync(uri).then((cUri) => {
     const form = new FormData();
+    const Faceform = new FormData();
     var time = new Date();
     var theTime = time.getTime();
-    const i = "1";
-    form.append("File", {
-      name: "trainVideo"+theTime+".mp4",
-      uri: uri,
+    var fileName = "trainVideo" + theTime + ".mp4";
+    var user = userData.userId;
+    form.append("user_id", user);
+    form.append("video_file", {
       type: "video/mp4",
+      uri: cUri,
+      name: fileName,
     });
-
-    // Now perform a post request here by adding this form in the body part of the request
-    // Then you can handle the file you sent in the backend i.e server
-
+    Faceform.append("user", user);
+    Faceform.append("VideofileName", fileName);
+    Faceform.append("Videofile", {
+      type: "video/mp4",
+      uri: cUri,
+      name: fileName,
+    });
+    // console.log(cUri);
+    PostVideoService.postArticle(form).then((res) => {
+      console.log(res);
+    });
+    PostVideoService.postSound(form).then((res) => {
+      console.log(res);
+    });
+    // PostVideoService.postFace(Faceform).then((res) => {
+    //   console.log(res);
+    // });
+  });
   };
-  
+
   const renderIntroduce = () => {
     return (
       <View style={styles(colors).topic}>
@@ -101,7 +131,7 @@ const TrainRecording = ({ navigation }) => {
                   });
                   console.log("video", video.uri);
                   setVideoUri(video.uri);
-                  CreateFormData(video_uri);
+                  CreateFormData(video.uri);
                 } else {
                   console.log("stop record");
                   let endVideo = await cameraRef.stopRecording();
@@ -131,7 +161,6 @@ const TrainRecording = ({ navigation }) => {
     );
   };
   const renderHasRecorded = () => {
-    
     return (
       <View style={{ flex: 1 }}>
         <View style={styles(colors).finished}>
@@ -149,9 +178,11 @@ const TrainRecording = ({ navigation }) => {
             resizeMode="contain"
           />
           <Text style={styles(colors).finishedText}>恭喜您完成練習!</Text>
-          
+
           <Pressable
-            onPress={() => navigation.navigate("評分結果", { uri: {video_uri} })}
+            onPress={() =>
+              navigation.navigate("評分結果", { uri: { video_uri } })
+            }
             style={({ pressed }) => [
               {
                 backgroundColor: pressed
@@ -172,8 +203,8 @@ const TrainRecording = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <Camera
-        ratio="16:9"
-        style={{ flex: 1,height: height, width: "100%"}}
+        ratio="9:16"
+        style={{ flex: 1, height: height, width: "100%" }}
         type={Camera.Constants.Type.front}
         ref={(ref) => {
           setCameraRef(ref);

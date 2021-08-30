@@ -274,9 +274,9 @@ const styles = (colors) =>
       marginBottom: "5%",
     },
     resultCard: {
-      width: "40%",
+      width: "45%",
       backgroundColor: colors.background.paper,
-      borderRadius: 20,
+      borderRadius: 15,
       shadowColor: "#000000",
       shadowOffset: { width: 2, height: 2 },
       shadowOpacity: 0.2,
@@ -303,13 +303,6 @@ const styles = (colors) =>
       fontSize: 30,
       fontWeight: "bold",
       marginRight: "2%",
-    },
-    resultCardUnit: {
-      color: colors.paragraph.primary,
-      fontSize: 12,
-      fontWeight: "bold",
-      alignSelf: "flex-end",
-      paddingBottom: "3%",
     },
     barChartWrapper: {
       width: "80%",
