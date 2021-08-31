@@ -40,9 +40,10 @@ const Setting = () => {
         createMisionList(achievementList);
         GradeService.getUserGrade().then((res4) => {
           let list = res4.filter((row) => row.id === userData.userId);
-          let temp = [false, false, false, false];
+          let temp = [true, false, false, false];
+
           list.forEach((row) => {
-            temp[row.grade - 1] = true;
+            temp[row.grade] = true;
           });
           setUnlock(temp);
           setLoading(false);
@@ -281,9 +282,11 @@ const Setting = () => {
         >
           <TouchableOpacity
             onPress={() => {
-              setInner(firstMission);
-              setHeader("一年級");
-              bs.current.snapTo([0]);
+              if (unlock[0]) {
+                setInner(firstMission);
+                setHeader("一年級");
+                bs.current.snapTo([0]);
+              }
             }}
             style={{
               marginTop: 25,
@@ -303,9 +306,11 @@ const Setting = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setInner(secondMission);
-              setHeader("二年級");
-              bs.current.snapTo([0]);
+              if (unlock[1]) {
+                setInner(secondMission);
+                setHeader("二年級");
+                bs.current.snapTo([0]);
+              }
             }}
             style={{ marginBottom: 30 }}
           >
@@ -321,9 +326,11 @@ const Setting = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setInner(thirdMission);
-              setHeader("三年級");
-              bs.current.snapTo([0]);
+              if (unlock[2]) {
+                setInner(thirdMission);
+                setHeader("三年級");
+                bs.current.snapTo([0]);
+              }
             }}
             style={{ marginLeft: 120, marginBottom: 15 }}
           >
@@ -339,9 +346,11 @@ const Setting = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setInner(fourMission);
-              setHeader("四年級");
-              bs.current.snapTo([0]);
+              if (unlock[3]) {
+                setInner(fourMission);
+                setHeader("四年級");
+                bs.current.snapTo([0]);
+              }
             }}
             style={{}}
           >
