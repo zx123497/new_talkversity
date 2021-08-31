@@ -60,17 +60,17 @@ const TestIntro = ({ navigation }) => {
             }
           />
         </View>
-      </View>
-      <View style={styles(colors).submitArea}>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("開始前測");
-            // changeInitial(true);
-          }}
-          style={({ pressed }) => [{}, styles(colors).submit]}
-        >
-          <Text style={styles(colors).submitText}>開始前測</Text>
-        </Pressable>
+        <View style={styles(colors).submitArea}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("開始前測");
+              // changeInitial(true);
+            }}
+            style={({ pressed }) => [{}, styles(colors).submit]}
+          >
+            <Text style={styles(colors).submitText}>開始前測</Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -79,8 +79,8 @@ const TestIntro = ({ navigation }) => {
 const styles = (colors) =>
   StyleSheet.create({
     container: {
-      flex: 2,
-      backgroundColor: colors.primary.main,
+      height: "100%",
+      backgroundColor: colors.background.paper,
       alignItems: "center",
       justifyContent: "center",
     },
@@ -91,7 +91,8 @@ const styles = (colors) =>
       margin: 50,
     },
     image: {
-      flex: 1,
+      // flex: 1,
+      height: "80%",
       resizeMode: "contain",
     },
     containerLogo: {
@@ -100,7 +101,9 @@ const styles = (colors) =>
       justifyContent: "center",
     },
     containerTutor: {
-      flex: 6,
+      // flex: 6,
+      backgroundColor: colors.primary.main,
+      height: "35%",
       paddingTop: 25,
       alignItems: "center",
       justifyContent: "flex-end",
@@ -125,16 +128,17 @@ const styles = (colors) =>
       padding: 10,
     },
     introArea: {
-      flex: 12,
+      // flex: 10,
+      height: "60%",
       backgroundColor: colors.background.paper,
       alignSelf: "stretch",
       alignItems: "center",
       justifyContent: "center",
     },
     introTitle: {
-      width: '80%',
+      width: "80%",
       fontSize: 20,
-      fontWeight: 'bold',
+      fontWeight: "bold",
       color: colors.text.primary,
       marginTop: 10,
       marginBottom: 30,
@@ -143,6 +147,7 @@ const styles = (colors) =>
     },
     listArea: {
       alignItems: "flex-start",
+      marginBottom: '5%',
     },
     resultButtonIcon: {
       color: colors.background.paper,

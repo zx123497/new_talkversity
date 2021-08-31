@@ -176,7 +176,7 @@ const Train = ({ navigation, route }) => {
       </View>
 
       <Pressable
-        onPress={() => navigation.navigate("首頁")}
+        onPress={() => navigation.navigate("選擇情境")}
         style={({ pressed }) => [
           {
             backgroundColor: pressed
@@ -187,7 +187,7 @@ const Train = ({ navigation, route }) => {
         ]}
       >
         <AntDesign name="play" size={24} color="white" />
-        <Text style={styles(colors).buttonText}>返回主頁</Text>
+        <Text style={styles(colors).buttonText}>返回訓練</Text>
       </Pressable>
     </View>
   );
@@ -203,7 +203,7 @@ const styles = (colors) =>
     },
     wrapper: {
       width: "100%",
-      height: "30%",
+      height: "28%",
       marginBottom: "6%",
     },
     content: {
