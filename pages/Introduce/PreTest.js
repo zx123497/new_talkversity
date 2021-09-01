@@ -12,13 +12,16 @@ import { Camera } from "expo-camera";
 import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../../components/context/context";
+import PostVideoService from "../../services/PostVideoService";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from 'expo-media-library';
 
 const PreTest = ({ navigation }) => {
   const dimensions = useRef(Dimensions.get("window"));
   const screenWidth = dimensions.current.width;
   const height = Math.round((screenWidth * 16) / 9);
   const [hasAudioPermission, setHasAudioPermission] = useState(null);
-  const [hasCameraPermission, setHasCameraPermission] =useState(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [recording, setRecording] = useState(false);
   const [hasRecorded, setHasRecorded] = useState(false);
@@ -29,14 +32,14 @@ const PreTest = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       const cameraStatus = await Camera.requestPermissionsAsync();
-      setHasCameraPermission(cameraStatus.status === 'granted');
+      setHasCameraPermission(cameraStatus.status === "granted");
 
       const audioStatus = await Camera.requestMicrophonePermissionsAsync();
-      setHasAudioPermission(audioStatus.status === 'granted');
+      setHasAudioPermission(audioStatus.status === "granted");
     })();
   }, []);
 
-  if (hasCameraPermission === null || hasAudioPermission === null ) {
+  if (hasCameraPermission === null || hasAudioPermission === null) {
     return <View />;
   }
   if (hasCameraPermission === false || hasAudioPermission === false) {
@@ -44,26 +47,32 @@ const PreTest = ({ navigation }) => {
   }
 
   const CreateFormData = (uri) => {
-    const form = new FormData();
-    var time = new Date();
-    var theTime = time.getTime();
-    const i = "1";
-    form.append("File", {
-      name: "PreTestVideo"+theTime+".mp4",
-      uri: uri,
-      type: "video/mp4",
+    FileSystem.getContentUriAsync(uri).then((cUri) => {
+      
+      var user = userData.userId;
+      const form = new FormData();
+      var time = new Date();
+      var theTime = time.getTime();
+      form.append("user", user);
+      form.append("Videofile", {
+        type: "video/mp4",
+        uri: cUri,
+        name: "Pretest" + theTime + ".mp4",
+      });
+
+      PostVideoService.postPretestVideo(form).then((res) => {
+        console.log(res);
+      });
     });
-
-    // Now perform a post request here by adding this form in the body part of the request
-    // Then you can handle the file you sent in the backend i.e server
-
   };
 
   const renderIntroduce = () => {
     return (
       <View style={styles(colors).topic}>
         <View style={styles(colors).header}>
-          <Text style={styles(colors).subTitle}>請您面無表情地朗讀以下文字</Text>
+          <Text style={styles(colors).subTitle}>
+            請您面無表情地朗讀以下文字
+          </Text>
         </View>
         <Text style={styles(colors).title}>
           中央大學資訊管理學系成立於七十四學年度，
@@ -73,7 +82,6 @@ const PreTest = ({ navigation }) => {
       </View>
     );
   };
-
 
   const renderVideoRecoding = (recording) => {
     return (
@@ -162,7 +170,7 @@ const PreTest = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <Camera
-        ratio="16:9"
+        ratio={"16:9"}
         style={{ flex: 1, height: height, width: "100%" }}
         type={Camera.Constants.Type.front}
         ref={(ref) => {
@@ -180,8 +188,8 @@ const styles = (colors) =>
     topic: {
       alignSelf: "center",
       width: "85%",
-      // height: "25%",
-      marginTop: "5%",
+      height: "25%",
+      marginTop: "15%",
       borderRadius: 10,
       backgroundColor: colors.background.paper,
       opacity: 0.9,

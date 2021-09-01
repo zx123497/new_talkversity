@@ -15,7 +15,6 @@ import { AuthContext } from "../../components/context/context";
 import * as FaceDetector from "expo-face-detector";
 import PostVideoService from "../../services/PostVideoService";
 import * as FileSystem from "expo-file-system";
-import * as MediaLibrary from 'expo-media-library';
 
 const TrainRecording = ({ navigation }) => {
   const dimensions = useRef(Dimensions.get("window"));
@@ -49,12 +48,6 @@ const TrainRecording = ({ navigation }) => {
   }
 
   const CreateFormData = (uri) => {
-    // async () => {
-    //   const cameraStatus = await MediaLibrary.requestPermissionsAsync();
-    // }
-   
-    // const asset = MediaLibrary.createAssetAsync(uri);
-
     FileSystem.getContentUriAsync(uri).then((cUri) => {
     const form = new FormData();
     const Faceform = new FormData();
@@ -69,22 +62,24 @@ const TrainRecording = ({ navigation }) => {
       name: fileName,
     });
     Faceform.append("user", user);
-    Faceform.append("VideofileName", fileName);
     Faceform.append("Videofile", {
       type: "video/mp4",
       uri: cUri,
       name: fileName,
     });
     // console.log(cUri);
+    PostVideoService.postRecord(2,user).then((res) => {
+      console.log(res);
+    });
     PostVideoService.postArticle(form).then((res) => {
       console.log(res);
     });
     PostVideoService.postSound(form).then((res) => {
       console.log(res);
     });
-    // PostVideoService.postFace(Faceform).then((res) => {
-    //   console.log(res);
-    // });
+    PostVideoService.postFace(Faceform).then((res) => {
+      console.log(res);
+    });
   });
   };
 
@@ -129,7 +124,7 @@ const TrainRecording = ({ navigation }) => {
                   const video = await cameraRef.recordAsync({
                     maxDuration: 30,
                   });
-                  console.log("video", video.uri);
+                  // console.log("video", video.uri);
                   setVideoUri(video.uri);
                   CreateFormData(video.uri);
                 } else {
@@ -203,7 +198,7 @@ const TrainRecording = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <Camera
-        ratio="9:16"
+        ratio={"16:9"}
         style={{ flex: 1, height: height, width: "100%" }}
         type={Camera.Constants.Type.front}
         ref={(ref) => {
@@ -278,7 +273,7 @@ const styles = (colors) =>
       //   position: "absolute",
       marginTop: "20%",
       alignSelf: "center",
-      width: "30%",
+      // width: "30%",
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#2F2F2D",

@@ -68,7 +68,7 @@ const PostVideoService = {
 
   postFace: async (formData) => {
     try {
-      const response = await axios.post("/article/",formData,{
+      const response = await axios.post("/face/",formData,{
         headers: {
           Accept: "application/json",
           "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
