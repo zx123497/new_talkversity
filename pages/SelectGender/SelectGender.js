@@ -19,11 +19,6 @@ const Home = ({ navigation }) => {
   const { getData, changeGender } = useContext(AuthContext);
   let opacity = new Animated.Value(0);
   const userdata = getData();
-  // useEffect(() => {
-  //   getData().then((data) => {
-  //     userdata = data;
-  //   });
-  // }, []);
 
   const animate = () => {
     opacity.setValue(0);
@@ -56,19 +51,21 @@ const Home = ({ navigation }) => {
   ];
 
   const submitGender = () => {
-    let userGender = gender;
-    if (userGender === "female") {
-      userGender = "F";
-    } else if (userGender === "male") {
-      userGender = "M";
+    if (gender !== null) {
+      let userGender = gender;
+      if (userGender === "female") {
+        userGender = "F";
+      } else if (userGender === "male") {
+        userGender = "M";
+      }
+      changeGender(userGender);
+      const data = { user_id: userdata.userId, gender: userGender };
+      UserService.UpdateUserGender(data)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => console.log(e));
     }
-    changeGender(userGender);
-    const data = { user_id: userdata.userId, gender: userGender };
-    UserService.UpdateUserGender(data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((e) => console.log(e));
   };
 
   return (
@@ -190,8 +187,10 @@ const Home = ({ navigation }) => {
           elevation: 2,
         }}
         onPress={() => {
-          submitGender();
-          navigation.navigate("選擇教練");
+          if (gender !== null) {
+            submitGender();
+            navigation.navigate("選擇教練");
+          }
         }}
       >
         <Text style={{ color: "#FFF", fontSize: 16, fontWeight: "bold" }}>

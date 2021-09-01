@@ -27,7 +27,7 @@ const ArticleService = {
   },
   getRecordWeekdate: async (id) => {
     try {
-      const response = await axios.get(`/record/${id}/weekdate/`);
+      const response = await axios.get(`/record/${id}/latest/`);
       return response.data;
     } catch (error) {
       throw error;

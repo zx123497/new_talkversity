@@ -37,12 +37,13 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles(colors).container}>
       <View style={styles(colors).textArea}>
-        <Text style={styles(colors).text}>{name}</Text>
+        <Text style={styles(colors).text}>選擇教練</Text>
       </View>
       <View style={styles(colors).selectArea}>
         <Swiper
           showsButtons={true}
           loop={false}
+          scrollEnabled={false}
           showsPagination={false}
           onMomentumScrollEnd={(event, state) => handleIndexChange(state.index)}
           nextButton={<Text style={styles(colors).buttonText}>›</Text>}
@@ -115,9 +116,10 @@ const styles = (colors) =>
       justifyContent: "center",
     },
     buttonText: {
-      color: colors.text.secondary,
-      fontSize: 60,
-      fontWeight: "900",
+      color: colors.text,
+      opacity: 0.5,
+      fontSize: 80,
+      fontWeight: "bold",
     },
     submit: {
       alignItems: "center",
