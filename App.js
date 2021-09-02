@@ -160,21 +160,21 @@ const App = () => {
   useEffect(() => {
     setTimeout(async () => {
       //測試用，accesstoken 不能用
-      dispatch({
-        type: "LOGIN",
-        token: "test",
-        picture:
-          "https://lh3.googleusercontent.com/a/AATXAJzeev5bFEU2gmnpYhdbQjJ83Z2oHUSfXIoE3Fe1=s96-c",
-        email: "wupalupa777@gmail.com",
-        id: 1,
-        username: "烏帕露帕",
-        gender: "F",
-        coach_gender: "F",
-        initial: true,
-      });
+      // dispatch({
+      //   type: "LOGIN",
+      //   token: "test",
+      //   picture:
+      //     "https://lh3.googleusercontent.com/a/AATXAJzeev5bFEU2gmnpYhdbQjJ83Z2oHUSfXIoE3Fe1=s96-c",
+      //   email: "wupalupa777@gmail.com",
+      //   id: 1,
+      //   username: "烏帕露帕",
+      //   gender: "F",
+      //   coach_gender: "F",
+      //   initial: true,
+      // });
 
       //開發完要用這個
-      // dispatch({ type: "LOGOUT" });
+      dispatch({ type: "LOGOUT" });
     }, 2500);
   }, []);
   if (loginState.isLoading) {
