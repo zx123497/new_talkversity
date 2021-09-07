@@ -84,7 +84,7 @@ const RecordInfo = ({ route }) => {
   };
 
   let barChartDataWord = {
-    labels: ["所以", "然後", "就是", "那個"],
+    labels: ["就是", "那個", "然後", "所以"],
     datasets: [
       {
         data: [

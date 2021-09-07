@@ -10,21 +10,7 @@ const PostVideoService = {
         },
       });
 
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.error(error.response.data);
-      throw error;
-    }
-  },
-  postRecord: async (scenario,user) => {
-    try {
-      const response = await axios.post("/record/",{
-        scenario: scenario,
-        user: user
-    });
-
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error(error.response.data);
@@ -41,7 +27,7 @@ const PostVideoService = {
         },
       });
 
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error(error.response.data);
@@ -58,7 +44,7 @@ const PostVideoService = {
         },
       });
 
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error(error.response.data);
@@ -75,7 +61,7 @@ const PostVideoService = {
         },
       });
 
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       console.error(error.response.data);

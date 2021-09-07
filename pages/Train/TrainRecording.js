@@ -12,11 +12,9 @@ import { Camera } from "expo-camera";
 import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../../components/context/context";
-import * as FaceDetector from "expo-face-detector";
-import PostVideoService from "../../services/PostVideoService";
-import * as FileSystem from "expo-file-system";
+import RecordService from "../../services/RecordService";
 
-const TrainRecording = ({ navigation }) => {
+const TrainRecording = ({ navigation, route }) => {
   const dimensions = useRef(Dimensions.get("window"));
   const screenWidth = dimensions.current.width;
   const height = Math.round((screenWidth * 16) / 9);
@@ -26,8 +24,12 @@ const TrainRecording = ({ navigation }) => {
   const [recording, setRecording] = useState(false);
   const [hasRecorded, setHasRecorded] = useState(false);
   const [video_uri, setVideoUri] = useState(null);
+  const [record_id, setRecordId] = useState(null);
   const { getData } = useContext(AuthContext);
+  const [formData, setFormData] = useState(null);
+
   const userData = getData();
+  const scenario_id = route.params.scenario_id.row.id;
 
   const { colors } = useTheme();
   useEffect(() => {
@@ -48,7 +50,6 @@ const TrainRecording = ({ navigation }) => {
   }
 
   const CreateFormData = (uri) => {
-    FileSystem.getContentUriAsync(uri).then((cUri) => {
     const form = new FormData();
     const Faceform = new FormData();
     var time = new Date();
@@ -58,29 +59,21 @@ const TrainRecording = ({ navigation }) => {
     form.append("user_id", user);
     form.append("video_file", {
       type: "video/mp4",
-      uri: cUri,
+      uri: uri,
       name: fileName,
     });
     Faceform.append("user", user);
     Faceform.append("Videofile", {
       type: "video/mp4",
-      uri: cUri,
+      uri: uri,
       name: fileName,
     });
-    // console.log(cUri);
-    PostVideoService.postRecord(2,user).then((res) => {
-      console.log(res);
+
+    RecordService.postRecord(scenario_id, userData.userId).then((res) => {
+      const record_id = res.id;
+      setRecordId(record_id);
     });
-    PostVideoService.postArticle(form).then((res) => {
-      console.log(res);
-    });
-    PostVideoService.postSound(form).then((res) => {
-      console.log(res);
-    });
-    PostVideoService.postFace(Faceform).then((res) => {
-      console.log(res);
-    });
-  });
+    return { form, Faceform };
   };
 
   const renderIntroduce = () => {
@@ -126,7 +119,8 @@ const TrainRecording = ({ navigation }) => {
                   });
                   // console.log("video", video.uri);
                   setVideoUri(video.uri);
-                  CreateFormData(video.uri);
+                  const formData = CreateFormData(video.uri);
+                  setFormData(formData);
                 } else {
                   console.log("stop record");
                   let endVideo = await cameraRef.stopRecording();
@@ -173,10 +167,15 @@ const TrainRecording = ({ navigation }) => {
             resizeMode="contain"
           />
           <Text style={styles(colors).finishedText}>恭喜您完成練習!</Text>
-
+            
           <Pressable
             onPress={() =>
-              navigation.navigate("評分結果", { uri: { video_uri } })
+              navigation.navigate("評分結果", {
+                uri: { video_uri },
+                formData: { formData },
+                record_id: record_id,
+                scenario: scenario_id,
+              })
             }
             style={({ pressed }) => [
               {

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { useTheme } from "react-native-paper";
 import {
@@ -7,26 +7,100 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import ResultListItem from "../../../components/TrainResult/ResultListItem";
-import Dash from "react-native-dash";
+import PostVideoService from "../../../services/PostVideoService";
+import RecordService from "../../../services/RecordService";
+import { AuthContext } from "../../../components/context/context";
+import LottieView from "lottie-react-native";
 import Animated from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 
 const Train = ({ navigation, route }) => {
   const { colors } = useTheme();
   const video_uri = route.params.uri.video_uri;
+  const form = route.params.formData.formData.form;
+  const Faceform = route.params.formData.formData.Faceform;
+
   const bs = useRef();
   const fall = new Animated.Value(1);
+  const [unlock, setUnlock] = useState([false, false, false, false]);
+  const [soundResult, setSoundResult] = useState(null);
+  const [articleResult, setArticleResult] = useState(null);
+  const [faceResult, setFaceResult] = useState(null);
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
+  const user = userData.userId;
+
+  useEffect(() => {
+    (async () => {
+      PostVideoService.postSound(form).then((res) => {
+        let soundResult = [];
+        soundResult = res.data;
+        setSoundResult(soundResult);
+        setUnlock([true, false, false, false]);
+      });
+
+      PostVideoService.postArticle(form).then((res) => {
+        let articleResult = [];
+        articleResult = res.data;
+        setArticleResult(articleResult);
+        setUnlock([true, true, false, false]);
+      });
+
+      PostVideoService.postFace(Faceform).then((res) => {
+        let faceResult = [];
+        faceResult = res.data;
+        setFaceResult(faceResult);
+        setUnlock([true, true, true, true]);
+      });
+    })();
+  }, []);
 
   const renderInner = () => (
     <View style={styles(colors).scoreSheet}>
       <View style={styles(colors).scoreLine} />
       <View style={styles(colors).scoreInner}>
         <Text style={styles(colors).scoreTitle}>您獲得的總分是</Text>
-        <Text style={styles(colors).scoreText}>S</Text>
+        <Text style={styles(colors).scoreText}>
+          {faceResult && faceResult.Overall_Rank}
+        </Text>
       </View>
     </View>
   );
 
+  const renderLoading = () => {
+    return (
+      <LottieView
+        source={require("../../../assets/resultLoading.json")}
+        style={{
+          width: 50,
+          height: 50,
+        }}
+        autoPlay
+        loop
+      />
+    );
+  };
+
+  const renderFinished = () => {
+    return (
+      <MaterialIcons
+        name="check-circle"
+        size={30}
+        style={styles(colors).checkIcon}
+      />
+    );
+  };
+
+  const renderWaiting = () => {
+    return (
+      <MaterialCommunityIcons
+        name="checkbox-blank-circle"
+        size={30}
+        style={styles(colors).loadIcon}
+      />
+    );
+  };  
+  
   return (
     <View style={(styles.center, styles(colors).container)}>
       <BottomSheet
@@ -52,126 +126,97 @@ const Train = ({ navigation, route }) => {
         <Text style={styles(colors).title}>評分結果</Text>
       </View>
       <View style={styles(colors).content}>
-        <View style={styles(colors).connectList}>
-          <MaterialIcons
-            name="check-circle"
-            size={30}
-            style={styles(colors).checkIcon}
-          />
-          <Dash
-            style={{ margin: 2, width: 1, height: 30, flexDirection: "column" }}
-            dashColor="#abd7d6"
-          />
-          <MaterialIcons
-            name="radio-button-checked"
-            size={30}
-            style={styles(colors).checkIcon}
-          />
-          <Dash
-            style={{ margin: 2, width: 1, height: 60, flexDirection: "column" }}
-            dashColor="#abd7d6"
-          />
-          <MaterialCommunityIcons
-            name="checkbox-blank-circle"
-            size={25}
-            style={styles(colors).loadIcon}
-          />
-          <Dash
-            style={{
-              margin: 2,
-              width: 1,
-              height: 65,
-              flexDirection: "column",
-              opacity: 0.5,
-            }}
-            dashColor="#abd7d6"
-          />
-          <MaterialCommunityIcons
-            name="checkbox-blank-circle"
-            size={25}
-            style={styles(colors).loadIcon}
-          />
-          <Dash
-            style={{
-              margin: 2,
-              width: 1,
-              height: 65,
-              flexDirection: "column",
-              opacity: 0.5,
-            }}
-            dashColor="#abd7d6"
-          />
-          <MaterialCommunityIcons
-            name="checkbox-blank-circle"
-            size={25}
-            style={styles(colors).loadIcon}
-          />
-        </View>
         <View style={styles(colors).selectResult}>
-          <Pressable
-            onPress={() =>
-              navigation.navigate("練習紀錄", { uri: { video_uri } })
-            }
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed
-                  ? colors.primary.light
-                  : colors.background.default,
-              },
-              styles(colors).buttonSelect,
-            ]}
-          >
-            <Text style={styles(colors).selectText}>查看練習影片</Text>
-            <Text style={styles(colors).buttonNext}>›</Text>
-          </Pressable>
-          <ResultListItem
-            onPress={() => navigation.navigate("聲音分析")}
-            title="聲音"
-            icon={
-              <MaterialIcons
-                name="record-voice-over"
-                size={50}
-                style={styles(colors).resultIcon}
-              />
-            }
-          />
-          <ResultListItem
-            onPress={() => navigation.navigate("語意分析")}
-            title="語意"
-            icon={
-              <MaterialIcons
-                name="text-fields"
-                size={50}
-                style={styles(colors).resultIcon}
-              />
-            }
-          />
-          <ResultListItem
-            onPress={() => navigation.navigate("表情分析")}
-            title="表情"
-            icon={
-              <MaterialIcons
-                name="face"
-                size={50}
-                style={styles(colors).resultIcon}
-              />
-            }
-          />
-
-          <Pressable
-            onPress={() => bs.current.snapTo(0)}
-            style={({ pressed }) => [
-              {
-                backgroundColor: pressed
-                  ? colors.primary.light
-                  : colors.primary.main,
-              },
-              styles(colors).buttonSelect,
-            ]}
-          >
-            <Text style={styles(colors).scoreButtonText}>查看總分</Text>
-            <Text style={styles(colors).scoreNext}>›</Text>
-          </Pressable>
+          <View style={styles(colors).result}>
+            {renderFinished()}
+            <Pressable
+              onPress={() =>
+                navigation.navigate("練習紀錄", { uri: { video_uri } })
+              }
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed
+                    ? colors.primary.light
+                    : colors.background.default,
+                },
+                styles(colors).buttonSelect,
+              ]}
+            >
+              <Text style={styles(colors).selectText}>查看練習影片</Text>
+              <Text style={styles(colors).buttonNext}>›</Text>
+            </Pressable>
+          </View>
+          <View style={styles(colors).result}>
+            {unlock[0] ? renderFinished() : renderLoading()}
+            <ResultListItem
+              onPress={unlock[0] ? () => navigation.navigate("聲音分析") : null}
+              title="聲音"
+              icon={
+                <MaterialIcons
+                  name="record-voice-over"
+                  size={50}
+                  style={styles(colors).resultIcon}
+                />
+              }
+            />
+          </View>
+          <View style={styles(colors).result}>
+            {unlock[0]
+              ? unlock[1]
+                ? renderFinished()
+                : renderLoading()
+              : renderWaiting()}
+            <ResultListItem
+              onPress={unlock[1] ? () => navigation.navigate("語意分析") : null}
+              title="語意"
+              icon={
+                <MaterialIcons
+                  name="text-fields"
+                  size={50}
+                  style={styles(colors).resultIcon}
+                />
+              }
+            />
+          </View>
+          <View style={styles(colors).result}>
+            {unlock[1]
+              ? unlock[2]
+                ? renderFinished()
+                : renderLoading()
+              : renderWaiting()}
+            <ResultListItem
+              onPress={unlock[2] ? () => navigation.navigate("表情分析") : null}
+              title="表情"
+              icon={
+                <MaterialIcons
+                  name="face"
+                  size={50}
+                  style={styles(colors).resultIcon}
+                />
+              }
+            />
+          </View>
+          <View style={styles(colors).result}>
+            {unlock[2]
+              ? unlock[3]
+                ? renderFinished()
+                : renderLoading()
+              : renderWaiting()}
+            <Pressable
+              onPress={unlock[3] ? () => bs.current.snapTo(0) : null}
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed
+                    ? colors.primary.light
+                    : colors.primary.main,
+                },
+                styles(colors).buttonSelect,
+              ]}
+            >
+              <Text style={styles(colors).scoreButtonText}>查看總分</Text>
+              <Text style={styles(colors).scoreNext}>›</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
 
@@ -217,7 +262,7 @@ const styles = (colors) =>
       flex: 1,
       alignItems: "center",
       paddingTop: 2,
-      // borderWidth:1,
+      // borderWidth: 1,
     },
     bgImage: {
       height: "100%",
@@ -239,20 +284,27 @@ const styles = (colors) =>
       top: "35%",
     },
     selectResult: {
-      width: "85%",
+      width: "100%",
       flexDirection: "column",
       paddingRight: "1%",
       // borderWidth: 1,
     },
-    buttonSelect: {
+    result: {
+      width: "100%",
+      flexDirection: "row",
+      alignItems: "center",
       marginBottom: "5%",
+      // borderWidth: 1,
+    },
+    buttonSelect: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      width: "100%",
+      width: "80%",
       borderRadius: 15,
       paddingLeft: "8%",
       paddingRight: "8%",
+      alignSelf: "center",
     },
     selectText: {
       color: colors.paragraph.primary,
@@ -266,9 +318,11 @@ const styles = (colors) =>
       fontWeight: "600",
     },
     checkIcon: {
+      marginHorizontal: "3%",
       color: colors.primary.main,
     },
     loadIcon: {
+      marginHorizontal: "3%",
       color: colors.primary.light,
       opacity: 0.5,
     },

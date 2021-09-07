@@ -24,10 +24,10 @@ const ResultListItem = (props) => {
 
 const styles = (colors) => StyleSheet.create({
     buttonResult: {
-      marginBottom: '5%',
+      // marginBottom: '5%',
       flexDirection: 'row',
       alignItems: 'center',
-      width: '100%',
+      width: '80%',
       borderRadius: 15,
       paddingLeft: '8%',
       padding: '5%',
