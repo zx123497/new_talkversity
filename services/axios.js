@@ -16,7 +16,7 @@ const instance = axios.create({
 //You can also use interceptors in an instance
 instance.interceptors.request.use(
   (request) => {
-    console.log("request: ", request);
+    // console.log("request: ", request);
     // const accessToken = `Bearer ${localStorage.getItem("token")}`;
     // if (localStorage.getItem("token"))
     //   request.headers["Authorization"] = accessToken;
@@ -30,7 +30,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    console.log("response: ", response.data);
+    // console.log("response: ", response.data);
     return response;
   },
   (error) => {

@@ -56,7 +56,7 @@ const Setting = (props) => {
             {situations.map((row) => (
               <View style={styles(colors).wrapper} key={row.id}>
                 <SelectCard
-                  navigation={() => props.navigation.navigate("開始訓練")}
+                  navigation={() => props.navigation.navigate("開始訓練", { scenario_id: { row } })}
                   title={row.title}
                   info={row.intro}
                   id={row.id}

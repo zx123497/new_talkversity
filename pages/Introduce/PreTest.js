@@ -12,9 +12,9 @@ import { Camera } from "expo-camera";
 import { useTheme } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../../components/context/context";
-import PostVideoService from "../../services/PostVideoService";
 import * as FileSystem from "expo-file-system";
-import * as MediaLibrary from 'expo-media-library';
+import PostVideoService from "../../services/PostVideoService";
+import UserService from "../../services/UserService";
 
 const PreTest = ({ navigation }) => {
   const dimensions = useRef(Dimensions.get("window"));
@@ -149,6 +149,9 @@ const PreTest = ({ navigation }) => {
           <Pressable
             onPress={() => {
               changeInitial(true);
+              UserService.UpdatePretest(userData.userId).then((res) => {
+                console.log(res);
+              });
             }}
             style={({ pressed }) => [
               {

@@ -341,7 +341,7 @@ const Setting = () => {
                   ? require("../../../images/ball3.png")
                   : require("../../../images/ball3_lock.png")
               }
-              style={{ width: 92.5, height: 100 }}
+              style={{ width: 93.5, height: 100 }}
             />
           </TouchableOpacity>
           <TouchableOpacity
