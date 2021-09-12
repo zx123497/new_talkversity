@@ -77,7 +77,7 @@ const PreTest = ({ navigation }) => {
         <Text style={styles(colors).title}>
           中央大學資訊管理學系成立於七十四學年度，
           目的在於培養學生開發及資訊系統開發的專業能力，
-          以提供國內企業所需之資訊人才， 並致力於資訊管理領域的長遠發展。
+          以提供國內企業所需之資訊人才。
         </Text>
       </View>
     );

@@ -6,6 +6,7 @@ import TrainRecording from './TrainRecording';
 import VideoRecord from '../Result/VideoRecord';
 import SelectResult from '../Result/SelectResult/SelectResult'
 import SelectSituation from './SelectSituation/SelectSituation';
+import TrainIntro from './TrainIntro';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
@@ -15,6 +16,7 @@ const Stack = createStackNavigator();
       <Stack.Navigator initialRouteName="選擇情境"  headerMode="none">
         <Stack.Screen name="選擇情境" component={SelectSituation}/>
         <Stack.Screen name="開始訓練" component={TrainRecording} />
+        <Stack.Screen name="訓練說明" component={TrainIntro} />
         <Stack.Screen name="評分結果" component={SelectResult} />
         <Stack.Screen name="練習紀錄" component={VideoRecord} />
         <Stack.Screen name="表情分析" component={FacialResult} />

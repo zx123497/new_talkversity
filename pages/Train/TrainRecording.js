@@ -29,8 +29,7 @@ const TrainRecording = ({ navigation, route }) => {
   const [formData, setFormData] = useState(null);
 
   const userData = getData();
-  const scenario_id = route.params.scenario_id.row.id;
-
+  const scenario_id = route.params.scenario_id.scenario_id;
   const { colors } = useTheme();
   useEffect(() => {
     (async () => {
@@ -174,7 +173,6 @@ const TrainRecording = ({ navigation, route }) => {
                 uri: { video_uri },
                 formData: { formData },
                 record_id: record_id,
-                scenario: scenario_id,
               })
             }
             style={({ pressed }) => [

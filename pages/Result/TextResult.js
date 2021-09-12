@@ -40,7 +40,7 @@ const TextResult = ({ navigation }) => {
     { x: "悲傷", y: 5 },
     { x: "憤怒", y: 4 },
     { x: "驚訝", y: 7 },
-    { x: "噁心", y: 7 },
+    { x: "厭惡", y: 7 },
     { x: "信任", y: 2 },
     { x: "期待", y: 1 },
   ]);
@@ -67,7 +67,7 @@ const TextResult = ({ navigation }) => {
         { x: "驚訝", y: suprise },
         { x: "信任", y: trust },
         { x: "快樂", y: joy },
-        { x: "噁心", y: disgust },
+        { x: "厭惡", y: disgust },
         { x: "憤怒", y: angry },
         { x: "悲傷", y: sad },
         { x: "恐懼", y: fear },
@@ -242,7 +242,7 @@ const TextResult = ({ navigation }) => {
               }}
               data={chartData}
             ></VictoryArea>
-            {["快樂", "信任", "驚訝", "期待", "恐懼", "悲傷","憤怒", "噁心"].map(
+            {["快樂", "信任", "驚訝", "期待", "恐懼", "悲傷","憤怒", "厭惡"].map(
               (d, i) => {
                 return (
                   <VictoryPolarAxis
