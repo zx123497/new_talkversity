@@ -15,14 +15,10 @@ import { AuthContext } from "../../../components/context/context";
 import Animated, { set } from "react-native-reanimated";
 import BottomSheet from "reanimated-bottom-sheet";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useIsFocused } from "@react-navigation/native";
 
-let firstMission = [];
-let secondMission = [];
-let thirdMission = [];
-let fourMission = [];
-let achievementList = [];
-let userWord = 0;
 const Setting = () => {
+  const isFocused = useIsFocused();
   const { colors } = useTheme();
   const [content, setContent] = useState(<View></View>);
   const [header, setHeader] = useState("");
@@ -32,11 +28,18 @@ const Setting = () => {
   const { getData } = useContext(AuthContext);
   const userData = getData();
   const [loading, setLoading] = useState(true);
+  const [firstMission, setFirstMission] = useState([]);
+  const [secondMission, setSecondMission] = useState([]);
+  const [thirdMission, setThirdMission] = useState([]);
+  const [fourMission, setFourMission] = useState([]);
+  let achievementList = [];
+  const [userWord, setUserWord] = useState(0);
   useEffect(() => {
+    console.log("HI");
     GradeService.getAllAchievementList(userData.userId).then((res) => {
       achievementList = res.data;
       GradeService.getUserWords(userData.userId).then((res3) => {
-        userWord = res3.data[0].total_word;
+        setUserWord(res3.data[0].total_word);
         createMisionList(achievementList);
         GradeService.getUserGrade().then((res4) => {
           let list = res4.filter((row) => row.id === userData.userId);
@@ -50,27 +53,40 @@ const Setting = () => {
         });
       });
     });
-  }, []);
+  }, [isFocused]);
 
   const createMisionList = (list) => {
+    console.log(list);
+    let temp1 = [];
+    let temp2 = [];
+    let temp3 = [];
+    let temp4 = [];
     let achievement = {};
-    list.forEach((mission) => {
+    list.forEach((mission, id) => {
       if (mission.achievement_id <= 4) {
         mission.time = mission.achievement__name.split(" ")[1];
         mission = { ...mission, current: userWord };
       }
 
       if (mission.grade === 1) {
-        firstMission.push(mission);
+        console.log("push 1");
+        temp1.push(mission);
       } else if (mission.grade === 2) {
-        secondMission.push(mission);
+        console.log("push 2");
+        temp2.push(mission);
       } else if (mission.grade === 3) {
-        thirdMission.push(mission);
+        console.log("push 3");
+        temp3.push(mission);
       } else if (mission.grade === 4) {
-        fourMission.push(mission);
+        console.log("push 4");
+        temp4.push(mission);
       }
       achievement = null;
     });
+    setFirstMission(temp1);
+    setSecondMission(temp2);
+    setThirdMission(temp3);
+    setFourMission(temp4);
   };
 
   const renderInner = () => (

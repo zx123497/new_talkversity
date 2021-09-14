@@ -125,42 +125,42 @@ const RecordInfo = ({ route }) => {
     face.EyebrowHeight_PR == 0 ? 1 : Math.round(face.EyebrowHeight_PR);
   const Mouth_PR = face.Mouth_PR == 0 ? 1 : Math.round(face.Mouth_PR);
 
-  weird_sound_score =
+  let weird_sound_score =
     sound.weird_sound_score == 0
       ? "過多"
       : sound.weird_sound_score == 1
       ? "普通"
       : "良好";
 
-  stop_too_long_score =
+  let stop_too_long_score =
     sound.stop_too_long_score == 0
       ? "過多"
       : sound.stop_too_long_score == 1
       ? "普通"
       : "良好";
 
-  frequency_score =
+  let frequency_score =
     sound.frequency_score == 0
       ? "穩定"
       : sound.frequency_score == 1
       ? "過高"
       : "過低";
 
-  voice_calm_score =
+  let voice_calm_score =
     sound.voice_calm_score == 0
       ? "平淡"
       : sound.voice_calm_score == 1
       ? "普通"
       : "抑揚頓挫";
 
-  amplitude_score =
+  let amplitude_score =
     sound.amplitude_score == 0
       ? "適中"
       : sound.amplitude_score == 1
       ? "過大"
       : "過小";
-  pretest_db = sound.pretest_db;
-  avg_db = Math.round(sound.avg_db);
+  let pretest_db = sound.pretest_db;
+  let avg_db = Math.round(sound.avg_db);
 
   let barChartDataVoice = {
     labels: ["前側", "實測"],
@@ -401,6 +401,34 @@ const RecordInfo = ({ route }) => {
       }}
     >
       <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            width: "100%",
+            marginBottom: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: colors.text,
+              marginRight: 10,
+            }}
+          >
+            評分
+          </Text>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: colors.orange.main,
+            }}
+          >
+            {sound.rank}
+          </Text>
+        </View>
         <View
           style={{
             flexDirection: "row",
@@ -667,6 +695,34 @@ const RecordInfo = ({ route }) => {
         <View
           style={{
             flexDirection: "row",
+            justifyContent: "flex-start",
+            width: "100%",
+            marginBottom: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: colors.text,
+              marginRight: 10,
+            }}
+          >
+            評分
+          </Text>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: colors.orange.main,
+            }}
+          >
+            {word.rank}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
             height: 150,
             width: "100%",
             alignItems: "stretch",
@@ -764,7 +820,7 @@ const RecordInfo = ({ route }) => {
           >
             文字分析
           </Text>
-          <Text style={{ color: colors.primary.main }}>{word.fulltext}</Text>
+          <Text style={{ color: colors.text }}>{word.fulltext}</Text>
         </View>
         <View
           style={{
@@ -935,6 +991,34 @@ const RecordInfo = ({ route }) => {
       }}
     >
       <View style={{ alignItems: "center", justifyContent: "center" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            width: "100%",
+            marginBottom: 10,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: colors.text,
+              marginRight: 10,
+            }}
+          >
+            評分
+          </Text>
+          <Text
+            style={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: colors.orange.main,
+            }}
+          >
+            {face.Total_Score}
+          </Text>
+        </View>
         <View
           style={{
             flexDirection: "row",
@@ -1411,7 +1495,7 @@ const RecordInfo = ({ route }) => {
       <BottomSheet
         style={{ flex: 1 }}
         ref={bs_all}
-        snapPoints={[300, 0]}
+        snapPoints={[400, 0]}
         initialSnap={1}
         callbackNode={fall_all}
         enabledContentGestureInteraction={true}

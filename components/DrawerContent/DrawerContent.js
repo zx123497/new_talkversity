@@ -195,7 +195,7 @@ const styles = (colors) =>
     caption: {
       color: "rgba(255,255,255,0.7)",
       fontSize: 14,
-      lineHeight: 15,
+      lineHeight: 18,
     },
     row: {
       marginTop: 20,

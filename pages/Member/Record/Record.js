@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import { createKeyboardAwareNavigator } from "react-navigation";
-
 const Record = ({ navigation }) => {
   const { colors } = useTheme();
   const [records, setRecords] = useState([]);
@@ -100,7 +99,11 @@ const Record = ({ navigation }) => {
             >
               <Image
                 style={styles(colors).image}
-                source={require("../../../images/tutor_orange.png")}
+                source={
+                  userData.coachGender === "M"
+                    ? require("../../../images/tutor_orange.png")
+                    : require("../../../images/tutor_m_orange.png")
+                }
               />
             </View>
           </View>

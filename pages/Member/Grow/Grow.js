@@ -9,6 +9,7 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { useTheme } from "react-native-paper";
 import { Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -18,6 +19,7 @@ import RecordService from "../../../services/RecordService";
 import { LineChart } from "react-native-chart-kit";
 
 const Setting = () => {
+  const isFocused = useIsFocused();
   const { colors } = useTheme();
   const [type, setType] = useState("face");
   const [words, setWords] = useState(0);
@@ -76,6 +78,7 @@ const Setting = () => {
   const { getData } = useContext(AuthContext);
   const userData = getData();
   useEffect(() => {
+    console.log("HIHI");
     RecordService.getRecordWeekdate(userData.userId).then((res) => {
       console.log(res.data);
       let temp = [];
@@ -105,7 +108,7 @@ const Setting = () => {
         setLoading(false);
       });
     });
-  }, []);
+  }, [isFocused]);
 
   const createScore = (record) => {
     if (record.article__rank === "S") {
