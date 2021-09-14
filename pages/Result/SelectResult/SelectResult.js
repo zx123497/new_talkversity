@@ -8,7 +8,6 @@ import {
 } from "@expo/vector-icons";
 import ResultListItem from "../../../components/TrainResult/ResultListItem";
 import PostVideoService from "../../../services/PostVideoService";
-import RecordService from "../../../services/RecordService";
 import { AuthContext } from "../../../components/context/context";
 import LottieView from "lottie-react-native";
 import Animated from "react-native-reanimated";
@@ -119,9 +118,17 @@ const Train = ({ navigation, route }) => {
           style={styles(colors).bgImage}
         />
         <Image
-          source={require("../../../images/tutor_w_orange.png")}
+          style={
+            userData.coachGender === "M"
+              ? styles(colors).tutor_m
+              : styles(colors).tutor_w
+            }
           resizeMode="contain"
-          style={styles(colors).tutor}
+          source={
+            userData.coachGender === "M"
+              ? require("../../../images/tutor_result_m_orange.png")
+              : require("../../../images/tutor_w_orange.png")
+          }
         />
         <Text style={styles(colors).title}>評分結果</Text>
       </View>
@@ -268,12 +275,19 @@ const styles = (colors) =>
       height: "100%",
       width: "100%",
     },
-    tutor: {
+    tutor_w: {
       height: "80%",
       width: "80%",
       position: "absolute",
       bottom: "-2%",
       left: "-15%",
+    },
+    tutor_m: {
+      height: "90%",
+      width: "90%",
+      position: "absolute",
+      bottom: "-8%",
+      left: "-18%",
     },
     title: {
       color: colors.background.paper,

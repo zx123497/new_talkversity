@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Pressable,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -56,7 +55,7 @@ const Setting = (props) => {
             {situations.map((row) => (
               <View style={styles(colors).wrapper} key={row.id}>
                 <SelectCard
-                  navigation={() => props.navigation.navigate("開始訓練", { scenario_id: { row } })}
+                  navigation={() => props.navigation.navigate("訓練說明", { scenario_id: { row } })}
                   title={row.title}
                   info={row.intro}
                   id={row.id}
