@@ -42,9 +42,9 @@ const Setting = () => {
         records.wordscore[6] > records.wordscore[0] ||
         records.wordscore[6] === 5
       ) {
-        suggest += "這一週的語意表現有進步的趨勢，或者表現得非常好，繼續加油";
+        suggest += "近7次的語意表現有進步的趨勢，或者表現得非常好，繼續加油";
       } else {
-        suggest += "這一週的語意表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+        suggest += "近7次的語意表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
       }
       setSuggest_str(suggest);
     }
@@ -54,9 +54,9 @@ const Setting = () => {
         records.soundscore[6] > records.soundscore[0] ||
         records.soundscore[6] === 5
       ) {
-        suggest += "這一週的聲音表現有進步的趨勢，或者表現得非常好，繼續加油";
+        suggest += "近7次的聲音表現有進步的趨勢，或者表現得非常好，繼續加油";
       } else {
-        suggest += "這一週的聲音表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+        suggest += "近7次的聲音表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
       }
       setSuggest_str(suggest);
     }
@@ -66,9 +66,9 @@ const Setting = () => {
         records.facescore[6] > records.facescore[0] ||
         records.facescore[6] === 5
       ) {
-        suggest += "這一週的表情表現有進步的趨勢，或者表現得非常好，繼續加油";
+        suggest += "近7次的表情表現有進步的趨勢，或者表現得非常好，繼續加油";
       } else {
-        suggest += "這一週的表情表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+        suggest += "近7次的表情表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
       }
       setSuggest_str(suggest);
     }
@@ -374,7 +374,7 @@ const Setting = () => {
             }}
           >
             {type === "face" ? "表情" : type === "voice" ? "聲音" : "語意"}
-            近一週訓練之成長分析
+            近7次訓練之成長分析
           </Text>
           {type === "text" ? (
             <LineChart

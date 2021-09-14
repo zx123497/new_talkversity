@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,11 +10,16 @@ import { useTheme } from "react-native-paper";
 import Swiper from "react-native-swiper";
 import SelectCard from "../../../components/SelectCard/SelectCard";
 import SituationService from "../../../services/SituationService";
-
+import RecordService from "../../../services/RecordService";
+import { AuthContext } from "../../../components/context/context";
 const Setting = (props) => {
   const { colors } = useTheme();
   const [situations, setSituations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [score, setScore] = useState("無資料");
+  const [time, setTime] = useState("");
+  const { getData } = useContext(AuthContext);
+  const userData = getData();
   useEffect(() => {
     SituationService.getSituationList().then((res) => {
       // console.log(res);
@@ -28,6 +33,15 @@ const Setting = (props) => {
       });
       setLoading(false);
       setSituations(temp);
+      RecordService.getRecordWeekdate(userData.userId).then((res) => {
+        if (res.data.length > 0) {
+          const last = res.data.pop();
+          setScore(last.total_score);
+          let date = last.created.split("T")[0];
+          let t = last.created.split("T")[1].split(".")[0];
+          setTime(date + " " + t);
+        }
+      });
     });
   }, []);
 
@@ -55,7 +69,11 @@ const Setting = (props) => {
             {situations.map((row) => (
               <View style={styles(colors).wrapper} key={row.id}>
                 <SelectCard
-                  navigation={() => props.navigation.navigate("訓練說明", { scenario_id: { row } })}
+                  navigation={() =>
+                    props.navigation.navigate("訓練說明", {
+                      scenario_id: { row },
+                    })
+                  }
                   title={row.title}
                   info={row.intro}
                   id={row.id}
@@ -83,7 +101,7 @@ const Setting = (props) => {
                   上次訓練
                 </Text>
                 <Text style={{ color: colors.paragraph.secondary }}>
-                  June 6, 2021 08:00PM
+                  {time}
                 </Text>
               </View>
             </View>
@@ -101,7 +119,7 @@ const Setting = (props) => {
                   fontWeight: "bold",
                 }}
               >
-                A+
+                {score}
               </Text>
             </View>
           </View>
