@@ -8,12 +8,14 @@ import {
 } from "react-native";
 import { useTheme } from "react-native-paper";
 import Swiper from "react-native-swiper";
+import { useIsFocused } from "@react-navigation/native";
 import SelectCard from "../../../components/SelectCard/SelectCard";
 import SituationService from "../../../services/SituationService";
 import RecordService from "../../../services/RecordService";
 import { AuthContext } from "../../../components/context/context";
 const Setting = (props) => {
   const { colors } = useTheme();
+  const isFocused = useIsFocused();
   const [situations, setSituations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState("無資料");
@@ -43,7 +45,7 @@ const Setting = (props) => {
         }
       });
     });
-  }, []);
+  }, [isFocused]);
 
   return (
     <View style={styles(colors).container}>

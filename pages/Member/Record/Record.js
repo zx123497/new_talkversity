@@ -100,7 +100,7 @@ const Record = ({ navigation }) => {
               <Image
                 style={styles(colors).image}
                 source={
-                  userData.coachGender === "M"
+                  userData.coachGender === "F"
                     ? require("../../../images/tutor_orange.png")
                     : require("../../../images/tutor_m_orange.png")
                 }
