@@ -352,7 +352,7 @@ const Setting = () => {
                 : { color: colors.paragraph.secondary }
             }
           />
-          <Text style={{ color: colors.text, fontWeight: "bold" }}>語音</Text>
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>聲音</Text>
         </TouchableOpacity>
       </View>
       <ScrollView

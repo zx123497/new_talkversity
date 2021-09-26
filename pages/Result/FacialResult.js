@@ -83,7 +83,7 @@ const FacialResult = ({ navigation }) => {
             <Text style={styles(colors).resultCardTitle}>眨眼</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>{face.WinkTime}</Text>
-              <Text style={styles(colors).resultCardUnit}>字/分</Text>
+              <Text style={styles(colors).resultCardUnit}>次/分</Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>

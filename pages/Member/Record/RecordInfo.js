@@ -70,7 +70,7 @@ const RecordInfo = ({ route }) => {
     redundant_4_count: 0,
   });
   let barChartData = {
-    labels: ["前側", "實測"],
+    labels: ["前測", "實測"],
     datasets: [
       {
         data: [15, 30],
@@ -163,7 +163,7 @@ const RecordInfo = ({ route }) => {
   let avg_db = Math.round(sound.avg_db);
 
   let barChartDataVoice = {
-    labels: ["前側", "實測"],
+    labels: ["前測", "實測"],
     datasets: [
       {
         data: [pretest_db, avg_db],

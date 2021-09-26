@@ -262,7 +262,7 @@ const styles = (colors) =>
       width: "85%",
       flexDirection: "row",
       justifyContent: "space-between",
-      marginBottom: "5%",
+      // marginBottom: "5%",
       // borderWidth:1,
     },
     connectList: {

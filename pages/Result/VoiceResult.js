@@ -60,7 +60,7 @@ const VoiceResult = ({ navigation }) => {
   amplitude_score = sound.amplitude_score == 0 ? "適中"
   :  sound.amplitude_score == 1 ? "過大"
   : "過小";
-  pretest_db = sound.pretest_db;
+  pretest_db = Math.round(sound.pretest_db);
   avg_db = Math.round(sound.avg_db);
 
   // 處理評分建議
@@ -74,7 +74,7 @@ const VoiceResult = ({ navigation }) => {
   }
 
   let barChartData = {
-    labels: ["前側", "實測"],
+    labels: ["前測", "實測"],
     datasets: [
       {
         data: [pretest_db, avg_db],
