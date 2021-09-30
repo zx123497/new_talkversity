@@ -40,7 +40,7 @@ const Setting = () => {
       achievementList = res.data;
       GradeService.getUserWords(userData.userId).then((res3) => {
         setUserWord(res3.data[0].total_word);
-        createMisionList(achievementList);
+        createMisionList(achievementList, res3.data[0].total_word);
         GradeService.getUserGrade().then((res4) => {
           let list = res4.filter((row) => row.id === userData.userId);
           let temp = [true, false, false, false];
@@ -55,7 +55,7 @@ const Setting = () => {
     });
   }, [isFocused]);
 
-  const createMisionList = (list) => {
+  const createMisionList = (list, word) => {
     console.log(list);
     let temp1 = [];
     let temp2 = [];
@@ -65,7 +65,7 @@ const Setting = () => {
     list.forEach((mission, id) => {
       if (mission.achievement_id <= 4) {
         mission.time = mission.achievement__name.split(" ")[1];
-        mission = { ...mission, current: userWord };
+        mission = { ...mission, current: word };
       }
 
       if (mission.grade === 1) {
