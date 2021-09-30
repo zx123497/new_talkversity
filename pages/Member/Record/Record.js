@@ -28,6 +28,7 @@ const Record = ({ navigation }) => {
       res.data.forEach((element) => {
         temp.push(createRow(element));
       });
+      temp = temp.reverse();
       setRecords(temp);
       setLoading(false);
     });
