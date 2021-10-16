@@ -75,8 +75,8 @@ const PreTest = ({ navigation }) => {
           </Text>
         </View>
         <Text style={styles(colors).title}>
-          中央大學資訊管理學系成立於七十四學年度，
-          目的在於培養學生開發及資訊系統開發的專業能力，
+          資訊管理學系成立目的在於培養學生資訊系統開發的專業能力，
+          使學生具備領導企業邁向智能化及應付國際化之能力。
           以提供國內企業所需之資訊人才。
         </Text>
       </View>
@@ -174,7 +174,7 @@ const PreTest = ({ navigation }) => {
     <View style={{ flex: 1 }}>
       <Camera
         ratio={"16:9"}
-        style={{ flex: 1, height: height, width: "100%" }}
+        style={{flex: 1, height: height, width: "100%" }}
         type={Camera.Constants.Type.front}
         ref={(ref) => {
           setCameraRef(ref);
