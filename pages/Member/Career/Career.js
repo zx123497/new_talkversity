@@ -35,7 +35,6 @@ const Setting = () => {
   let achievementList = [];
   const [userWord, setUserWord] = useState(0);
   useEffect(() => {
-    console.log("HI");
     GradeService.getAllAchievementList(userData.userId).then((res) => {
       achievementList = res.data;
       GradeService.getUserWords(userData.userId).then((res3) => {
@@ -44,9 +43,17 @@ const Setting = () => {
         GradeService.getUserGrade().then((res4) => {
           let list = res4.filter((row) => row.id === userData.userId);
           let temp = [true, false, false, false];
-
+          
           list.forEach((row) => {
-            temp[row.grade] = true;
+            if (row.grade == 4) {
+              temp = [true, true, true, true];
+            }
+            else if (row.grade == 3){
+              temp = [true, true, true, false];
+            }
+            else if (row.grade == 2){
+              temp = [true, true, false, false];
+            }
           });
           setUnlock(temp);
           setLoading(false);
