@@ -272,12 +272,11 @@ const TextResult = ({ navigation }) => {
             resizeMode="contain"
           />
           <Text style={styles(colors).textRemind}>
-            如分析結果與您預期差異過大，建議您可放慢速度、注意咬字哦!
-          </Text>
+          If the analysis result is too different from your expectation, we suggest you to slow down and pay attention to the bite!</Text>
         </View>
         <View></View>
         <View style={styles(colors).barChartWrapper}>
-          <Text style={styles(colors).resultCardTitle}>冗言贅字</Text>
+          <Text style={styles(colors).resultCardTitle}>Tautology Analysis</Text>
           <BarChart
             data={barChartData}
             width={screenWidth - 100}
@@ -291,15 +290,15 @@ const TextResult = ({ navigation }) => {
           />
           <View style={styles(colors).note}>
             <View style={styles(colors).tifinyDot} />
-            <Text style={styles(colors).noteText}>良好</Text>
+            <Text style={styles(colors).noteText}>Good</Text>
             <View style={styles(colors).orangeyDot} />
-            <Text style={styles(colors).noteText}>警告</Text>
+            <Text style={styles(colors).noteText}>Warn</Text>
             <View style={styles(colors).redDot} />
-            <Text style={styles(colors).noteText}>嚴重</Text>
+            <Text style={styles(colors).noteText}>Serious</Text>
           </View>
         </View>
         <View style={styles(colors).commentWrapper}>
-          <Text style={styles(colors).commentText}>評分建議</Text>
+          <Text style={styles(colors).commentText}>Suggestion</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
             {suggest_str}
           </Text>
@@ -311,7 +310,7 @@ const TextResult = ({ navigation }) => {
                 { color: colors.primary.main, fontWeight: "bold" },
               ]}
             >
-              查看個人頁面
+              Profile Page
             </Text>
           </Pressable>
           <Image

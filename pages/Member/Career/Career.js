@@ -307,7 +307,7 @@ const Setting = () => {
             onPress={() => {
               if (unlock[0]) {
                 setInner(firstMission);
-                setHeader("一年級");
+                setHeader("Freshman");
                 bs.current.snapTo([0]);
               }
             }}
@@ -331,7 +331,7 @@ const Setting = () => {
             onPress={() => {
               if (unlock[1]) {
                 setInner(secondMission);
-                setHeader("二年級");
+                setHeader("Sophomore");
                 bs.current.snapTo([0]);
               }
             }}
@@ -351,7 +351,7 @@ const Setting = () => {
             onPress={() => {
               if (unlock[2]) {
                 setInner(thirdMission);
-                setHeader("三年級");
+                setHeader("Junior");
                 bs.current.snapTo([0]);
               }
             }}
@@ -371,7 +371,7 @@ const Setting = () => {
             onPress={() => {
               if (unlock[3]) {
                 setInner(fourMission);
-                setHeader("四年級");
+                setHeader("Senior");
                 bs.current.snapTo([0]);
               }
             }}

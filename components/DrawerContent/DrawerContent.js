@@ -164,7 +164,7 @@ const DrawerContent = (props) => {
       </DrawerContentScrollView>
       <Drawer.Section style={styles(colors).bottomDrawerSection}>
         <DrawerItem
-          label="登出"
+          label="log out"
           inactiveTintColor="white"
           icon={({ color, size }) => (
             <Icon name="exit-to-app" color={color} size={size} />

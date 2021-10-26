@@ -87,8 +87,8 @@ const Member = ({ navigation }) => {
 
       <View style={(styles.center, styles(colors).wrapper)}>
         <Text style={styles(colors).title}>Hello!</Text>
-        <Text style={styles(colors).subTitle}>歡迎使用Talkversity</Text>
-        <Text style={styles(colors).loginText}>請登入您的帳號</Text>
+        <Text style={styles(colors).subTitle}>Welcome to Talkversity</Text>
+        <Text style={styles(colors).loginText}>Please log in to your account</Text>
         <Pressable
           onPress={signInAsync}
           style={({ pressed }) => [
@@ -101,7 +101,7 @@ const Member = ({ navigation }) => {
           ]}
         >
           <AntDesign name="google" size={25} color="white" />
-          <Text style={styles(colors).buttonText}>Google 登入</Text>
+          <Text style={styles(colors).buttonText}>Google Login</Text>
         </Pressable>
       </View>
     </View>
