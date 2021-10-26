@@ -58,7 +58,7 @@ const Train = ({ navigation, route }) => {
     <View style={styles(colors).scoreSheet}>
       <View style={styles(colors).scoreLine} />
       <View style={styles(colors).scoreInner}>
-        <Text style={styles(colors).scoreTitle}>您獲得的總分是</Text>
+        <Text style={styles(colors).scoreTitle}>Your analytical scores</Text>
         <Text style={styles(colors).scoreText}>
           {faceResult && faceResult.Overall_Rank}
         </Text>
@@ -130,7 +130,7 @@ const Train = ({ navigation, route }) => {
               : require("../../../images/tutor_w_orange.png")
           }
         />
-        <Text style={styles(colors).title}>評分結果</Text>
+        <Text style={styles(colors).title}>Results</Text>
       </View>
       <View style={styles(colors).content}>
         <View style={styles(colors).selectResult}>
@@ -149,7 +149,7 @@ const Train = ({ navigation, route }) => {
                 styles(colors).buttonSelect,
               ]}
             >
-              <Text style={styles(colors).selectText}>查看練習影片</Text>
+              <Text style={styles(colors).selectText}>Practice Review</Text>
               <Text style={styles(colors).buttonNext}>›</Text>
             </Pressable>
           </View>
@@ -220,7 +220,7 @@ const Train = ({ navigation, route }) => {
                 styles(colors).buttonSelect,
               ]}
             >
-              <Text style={styles(colors).scoreButtonText}>查看總分</Text>
+              <Text style={styles(colors).scoreButtonText}>Total Score</Text>
               <Text style={styles(colors).scoreNext}>›</Text>
             </Pressable>
           </View>
@@ -239,7 +239,7 @@ const Train = ({ navigation, route }) => {
         ]}
       >
         <AntDesign name="play" size={24} color="white" />
-        <Text style={styles(colors).buttonText}>返回訓練</Text>
+        <Text style={styles(colors).buttonText}>Back to training</Text>
       </Pressable>
     </View>
   );

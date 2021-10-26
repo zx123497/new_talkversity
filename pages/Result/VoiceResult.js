@@ -41,25 +41,25 @@ const VoiceResult = ({ navigation }) => {
   }, []);
   console.log(sound);
 
-  weird_sound_score = sound.weird_sound_score == 0 ? "過多" 
-  :  sound.weird_sound_score == 1 ? "普通"
-  : "良好";
+  weird_sound_score = sound.weird_sound_score == 0 ? "Over" 
+  :  sound.weird_sound_score == 1 ? "Normal"
+  : "Super";
 
-  stop_too_long_score = sound.stop_too_long_score == 0 ? "過多" 
-  :  sound.stop_too_long_score == 1 ? "普通"
-  : "良好";
+  stop_too_long_score = sound.stop_too_long_score == 0 ? "Over" 
+  :  sound.stop_too_long_score == 1 ? "Normal"
+  : "Super";
   
-  frequency_score = sound.frequency_score == 0 ? "穩定" 
-  :  sound.frequency_score == 1 ? "過高"
-  : "過低";
+  frequency_score = sound.frequency_score == 0 ? "Stable" 
+  :  sound.frequency_score == 1 ? "Over"
+  : "Low";
 
-  voice_calm_score = sound.voice_calm_score == 0 ? "平淡" 
-  :  sound.voice_calm_score == 1 ? "普通"
-  : "抑揚頓挫";
+  voice_calm_score = sound.voice_calm_score == 0 ? "Calm" 
+  :  sound.voice_calm_score == 1 ? "Normal"
+  : "Super";
 
-  amplitude_score = sound.amplitude_score == 0 ? "適中"
-  :  sound.amplitude_score == 1 ? "過大"
-  : "過小";
+  amplitude_score = sound.amplitude_score == 0 ? "Normal"
+  :  sound.amplitude_score == 1 ? "Over"
+  : "Low";
   pretest_db = Math.round(sound.pretest_db);
   avg_db = Math.round(sound.avg_db);
 
@@ -74,7 +74,7 @@ const VoiceResult = ({ navigation }) => {
   }
 
   let barChartData = {
-    labels: ["前測", "實測"],
+    labels: ["Pretest", "Real"],
     datasets: [
       {
         data: [pretest_db, avg_db],
@@ -115,14 +115,14 @@ const VoiceResult = ({ navigation }) => {
             />
           )}
         </Pressable>
-        <Text style={styles(colors).text}>評分結果</Text>
+        <Text style={styles(colors).text}>Results</Text>
         <Text style={styles(colors).scoreArea}>{sound.rank}</Text>
       </View>
       <View style={styles(colors).resultWrapper}>
-        <Text style={styles(colors).resultText}>聲音分析</Text>
+        <Text style={styles(colors).resultText}>Sound Analysis</Text>
         <View style={styles(colors).resultTop}>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>發語聲</Text>
+            <Text style={styles(colors).resultCardTitle}>Redundant</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {weird_sound_score}
@@ -130,7 +130,7 @@ const VoiceResult = ({ navigation }) => {
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>停頓</Text>
+            <Text style={styles(colors).resultCardTitle}>Pause</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {stop_too_long_score}
@@ -138,7 +138,7 @@ const VoiceResult = ({ navigation }) => {
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>頻率</Text>
+            <Text style={styles(colors).resultCardTitle}>Frequency</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {frequency_score}
@@ -146,7 +146,7 @@ const VoiceResult = ({ navigation }) => {
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>語調</Text>
+            <Text style={styles(colors).resultCardTitle}>Tone</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {voice_calm_score}
@@ -155,7 +155,7 @@ const VoiceResult = ({ navigation }) => {
           </View>
         </View>
         <View style={styles(colors).barChartWrapper}>
-          <Text style={styles(colors).resultCardTitle}>音量</Text>
+          <Text style={styles(colors).resultCardTitle}>Volumn</Text>
           <BarChart
             data={barChartData}
             width={screenWidth - 150}
@@ -168,7 +168,7 @@ const VoiceResult = ({ navigation }) => {
             style={{ marginTop: "1%", marginBottom: "5%" }}
           />
            <View style={styles(colors).tuneResultCard}>
-            <Text style={styles(colors).resultCardTitle}>訓練結果</Text>
+            <Text style={styles(colors).resultCardTitle}>Results</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>{amplitude_score}</Text>
             </View>
@@ -176,7 +176,7 @@ const VoiceResult = ({ navigation }) => {
         </View>
 
         <View style={styles(colors).commentWrapper}>
-          <Text style={styles(colors).commentText}>評分建議</Text>
+          <Text style={styles(colors).commentText}>Suggestion</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
             {suggest_str}
           </Text>
@@ -188,7 +188,7 @@ const VoiceResult = ({ navigation }) => {
                 { color: colors.primary.main, fontWeight: "bold" },
               ]}
             >
-              查看個人頁面
+              Profile Page
             </Text>
           </Pressable>
           <Image
