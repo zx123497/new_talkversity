@@ -215,7 +215,7 @@ const App = () => {
                 name="首頁"
                 component={Home}
                 options={{
-                  tabBarLabel: "首頁",
+                  tabBarLabel: "Home",
                   tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons
                       name="home"
@@ -229,7 +229,7 @@ const App = () => {
                 name="訓練"
                 component={Train}
                 options={{
-                  tabBarLabel: "訓練",
+                  tabBarLabel: "Train",
                   tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons
                       name="tooltip"
@@ -243,7 +243,7 @@ const App = () => {
                 name="會員專區"
                 component={Member}
                 options={{
-                  tabBarLabel: "個人專區",
+                  tabBarLabel: "Your Profile",
                   tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons
                       name="account"
@@ -257,7 +257,7 @@ const App = () => {
                 name="設定"
                 component={Setting}
                 options={{
-                  tabBarLabel: "設定",
+                  tabBarLabel: "Setting",
                   tabBarIcon: ({ color }) => (
                     <MaterialCommunityIcons
                       name="tools"
