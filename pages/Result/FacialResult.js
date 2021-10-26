@@ -65,14 +65,14 @@ const FacialResult = ({ navigation }) => {
             />
           )}
         </Pressable>
-        <Text style={styles(colors).text}>評分結果</Text>
+        <Text style={styles(colors).text}>Result</Text>
         <Text style={styles(colors).scoreArea}>{face.Total_Score}</Text>
       </View>
       <View style={styles(colors).resultWrapper}>
-        <Text style={styles(colors).resultText}>臉部分析</Text>
+        <Text style={styles(colors).resultText}>Facial Analysis</Text>
         <View style={styles(colors).resultTop}>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>皺眉</Text>
+            <Text style={styles(colors).resultCardTitle}>Frown</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {face.EyebrowPitch_PR}
@@ -80,17 +80,17 @@ const FacialResult = ({ navigation }) => {
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>眨眼</Text>
+            <Text style={styles(colors).resultCardTitle}>Blink</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>{face.WinkTime}</Text>
-              <Text style={styles(colors).resultCardUnit}>次/分</Text>
+              <Text style={styles(colors).resultCardUnit}>Times/min</Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>
             <Text style={[styles(colors).resultCardTitle, { marginBottom: 0 }]}>
-              笑容表達
+              Smile
             </Text>
-            <Text style={styles(colors).resultCardTitle}>PR值</Text>
+            <Text style={styles(colors).resultCardTitle}>PR%</Text>
             <View style={styles(colors).resultContent}>
               <CircleChart
                 percentage={Mouth_PR}
@@ -102,9 +102,9 @@ const FacialResult = ({ navigation }) => {
           </View>
           <View style={styles(colors).resultCard}>
             <Text style={[styles(colors).resultCardTitle, { marginBottom: 0 }]}>
-              眉毛表現
+              Eye Brow
             </Text>
-            <Text style={styles(colors).resultCardTitle}>PR值</Text>
+            <Text style={styles(colors).resultCardTitle}>PR%</Text>
             <View style={styles(colors).resultContent}>
               <CircleChart
                 percentage={EyebrowHeight_PR}
@@ -122,7 +122,7 @@ const FacialResult = ({ navigation }) => {
               { width: "40%", textAlign: "center" },
             ]}
           >
-            眼神游移百分比
+            Distraction
           </Text>
           <Text
             style={[styles(colors).resultCardTitle, { marginTop: 0 }]}
@@ -136,7 +136,7 @@ const FacialResult = ({ navigation }) => {
         </View>
 
         <View style={styles(colors).commentWrapper}>
-          <Text style={styles(colors).commentText}>評分建議</Text>
+          <Text style={styles(colors).commentText}>Suggestion</Text>
           <Text style={[styles(colors).textComment, { marginBottom: "1%" }]}>
             {suggest_str}
           </Text>
@@ -148,7 +148,7 @@ const FacialResult = ({ navigation }) => {
                 { color: colors.primary.main, fontWeight: "bold" },
               ]}
             >
-              查看個人頁面
+              Profile Page
             </Text>
           </Pressable>
           <Image
