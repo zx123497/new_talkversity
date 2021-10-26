@@ -111,7 +111,7 @@ const Record = ({ navigation }) => {
 
           <View style={{ flex: 3, padding: 10, justifyContent: "center" }}>
             <Text style={{ fontSize: 15, marginBottom: 5, fontWeight: "bold" }}>
-              {row.scenario__content}訓練
+              {row.scenario__content} Training
             </Text>
             <Text style={{ color: colors.paragraph.secondary }}>
               {row.created}

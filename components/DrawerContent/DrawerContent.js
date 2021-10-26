@@ -48,15 +48,15 @@ const DrawerContent = (props) => {
       }
     });
     if (grade === 0) {
-      return "未取得";
+      return "Not acquired";
     } else if (grade === 1) {
-      return "一年級";
+      return "Freshman";
     } else if (grade === 2) {
-      return "二年級";
+      return "Sophomore";
     } else if (grade === 3) {
-      return "三年級";
+      return "Junior";
     } else if (grade === 4) {
-      return "四年級";
+      return "Senior";
     }
   };
   const setUserInfo = (data) => {
@@ -98,7 +98,7 @@ const DrawerContent = (props) => {
                 >
                   {userWord}
                 </Paragraph>
-                <Caption style={styles(colors).caption}>訓練字數</Caption>
+                <Caption style={styles(colors).caption}>Words</Caption>
               </View>
               <View style={styles(colors).section}>
                 <Paragraph
@@ -106,13 +106,13 @@ const DrawerContent = (props) => {
                 >
                   {grade}
                 </Paragraph>
-                <Caption style={styles(colors).caption}>成就段位</Caption>
+                <Caption style={styles(colors).caption}>Achievement Levels</Caption>
               </View>
             </View>
           </View>
           <Drawer.Section style={styles(colors).drawerSection}>
             <DrawerItem
-              label="成長紀錄"
+              label="Growth Record"
               inactiveTintColor="white"
               icon={({ color, size }) => (
                 <Icon name="chart-line" color={color} size={size} />
@@ -122,7 +122,7 @@ const DrawerContent = (props) => {
               }}
             />
             <DrawerItem
-              label="生涯成就"
+              label="Career Achievements"
               inactiveTintColor="white"
               icon={({ color, size }) => (
                 <Icon name="crown-outline" color={color} size={size} />
@@ -132,7 +132,7 @@ const DrawerContent = (props) => {
               }}
             />
             <DrawerItem
-              label="訓練紀錄"
+              label="Training Record"
               inactiveTintColor="#FFF"
               icon={({ color, size }) => (
                 <Icon name="history" color={color} size={size} />

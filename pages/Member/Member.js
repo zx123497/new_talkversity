@@ -52,7 +52,7 @@ const GrowStackScreen = ({ navigation }) => (
     }}
   >
     <GrowStack.Screen
-      name="成長紀錄"
+      name="Growth Record"
       component={Grow}
       options={{
         headerLeft: () => (
@@ -80,7 +80,7 @@ const CareerStackScreen = ({ navigation }) => (
     }}
   >
     <CareerStack.Screen
-      name="生涯成就"
+      name="Career Achievements"
       component={Career}
       options={{
         headerLeft: () => (
@@ -108,7 +108,7 @@ const RecordStackScreen = ({ navigation }) => (
     }}
   >
     <RecordStack.Screen
-      name="訓練紀錄"
+      name="Training Record"
       component={Record}
       options={{
         headerLeft: () => (

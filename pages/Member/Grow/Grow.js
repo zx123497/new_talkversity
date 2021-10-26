@@ -42,9 +42,9 @@ const Setting = () => {
         records.wordscore[6] > records.wordscore[0] ||
         records.wordscore[6] === 5
       ) {
-        suggest += "近7次的語意表現有進步的趨勢，或者表現得非常好，繼續加油";
+        suggest += "The last 7 times the semantics performance has a trend of improvement, Or perform very well, Keep up the good work!";
       } else {
-        suggest += "近7次的語意表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+        suggest += "Nearly 7 times the semantics performance has a tendency to stagnate or even regress, Please practice more and identify the blind spots";
       }
       setSuggest_str(suggest);
     }
@@ -54,9 +54,9 @@ const Setting = () => {
         records.soundscore[6] > records.soundscore[0] ||
         records.soundscore[6] === 5
       ) {
-        suggest += "近7次的聲音表現有進步的趨勢，或者表現得非常好，繼續加油";
+        suggest += "The last 7 times the sound performance has a trend of improvement, Or perform very well, Keep up the good work!";
       } else {
-        suggest += "近7次的聲音表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+        suggest += "Nearly 7 times the sound performance has a tendency to stagnate or even regress, Please practice more and identify the blind spots";
       }
       setSuggest_str(suggest);
     }
@@ -66,9 +66,9 @@ const Setting = () => {
         records.facescore[6] > records.facescore[0] ||
         records.facescore[6] === 5
       ) {
-        suggest += "近7次的表情表現有進步的趨勢，或者表現得非常好，繼續加油";
+        suggest += "The last 7 times the expression performance has a trend of improvement, Or perform very well, Keep up the good work!";
       } else {
-        suggest += "近7次的表情表現有停滯甚至退步的趨勢，請多加練習並找出盲點";
+        suggest += "Nearly 7 times the expression performance has a tendency to stagnate or even regress, Please practice more and identify the blind spots";
       }
       setSuggest_str(suggest);
     }
@@ -292,7 +292,7 @@ const Setting = () => {
                 : { color: colors.paragraph.secondary }
             }
           />
-          <Text style={{ color: colors.text, fontWeight: "bold" }}>表情</Text>
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>Facial Expression</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -322,7 +322,7 @@ const Setting = () => {
                 : { color: colors.paragraph.secondary }
             }
           />
-          <Text style={{ color: colors.text, fontWeight: "bold" }}>文字</Text>
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>Semantics</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -352,7 +352,7 @@ const Setting = () => {
                 : { color: colors.paragraph.secondary }
             }
           />
-          <Text style={{ color: colors.text, fontWeight: "bold" }}>聲音</Text>
+          <Text style={{ color: colors.text, fontWeight: "bold" }}>Sound</Text>
         </TouchableOpacity>
       </View>
       <ScrollView
@@ -373,8 +373,8 @@ const Setting = () => {
               marginBottom: 20,
             }}
           >
-            {type === "face" ? "表情" : type === "voice" ? "聲音" : "語意"}
-            近7次訓練之成長分析
+            {type === "face" ? "Facial Expression " : type === "voice" ? "Sound " : "Semantics "}
+            growth analysis of the last 7 training sessions
           </Text>
           {type === "text" ? (
             <LineChart
@@ -455,7 +455,7 @@ const Setting = () => {
                   borderBottomWidth: 2,
                 }}
               >
-                訓練累積
+                Training Accumulation
               </Text>
               <View style={{ flexDirection: "row" }}>
                 <View
@@ -471,7 +471,7 @@ const Setting = () => {
                   <Text
                     style={{ color: colors.primary.dark, marginBottom: 10 }}
                   >
-                    訓練總字數
+                    Total number of words
                   </Text>
                   <Text style={{ fontSize: 25, fontWeight: "bold" }}>
                     {words}
@@ -507,7 +507,7 @@ const Setting = () => {
                   marginBottom: 10,
                 }}
               >
-                成長建議
+                Growth Suggestions
               </Text>
               <Text style={{ color: colors.paragraph.secondary, fontSize: 16 }}>
                 {suggest_str}
