@@ -98,8 +98,8 @@ const Train = ({ navigation, route }) => {
         style={styles(colors).loadIcon}
       />
     );
-  };  
-  
+  };
+
   return (
     <View style={(styles.center, styles(colors).container)}>
       <BottomSheet
@@ -122,7 +122,7 @@ const Train = ({ navigation, route }) => {
             userData.coachGender === "M"
               ? styles(colors).tutor_m
               : styles(colors).tutor_w
-            }
+          }
           resizeMode="contain"
           source={
             userData.coachGender === "M"
@@ -157,7 +157,7 @@ const Train = ({ navigation, route }) => {
             {unlock[0] ? renderFinished() : renderLoading()}
             <ResultListItem
               onPress={unlock[0] ? () => navigation.navigate("聲音分析") : null}
-              title="聲音"
+              title="Sound"
               icon={
                 <MaterialIcons
                   name="record-voice-over"
@@ -175,7 +175,7 @@ const Train = ({ navigation, route }) => {
               : renderWaiting()}
             <ResultListItem
               onPress={unlock[1] ? () => navigation.navigate("語意分析") : null}
-              title="語意"
+              title="Semantics"
               icon={
                 <MaterialIcons
                   name="text-fields"
@@ -193,7 +193,7 @@ const Train = ({ navigation, route }) => {
               : renderWaiting()}
             <ResultListItem
               onPress={unlock[2] ? () => navigation.navigate("表情分析") : null}
-              title="表情"
+              title="Facial Expression"
               icon={
                 <MaterialIcons
                   name="face"

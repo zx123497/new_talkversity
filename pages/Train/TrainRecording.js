@@ -79,9 +79,9 @@ const TrainRecording = ({ navigation, route }) => {
     return (
       <View style={styles(colors).topic}>
         <View style={styles(colors).header}>
-          <Text style={styles(colors).subTitle}>題目</Text>
+          <Text style={styles(colors).subTitle}>Question</Text>
         </View>
-        <Text style={styles(colors).title}>請您自我介紹...</Text>
+        <Text style={styles(colors).title}>Please introduce yourself</Text>
         <View style={styles(colors).line} />
         <Image
           source={require("../../images/logo_tiffany.png")}
@@ -165,7 +165,7 @@ const TrainRecording = ({ navigation, route }) => {
             source={require("../../images/tutor_orange.png")}
             resizeMode="contain"
           />
-          <Text style={styles(colors).finishedText}>恭喜您完成練習!</Text>
+          <Text style={styles(colors).finishedText}>Congratulations!</Text>
             
           <Pressable
             onPress={() =>
@@ -185,7 +185,7 @@ const TrainRecording = ({ navigation, route }) => {
             ]}
           >
             <AntDesign name="play" size={24} color="white" />
-            <Text style={styles(colors).buttonText}>查看評分結果</Text>
+            <Text style={styles(colors).buttonText}>View your results</Text>
           </Pressable>
         </View>
       </View>

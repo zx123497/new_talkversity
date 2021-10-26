@@ -24,20 +24,20 @@ const TrainIntro = ({ navigation, route }) => {
   const DATA = [
     {
       key: "1",
-      title: "Tip.1 錄製訓練影片",
-      description: "請錄製15秒～30秒訓練影片",
+      title: "Tip.1 Record Training Video",
+      description: "Please record a training video about 15~30 secs",
       image: require("../../images/clock.png"),
     },
     {
       key: "2",
-      title: "Tip.2 開始與結束錄影",
-      description: "點選畫面中下方圓形按鈕，\n可以開始或結束錄影",
+      title: "Tip.2 Start and End your recording",
+      description: "Click the circle button below the screen\nThen you can start or end your recording",
       image: require("../../images/click.png"),
     },
     {
       key: "3",
-      title: "Tip.3 錄影注意事項",
-      description: "錄影時，請將臉部保持在畫面內，\n並勿隨意移動",
+      title: "Tip.3 Notes about training",
+      description: "Please keep your face on the screen when recording\n Do not move freely",
       image: require("../../images/speak.png"),
     },
   ];
@@ -163,15 +163,15 @@ const TrainIntro = ({ navigation, route }) => {
                   style={
                     item.key === "1"
                       ? {
-                          width: width / 2,
-                          height: width / 2,
-                          resizeMode: "contain",
-                        }
+                        width: width / 2,
+                        height: width / 2,
+                        resizeMode: "contain",
+                      }
                       : {
-                          width: width / 1.5,
-                          height: width / 1.5,
-                          resizeMode: "contain",
-                        }
+                        width: width / 1.5,
+                        height: width / 1.5,
+                        resizeMode: "contain",
+                      }
                   }
                 />
               </View>
@@ -206,7 +206,7 @@ const TrainIntro = ({ navigation, route }) => {
       />
       <Pressable
         onPress={() => {
-          navigation.navigate("開始訓練",{ scenario_id: { scenario_id } });
+          navigation.navigate("開始訓練", { scenario_id: { scenario_id } });
         }}
         style={({ pressed }) => [
           {

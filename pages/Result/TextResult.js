@@ -86,29 +86,29 @@ const TextResult = ({ navigation }) => {
     article.redundant_1_count <= 3
       ? colors.primary.light
       : article.redundant_1_count >= 8
-      ? "#D7ABAB"
-      : "#FAA948";
+        ? "#D7ABAB"
+        : "#FAA948";
 
   const color_2 =
     article.redundant_2_count <= 3
       ? colors.primary.light
       : article.redundant_2_count >= 8
-      ? "#D7ABAB"
-      : "#FAA948";
+        ? "#D7ABAB"
+        : "#FAA948";
 
   const color_3 =
     article.redundant_3_count <= 3
       ? colors.primary.light
       : article.redundant_3_count >= 8
-      ? "#D7ABAB"
-      : "#FAA948";
+        ? "#D7ABAB"
+        : "#FAA948";
 
   const color_4 =
     article.redundant_4_count <= 3
       ? colors.primary.light
       : article.redundant_4_count >= 8
-      ? "#D7ABAB"
-      : "#FAA948";
+        ? "#D7ABAB"
+        : "#FAA948";
 
   // 處理評分建議
   const obj = article.suggest_json;
@@ -164,38 +164,38 @@ const TextResult = ({ navigation }) => {
             />
           )}
         </Pressable>
-        <Text style={styles(colors).text}>評分結果</Text>
+        <Text style={styles(colors).text}>Result</Text>
         <Text style={styles(colors).scoreArea}>{article.rank}</Text>
       </View>
       <View style={styles(colors).resultWrapper}>
-        <Text style={styles(colors).resultText}>語意分析</Text>
+        <Text style={styles(colors).resultText}>Semantic Analysis</Text>
         <View style={styles(colors).resultTop}>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>字數</Text>
+            <Text style={styles(colors).resultCardTitle}>Count</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {article.pure_text_len}
               </Text>
-              <Text style={styles(colors).resultCardUnit}>字</Text>
+              <Text style={styles(colors).resultCardUnit}>WORDS</Text>
             </View>
           </View>
           <View style={styles(colors).resultCard}>
-            <Text style={styles(colors).resultCardTitle}>語速</Text>
+            <Text style={styles(colors).resultCardTitle}>Speed</Text>
             <View style={styles(colors).resultContent}>
               <Text style={styles(colors).resultCardText}>
                 {article !== undefined ? article.talk_speed.toFixed(1) : ""}
               </Text>
-              <Text style={styles(colors).resultCardUnit}>字/分</Text>
+              <Text style={[styles(colors).resultCardUnit, { marginHorizontal: "5px" }]} >WORDS/min</Text>
             </View>
           </View>
         </View>
         <View style={styles(colors).textAnalysis}>
-          <Text style={styles(colors).resultCardTitle}>文字分析</Text>
+          <Text style={styles(colors).resultCardTitle}>Article Analysis</Text>
           <View style={styles(colors).note}>
             <View style={styles(colors).tifinyDot} />
-            <Text style={styles(colors).noteText}>正面</Text>
+            <Text style={styles(colors).noteText}>Positive</Text>
             <View style={styles(colors).redDot} />
-            <Text style={styles(colors).noteText}>負面</Text>
+            <Text style={styles(colors).noteText}>Negative</Text>
           </View>
           <View style={styles(colors).textContent}>
             <Text style={styles(colors).textNeutral}>
@@ -221,7 +221,7 @@ const TextResult = ({ navigation }) => {
           </View>
         </View>
         <View style={styles(colors).barChartWrapper}>
-          <Text style={styles(colors).resultCardTitle}>情緒分析</Text>
+          <Text style={styles(colors).resultCardTitle}>Emotional Analysis</Text>
           <VictoryChart
             polar
             style={{
@@ -242,7 +242,7 @@ const TextResult = ({ navigation }) => {
               }}
               data={chartData}
             ></VictoryArea>
-            {["快樂", "信任", "驚訝", "期待", "恐懼", "悲傷","憤怒", "厭惡"].map(
+            {["快樂", "信任", "驚訝", "期待", "恐懼", "悲傷", "憤怒", "厭惡"].map(
               (d, i) => {
                 return (
                   <VictoryPolarAxis

@@ -18,7 +18,7 @@ const Setting = (props) => {
   const isFocused = useIsFocused();
   const [situations, setSituations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [score, setScore] = useState("無資料");
+  const [score, setScore] = useState("None");
   const [time, setTime] = useState("");
   const { getData } = useContext(AuthContext);
   const userData = getData();
@@ -50,7 +50,7 @@ const Setting = (props) => {
   return (
     <View style={styles(colors).container}>
       <View style={styles(colors).selectArea}>
-        <Text style={[styles(colors).title, { marginTop: 0 }]}>選擇情境</Text>
+        <Text style={[styles(colors).title, { marginTop: 0 }]}>Choose Situation</Text>
         {loading ? (
           <ActivityIndicator
             size="large"
@@ -86,7 +86,7 @@ const Setting = (props) => {
         )}
       </View>
       <View style={styles(colors).infoArea}>
-        <Text style={styles(colors).text}>訓練紀錄</Text>
+        <Text style={styles(colors).text}>Training recordings</Text>
         <View style={styles(colors).infoCard}>
           <View
             style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
@@ -100,7 +100,7 @@ const Setting = (props) => {
             >
               <View>
                 <Text style={{ fontSize: 20, color: colors.paragraph.primary }}>
-                  上次訓練
+                  Last Training
                 </Text>
                 <Text style={{ color: colors.paragraph.secondary }}>
                   {time}
@@ -144,7 +144,7 @@ const Setting = (props) => {
               }}
             >
               <Text style={{ color: colors.paragraph.secondary }}>
-                完成訓練
+                Total Training
               </Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 6
@@ -159,7 +159,7 @@ const Setting = (props) => {
               }}
             >
               <Text style={{ color: colors.paragraph.secondary }}>
-                平均總分
+                Average Scores
               </Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 A
@@ -167,7 +167,7 @@ const Setting = (props) => {
             </View>
             <View style={{ alignItems: "center", padding: 10 }}>
               <Text style={{ color: colors.paragraph.secondary }}>
-                完成題數
+              Total Questions
               </Text>
               <Text style={{ color: colors.primary.main, fontSize: 22 }}>
                 60
@@ -188,7 +188,7 @@ const Setting = (props) => {
               props.navigation.navigate("訓練紀錄");
             }}
           >
-            <Text style={{ color: "#FFF" }}>查看所有訓練紀錄</Text>
+            <Text style={{ color: "#FFF" }}>View Total Training Recording</Text>
           </TouchableOpacity>
         </View>
       </View>

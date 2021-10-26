@@ -27,7 +27,7 @@ const Setting = (props) => {
             styles2(colors).submit,
           ]}
         >
-          <Text style={styles2(colors).submitText}>開始訓練</Text>
+          <Text style={styles2(colors).submitText}>Start</Text>
         </Pressable>
       </View>
 
